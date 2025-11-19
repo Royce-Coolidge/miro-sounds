@@ -148,7 +148,7 @@
 
 @media (max-width: 1000px) {
   .loader .counter .count .digit h1 {
-    font-size: 7rem;
+    font-size: 4rem;
   }
 
   .loader .counter .count .digit {

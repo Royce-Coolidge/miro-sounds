@@ -1,5 +1,5 @@
 import workList from "../../data/workList";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Home.css";
 
@@ -10,12 +10,18 @@ import Footer from "../../components/Footer/Footer";
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { CustomEase } from "gsap/CustomEase";
 import ReactLenis from "lenis/react";
 
-gsap.registerPlugin(ScrollTrigger);
+let isInitialLoad = true;
+gsap.registerPlugin(ScrollTrigger, CustomEase);
+CustomEase.create("hop", "0.9, 0, 0.1, 1");
 
 import Transition from "../../components/Transition/Transition";
 import BackgroundVideo from "../../components/BackgroundVideo/BackgroundVideo";
+import Preloader from "../../components/Preloader/Preloader";
+import { useLenis } from "lenis/react";
+
 
 const Home = () => {
   const workItems = Array.isArray(workList) ? workList : [];
@@ -23,7 +29,29 @@ const Home = () => {
   const titlesRef = useRef([]);
   const stickyWorkHeaderRef = useRef(null);
   const homeWorkRef = useRef(null);
+  const [showPreloader, setShowPreloader] = useState(isInitialLoad);
+  const [loaderAnimating, setLoaderAnimating] = useState(false);
+  const lenis = useLenis();
 
+  useEffect(() => {
+    return () => {
+      isInitialLoad = false;
+    };
+  }, []);
+
+  
+
+  const handleVideoLoaded = () => {
+    setLoaderAnimating(true);
+  };
+
+  const handlePreloaderComplete = () => {
+    setShowPreloader(false);
+    setLoaderAnimating(false);
+  };
+
+  
+  
   useEffect(() => {
     const handleResize = () => {
       ScrollTrigger.refresh();
@@ -136,15 +164,19 @@ const Home = () => {
 
   return (
     <ReactLenis root>
-      
-     
+      {showPreloader && (
+        <Preloader
+          showPreloader={showPreloader}
+          setLoaderAnimating={setLoaderAnimating}
+          onComplete={handlePreloaderComplete}
+        />
+      )}
+
       <div className="page home">
         
         <section className="hero">
-          {/* <div className="hero-img">
-            <img src="/home/hero.jpg" alt="" />
-          </div> */}
-          <BackgroundVideo />
+        
+          <BackgroundVideo onVideoLoaded={handleVideoLoaded} />
 
           <div className="hero-header">
               <AnimatedCopy tag="h1" animateOnScroll={false} delay={0.7}>

@@ -9,24 +9,6 @@ CustomEase.create("hop", "0.9, 0, 0.1, 1");
 export default function Preloader({ showPreloader, setLoaderAnimating, onComplete }) {
 
 
-  // useEffect(() => {
-  //   if (!isLoading && onComplete) {
-  //     // Animate the preloader out
-  //     const tl = gsap.timeline({
-  //       onComplete: onComplete,
-  //     });
-
-  //     tl.to(".preloader-content", {
-  //       opacity: 0,
-  //       duration: 0.5,
-  //       ease: "power2.inOut",
-  //     }).to(".preloader", {
-  //       yPercent: -100,
-  //       duration: 0.8,
-  //       ease: "hop",
-  //     });
-  //   }
-  // }, [isLoading, onComplete]);
 
   useGSAP(() => {
     const tl = gsap.timeline({
@@ -35,6 +17,8 @@ export default function Preloader({ showPreloader, setLoaderAnimating, onComplet
         ease: "hop",
       },
     });
+
+    console.log(showPreloader);
 
     if (showPreloader) {
       setLoaderAnimating(true);

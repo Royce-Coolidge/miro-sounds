@@ -47,9 +47,11 @@ const Home = () => {
 
   const handlePreloaderComplete = () => {
     setShowPreloader(false);
-    setLoaderAnimating(false);
+    setShowPreloader(false);
+  
   };
 
+  console.log(showPreloader);
   
   
   useEffect(() => {

@@ -106,11 +106,11 @@
 
 .loader .digit {
   flex: 1;
-  padding-top: 1rem;
+  padding-top: 0rem;
 }
 
 .loader .count .digit h1 {
-  font-size: 15rem;
+  font-size: 6rem;
   font-weight: 400;
   color: var(--bgrory);
 }

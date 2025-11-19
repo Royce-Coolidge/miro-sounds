@@ -15,6 +15,7 @@ import ReactLenis from "lenis/react";
 gsap.registerPlugin(ScrollTrigger);
 
 import Transition from "../../components/Transition/Transition";
+import BackgroundVideo from "../../components/BackgroundVideo/BackgroundVideo";
 
 const Home = () => {
   const workItems = Array.isArray(workList) ? workList : [];
@@ -135,45 +136,54 @@ const Home = () => {
 
   return (
     <ReactLenis root>
+      
+     
       <div className="page home">
+        
         <section className="hero">
-          <div className="hero-img">
+          {/* <div className="hero-img">
             <img src="/home/hero.jpg" alt="" />
-          </div>
+          </div> */}
+          <BackgroundVideo />
 
           <div className="hero-header">
-            <AnimatedCopy tag="h1" animateOnScroll={false} delay={0.7}>
-              Nico
+              <AnimatedCopy tag="h1" animateOnScroll={false} delay={0.7}>
+              Miro
             </AnimatedCopy>
             <AnimatedCopy tag="h1" animateOnScroll={false} delay={0.8}>
-              Palmer
+              sounds
             </AnimatedCopy>
-          </div>
+            <div className="scroll-indicator-container">
+            <Link to="/#sticky-titles"
+              className="scroll-indicator">
+            </Link>
+            </div>
+            </div>
+             
         </section>
 
-        <section ref={stickyTitlesRef} className="sticky-titles">
+        <section id="sticky-titles" ref={stickyTitlesRef} className="sticky-titles">
           <div className="sticky-titles-nav">
             <p className="primary sm">About Me</p>
             <p className="primary sm">Let’s Connect</p>
           </div>
           <div className="sticky-titles-footer">
-            <p className="primary sm">Storytelling Through Film</p>
-            <p className="primary sm">Open to Collaborations</p>
+            <p className="primary sm">Miro Sounds curates and delivers epic live entertainment.</p>
+            <p className="primary sm"></p>
           </div>
           <h2 ref={(el) => (titlesRef.current[0] = el)}>
-            I craft films that tell human stories with cinematic depth.
-          </h2>
+          Unforgettable events are made by exceptional music.          </h2>
           <h2 ref={(el) => (titlesRef.current[1] = el)}>
-            Each project is driven by emotion, clarity, and vision.
+          From first ideas to the last dance...
           </h2>
           <h2 ref={(el) => (titlesRef.current[2] = el)}>
-            This portfolio is a glimpse into the frames that move me.
+          getting the music just right isn’t just our passion - it’s our purpose.
           </h2>
         </section>
 
         <section ref={stickyWorkHeaderRef} className="sticky-work-header">
           <AnimatedCopy tag="h1" animateOnScroll="true">
-            Palmer selects
+            Miro Sounds
           </AnimatedCopy>
         </section>
 
@@ -190,42 +200,41 @@ const Home = () => {
                   "0"
                 )} - ${String(workItems.length).padStart(2, "0")}`}</p>
                 <h3>{work.title}</h3>
-                <div className="work-item-img">
-                  <img src={work.image} alt={work.title} />
-                </div>
-                <h4>{work.category}</h4>
+                
+                <h4>{work.subtitle}</h4>
+                <p>{work.description}</p>
               </Link>
             ))}
           </div>
         </section>
 
-        <Reviews />
+        {/* <Reviews /> */}
 
         <section className="hobbies">
           <div className="hobby">
             <AnimatedCopy tag="h4" animateOnScroll={true}>
-              Camera
+            Music Consultation
             </AnimatedCopy>
           </div>
           <div className="hobby">
             <AnimatedCopy tag="h4" animateOnScroll={true}>
-              Editing
+            Artist Selection 
             </AnimatedCopy>
           </div>
           <div className="hobby">
             <AnimatedCopy tag="h4" animateOnScroll={true}>
-              Story
+              Booking
             </AnimatedCopy>
           </div>
           <div className="hobby">
             <AnimatedCopy tag="h4" animateOnScroll={true}>
-              Sound
+            Onsite Management
             </AnimatedCopy>
           </div>
         </section>
 
         <ContactForm />
-        <Footer />
+        <Footer className="home-footer" />
       </div>
     </ReactLenis>
   );

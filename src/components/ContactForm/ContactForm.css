@@ -4,7 +4,7 @@
   flex-direction: column;
   gap: 4em;
   margin: 2em;
-  background-color: var(--fg);
+  background-color: var(--fgrory);
   border-radius: 1em;
 }
 
@@ -12,17 +12,17 @@
 .contact-form p,
 .contact-form input,
 .contact-form textarea {
-  color: var(--bg);
+  color: var(--bgrory);
 }
 
 .contact-form input,
 .contact-form textarea {
-  background-color: var(--fg200);
+  background-color: var(--fgrory200);
 }
 
 .contact-form .btn {
-  background-color: var(--bg);
-  color: var(--fg);
+  background-color: var(--bgrory);
+  color: var(--fgrory);
 }
 
 .contact-form-row:nth-child(1) {
@@ -77,7 +77,7 @@
 }
 
 .contact-form-availability {
-  width: 75%;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   gap: 1em;
@@ -91,6 +91,67 @@
   gap: 0.75em;
 }
 
+.email-container {
+  position: relative;
+}
+
+.email-copy {
+  cursor: pointer;
+  position: relative;
+  transition: opacity 0.2s ease;
+}
+
+.email-copy:hover {
+  opacity: 0.8;
+}
+
+.email-copy .tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-0.5em);
+  background-color: var(--fg);
+  color: var(--bg);
+  padding: 0.5em 1em;
+  border-radius: 0.4em;
+  font-family: "Messina Sans Mono";
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 10;
+}
+
+.email-copy .tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--fg);
+}
+
+@media (hover: hover) {
+
+  .email-copy:hover .tooltip,
+  .email-copy.copied .tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-0.75em);
+  }
+}
+
+.email-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.email-link h3 {
+  color: inherit;
+}
+
 .form-item .btn {
   width: 100%;
 }
@@ -99,6 +160,7 @@
   .contact-form {
     margin: 1.25em;
   }
+
   .contact-form-row:nth-child(1) {
     flex-direction: column;
     gap: 0.25em;

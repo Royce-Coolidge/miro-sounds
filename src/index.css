@@ -2,8 +2,15 @@
 
 :root {
   --bg: #e3e3db;
+  --bgrory:#FDEECE;  
   --bg200: rgba(227, 227, 219, 0.25);
+  --fgrory: #800127;
+
+  --fgrory200: #62021f;
   --fg: #0f0f0f;
+  
+  --font-color-200: #FDEECE;
+
   --fg200: #1f1f1f;
 }
 
@@ -15,7 +22,7 @@
 
 body {
   font-family: "Messina Sans";
-  background-color: var(--bg);
+  background-color: var(--bgrory);
   color: var(--fg);
 }
 
@@ -71,6 +78,7 @@ h5 {
 p {
   font-family: "Messina Sans";
   font-size: 1rem;
+  text-transform: none;
   font-weight: 600;
   -webkit-font-smoothing: antialiased;
 }
@@ -101,7 +109,7 @@ p.primary.sm {
 }
 
 p.secondary.sm {
-  font-family: "Messina Sans";
+  font-family: "Messina San§s";
   font-size: 0.8rem;
   font-weight: 600;
   -webkit-font-smoothing: antialiased;

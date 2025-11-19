@@ -1,3 +1,15 @@
+@custom-media --mediaDesktop (max-width: 2080px);
+@custom-media --mediaLaptop (max-width: 1680px);
+@custom-media --mediaTablet (max-width: 1040px);
+@custom-media --mediaMobile (max-width: 696px);
+@custom-media --mediaMobileLS (max-height: 696px);
+@custom-media --mediaMobileS (max-width: 400px);
+@custom-media --mediaUseMotion (prefers-reduced-motion: no-preference);
+@custom-media --mediaReduceMotion (prefers-reduced-motion: reduce);
+@custom-media --mediaTouch (pointer: coarse);
+@custom-media --mediaNoTouch (pointer: fine);
+
+
 .hero {
   position: relative;
   width: 100vw;
@@ -22,11 +34,16 @@
   display: flex;
   justify-content: space-between;
   z-index: 1;
+  overflow: visible;
 }
 
 .hero-header h1 {
-  color: var(--bg);
+  color: var(--bgrory);
+  font-family: "Atelier";
   line-height: 1;
+  font-size: 13vw;
+  
+  
 }
 
 .sticky-titles {
@@ -38,6 +55,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  color: var(--font-color-200) !important;
 }
 
 .sticky-titles-nav,
@@ -45,15 +63,16 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+ 
 }
 
 .sticky-titles-nav {
-  border-bottom: 1px dashed var(--fg);
+  border-bottom: 1px dashed var(--font-color-200);
   padding-bottom: 0.5em;
 }
 
 .sticky-titles-footer {
-  border-top: 1px dashed var(--fg);
+  border-top: 1px dashed var(--font-color-200);
   padding-top: 0.5em;
 }
 
@@ -79,13 +98,16 @@
 }
 
 .sticky-work-header h1 {
-  opacity: 0.125;
+  opacity: 0.234;
+  color: var(--font-color-200) !important;
   line-height: 1;
 }
 
 .home-work {
   width: 100%;
   padding: 8em 2em;
+  background-color: var(--bgrory);
+ 
 }
 
 .home-work-list {
@@ -103,6 +125,7 @@
   align-items: center;
   text-align: center;
   gap: 2em;
+  color: var(--fgrory) !important;
 }
 
 .hobbies {
@@ -111,6 +134,7 @@
   padding-bottom: 0;
   display: flex;
   gap: 1em;
+  color: var(--font-color-200) !important;
 }
 
 .hobby {
@@ -120,7 +144,7 @@
   align-items: center;
   text-align: center;
   aspect-ratio: 1;
-  border: 1px dashed var(--fg);
+  border: 1px dashed var(--font-color-200);
   border-radius: 1em;
 }
 
@@ -155,5 +179,137 @@
 
   .hobby {
     aspect-ratio: 5/3;
+  }
+}
+@keyframes introScrollIndicator {
+  0% {
+    transform: translate3d(-1px, 0, 0);
+    opacity: 0;
+  }
+
+  20% {
+    transform: translate3d(-1px, 0, 0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(-1px, 8px, 0);
+    opacity: 0;
+  }
+}
+
+.scroll-indicator-container {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.scroll-indicator {
+  border: 2px solid color-mix(in lab, var(--font-color-200) 40%, transparent);
+  border-radius: 20px;
+  width: 26px;
+  height: 38px;
+  position: fixed;
+  bottom: 64px;
+  transition-property: opacity;
+  transition-duration: 1s;
+  transition-timing-function: ease;
+  opacity: 1;
+
+  &::before {
+    content: '';
+    height: 7px;
+    width: 2px;
+    background: color-mix(in lab, var(--font-color-200) 40%, transparent);
+    border-radius: 4px;
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-1px);
+  }
+
+
+    transition-property: opacity, transform;
+
+    &::before {
+      animation: introScrollIndicator 2s ease infinite;
+    }
+  
+  
+
+  &[data-hidden='true'] {
+    opacity: 0;
+
+    @media (--mediaUseMotion) {
+      transform: translate3d(0, 20px, 0);
+    }
+  }
+
+  @media (--mediaTouch) {
+    display: none;
+  }
+
+  &:focus-visible {
+    opacity: 1;
+  }
+}
+
+@keyframes introMobileScrollIndicator {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes introMobileScrollIndicator {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.mobile-scroll-indicator {
+  position: absolute;
+  bottom: 0;
+  transform: translateX(-50%);
+  opacity: 1;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.8, 0.1, 0.27, 1);
+  transition-duration: var(--durationM);
+  padding: 20px;
+  opacity: 1;
+
+  @media (--mediaUseMotion) {
+    animation-name: introMobileScrollIndicator;
+    transition-property: opacity, transform;
+    transform: translate3d(0, 20px, 0);
+  }
+
+
+  @media (--mediaNoTouch) {
+    display: none;
+  }
+
+  & svg {
+    stroke: color-mix(in lab, var(--font-color-200) 50%, transparent);
+  }
+
+  &:focus-visible {
+    opacity: 1;
   }
 }

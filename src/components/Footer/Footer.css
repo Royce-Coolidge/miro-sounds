@@ -9,6 +9,10 @@
   overflow: hidden;
 }
 
+.footer.home-footer {
+  color: var(--font-color-200);
+}
+
 .footer-row:nth-child(1) {
   display: flex;
   justify-content: space-between;
@@ -31,11 +35,11 @@
   padding: 1em 0;
   display: flex;
   justify-content: space-between;
-  border-top: 1px dashed var(--fg);
+  border-top: 1px dashed var(--fgrory);
 }
 
 .footer-nav-item:last-child {
-  border-bottom: 1px dashed var(--fg);
+  border-bottom: 1px dashed var(--fgrory);
 }
 
 .footer-contact {
@@ -58,8 +62,9 @@
 
 .footer-header h1 {
   position: relative;
+  font-family: "Atelier";
   left: -0.5vw;
-  font-size: 15vw;
+  font-size: 13vw;
 }
 
 .footer-copyright-line {
@@ -68,7 +73,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  border-top: 1px dashed var(--fg);
+  border-top: 1px dashed var(--bgrory);
 }
 
 .footer-copyright-line p:nth-child(2) {

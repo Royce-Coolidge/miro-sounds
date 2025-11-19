@@ -19,7 +19,7 @@
 .block {
   position: relative;
   flex: 1;
-  background: var(--bg);
+  background: var(--bgrory);
   margin: -0.25px;
 }
 

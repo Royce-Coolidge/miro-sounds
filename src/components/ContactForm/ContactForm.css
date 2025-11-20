@@ -176,7 +176,7 @@
 
   .contact-form-row-copy-item:nth-child(3),
   .contact-form h3, .email-copy
-  .contact-form p {
+  .contact-form p, .contact-form-header p {
     text-align: center;
   }
 

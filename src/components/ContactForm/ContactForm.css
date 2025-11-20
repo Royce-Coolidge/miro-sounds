@@ -8,7 +8,7 @@
   border-radius: 1em;
 }
 
-.contact-form h3,
+.contact-form h3, .email-container a,
 .contact-form p,
 .contact-form input,
 .contact-form textarea {
@@ -155,12 +155,16 @@
 .form-item .btn {
   width: 100%;
 }
+.email-container a h3 {
+  font-size: 0.8rem;
+}
 
 @media (max-width: 900px) {
   .contact-form {
     margin: 1.25em;
   }
 
+ 
   .contact-form-row:nth-child(1) {
     flex-direction: column;
     gap: 0.25em;
@@ -171,7 +175,7 @@
   }
 
   .contact-form-row-copy-item:nth-child(3),
-  .contact-form h3,
+  .contact-form h3, .email-copy
   .contact-form p {
     text-align: center;
   }

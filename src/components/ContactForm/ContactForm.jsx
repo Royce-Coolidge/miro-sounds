@@ -82,7 +82,7 @@ const ContactForm = () => {
                 <span className="tooltip">
                   {copied ? "Email copied!" : "Click to copy"}
                 </span>
-              </h3>
+            </h3>
             )}
           </div>
         </div>

@@ -95,9 +95,9 @@ export default function Preloader({ showPreloader, setLoaderAnimating, onComplet
           delay: 0.75,
           onStart: () => {
             gsap.to(".hero-img", { scale: 1, duration: 2, ease: "hop" });
+            gsap.set(".loader", { zIndex: -1 });
           },
           onComplete: () => {
-            gsap.set(".loader", { pointerEvents: "none" });
             setLoaderAnimating(false);
             onComplete();
           },
@@ -129,7 +129,6 @@ if (!showPreloader) {
           </div>
           <div className="divider"></div>
           <div className="spinner-container">
-            <div className="spinner"></div>
           </div>
           <div className="counter">
             <div className="count">

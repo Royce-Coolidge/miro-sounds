@@ -110,7 +110,7 @@ const About = () => {
 
         <ContactForm />
 
-        
+        <Footer />
       </div>
     </ReactLenis>
   );

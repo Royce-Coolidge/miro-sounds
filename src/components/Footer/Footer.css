@@ -13,6 +13,10 @@
   color: var(--font-color-200);
 }
 
+.footer.contact-footer {
+  color: var(--fgrory);
+}
+
 .footer-row:nth-child(1) {
   display: flex;
   justify-content: space-between;

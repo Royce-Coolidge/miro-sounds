@@ -3,7 +3,7 @@ import "./Contact.css";
 
 import ContactForm from "../../components/ContactForm/ContactForm";
 import Footer from "../../components/Footer/Footer";
-
+import BackgroundVideo from "../../components/BackgroundVideo/BackgroundVideo";
 import ReactLenis from "lenis/react";
 
 import Transition from "../../components/Transition/Transition";
@@ -13,7 +13,9 @@ const Contact = () => {
     <ReactLenis root>
       <div className="page contact">
         <ContactForm />
-        <Footer />
+        <Footer className="home-footer">
+          <BackgroundVideo />
+        </Footer>
       </div>
     </ReactLenis>
   );

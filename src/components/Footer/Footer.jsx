@@ -3,11 +3,13 @@ import "./Footer.css";
 
 import { Link } from "react-router-dom";
 
-const Footer = ( { className } ) => {
+const Footer = ( { className, children } ) => {
   return (
     <div className={`footer ${className}`}>
       <div className="footer-row">
-      
+        {
+          children
+      }
 
         
       </div>
@@ -19,8 +21,8 @@ const Footer = ( { className } ) => {
 
         <div className="footer-copyright-line">
           <p className="primary sm">&copy; MIRO SOUNDS 2025</p>
-          <p className="primary sm">Website by ROWLEY THOMPSON</p>
-        </div>
+          <span className="primary sm">Website by <a className="primary sm" href="https://rowleythompson.com" target="_blank" rel="noopener noreferrer">ROWLEY THOMPSON</a></span>
+        </div> 
       </div>
     </div>
   );

@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import "./Home.css";
 
 import AnimatedCopy from "../../components/AnimatedCopy/AnimatedCopy";
-import Reviews from "../../components/Reviews/Reviews";
 import ContactForm from "../../components/ContactForm/ContactForm";
 import Footer from "../../components/Footer/Footer";
 

@@ -83,13 +83,18 @@ p {
   -webkit-font-smoothing: antialiased;
 }
 
-p.primary {
+p.primary, span.primary, a.primary {
   text-transform: uppercase;
   font-family: "Messina Sans Mono";
   font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   -webkit-font-smoothing: antialiased;
+}
+
+a.primary {
+  color: var(--bgrory);
+  text-decoration: underline;
 }
 
 p.secondary {
@@ -99,7 +104,7 @@ p.secondary {
   -webkit-font-smoothing: antialiased;
 }
 
-p.primary.sm {
+p.primary.sm, a.primary.sm, span.primary.sm {
   text-transform: uppercase;
   font-family: "Messina Sans Mono";
   font-size: 0.8rem;
@@ -108,7 +113,7 @@ p.primary.sm {
   -webkit-font-smoothing: antialiased;
 }
 
-p.secondary.sm {
+p.secondary.sm, a.secondary.sm {
   font-family: "Messina San§s";
   font-size: 0.8rem;
   font-weight: 600;

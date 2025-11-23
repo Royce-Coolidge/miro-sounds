@@ -83,6 +83,8 @@
   transform: translate(-50%, -50%);
   text-align: center;
   will-change: transform, opacity;
+  
+  line-height: 1;
 }
 
 .sticky-work-header {
@@ -104,18 +106,20 @@
 }
 
 .home-work {
-  width: 100%;
+  max-width: 100%;
+  margin: 0 2rem;
   padding: 8em 2em;
   background-color: var(--bgrory);
+  border-radius: 1em;
  
 }
 
 .home-work-list {
-  width: 40%;
+  width: 60%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 8em;
+  gap: 0em;
 }
 
 .home-work-item {
@@ -127,6 +131,7 @@
   gap: 2em;
   color: var(--fgrory) !important;
 }
+
 
 .hobbies {
   width: 100vw;
@@ -149,6 +154,13 @@
 }
 
 @media (max-width: 1000px) {
+
+  .services {
+    min-height: non;
+  }
+  .home-work {
+    margin: 0 auto;
+  }
   .hero,
   .sticky-titles,
   .sticky-work-header,
@@ -283,6 +295,7 @@
 
 .mobile-scroll-indicator {
   position: absolute;
+  width: 100vw;
   bottom: 0;
   transform: translateX(-50%);
   opacity: 1;

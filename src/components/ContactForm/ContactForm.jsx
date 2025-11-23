@@ -47,11 +47,10 @@ const ContactForm = () => {
       <div className="contact-form-row">
         <div className="contact-form-col">
           <div className="contact-form-header">
-            <h3> Whens your next big event? </h3>
+            <h3> Get in Touch</h3>
 
             <p>
-              Let us bring it to life. I'd love to hear
-              what you're thinking and explore how we can collaborate.
+            Send us a brief, give us a call, or we can come and say Hello.
             </p>
           </div>
 

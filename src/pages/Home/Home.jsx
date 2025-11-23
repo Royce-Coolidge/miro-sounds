@@ -180,64 +180,82 @@ const Home = () => {
           <BackgroundVideo onVideoLoaded={handleVideoLoaded} />
 
           <div className="hero-header">
-              <AnimatedCopy tag="h1" animateOnScroll={false} delay={0.7}>
+      <h1>
               Miro
-            </AnimatedCopy>
-            <AnimatedCopy tag="h1" animateOnScroll={false} delay={0.8}>
+            </h1>
+            
+            <h1>
               sounds
-            </AnimatedCopy>
-            <div className="scroll-indicator-container">
-            <Link to="/#sticky-titles"
-              className="scroll-indicator">
+            </h1>
+            
+          </div>
+          <div className="mobile-scroll-indicator">
+            <Link to="/#sticky-titles">
+               <svg
+               aria-hidden
+               stroke="currentColor"
+               width="43"
+               height="15"
+               viewBox="0 0 43 15"
+             >
+               <path d="M1 1l20.5 12L42 1" strokeWidth="2" fill="none" />
+             </svg>
             </Link>
-            </div>
             </div>
              
         </section>
+        
 
         <section id="sticky-titles" ref={stickyTitlesRef} className="sticky-titles">
           <div className="sticky-titles-nav">
-            <p className="primary sm">About Me</p>
-            <p className="primary sm">Let’s Connect</p>
+          <p className="primary sm">About Us </p>
+          <Link to="/contact" className="primary sm">Let’s Connect</Link>
           </div>
           <div className="sticky-titles-footer">
             <p className="primary sm">Miro Sounds curates and delivers epic live entertainment.</p>
             <p className="primary sm"></p>
           </div>
           <h2 ref={(el) => (titlesRef.current[0] = el)}>
-          Unforgettable events are made by exceptional music.          </h2>
+            FROM FIRST IDEAS TO THE LAST DANCE...
+            <br></br>
+            WE DESIGN & DELIVER THE PERFECT ENTERTAINMENT
+
+
+        </h2>
           <h2 ref={(el) => (titlesRef.current[1] = el)}>
-          From first ideas to the last dance...
           </h2>
-          <h2 ref={(el) => (titlesRef.current[2] = el)}>
-          getting the music just right isn’t just our passion - it’s our purpose.
-          </h2>
+       
         </section>
 
-        <section ref={stickyWorkHeaderRef} className="sticky-work-header">
+        {/* <section ref={stickyWorkHeaderRef} className="sticky-work-header">
           <AnimatedCopy tag="h1" animateOnScroll="true">
             Miro Sounds
           </AnimatedCopy>
-        </section>
+        </section> */}
 
         <section ref={homeWorkRef} className="home-work">
           <div className="home-work-list">
-            {workItems.map((work, index) => (
-              <Link
-                to="/sample-project"
-                key={work.id}
+           
+              <div
                 className="home-work-item"
               >
-                <p className="primary sm">{`${String(index + 1).padStart(
-                  2,
-                  "0"
-                )} - ${String(workItems.length).padStart(2, "0")}`}</p>
-                <h3>{work.title}</h3>
+             
+                <h3>How We Work</h3>
                 
-                <h4>{work.subtitle}</h4>
-                <p>{work.description}</p>
-              </Link>
-            ))}
+                <h4>Exceptional music & entertainment curated for any event</h4>
+                <p>For individuals, event planners and brands seeking bespoke support for private parties, weddings and live experiences; we curate elevated music to soundtrack your celebrations.</p>
+                <p>
+                Fom high-energy party bands, DJ sets, big names, best-kept secrets to background tunes, headline acts or day two hangover healers. We’ll source and coordinate your dream line-up. Jazz quartets, Irish trad, Brazilian beats or disco highlife; all genres across all venue styles; from luxury marquees, candlelit gardens, rooftops or beach clubs - we cover it all..
+                </p>
+                <p>
+                And if you want to go beyond music, we also love to help add extra spice with further entertainment like comedy, art, speakers and more.
+                </p>
+                <h4>
+                Tell us your vision and we’ll take it from there
+                </h4>
+            </div>
+            <div className="home-work-item"></div>
+           
           </div>
         </section>
 

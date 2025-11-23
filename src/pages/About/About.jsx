@@ -13,32 +13,15 @@ const About = () => {
   return (
     <ReactLenis root>
       <div className="page about">
-        <section className="about-header">
-          <h1>Est</h1>
-          <h1>2025</h1>
-        </section>
 
-        <section className="about-hero">
-          <div className="about-hero-img">
-            <img src="/about/about-hero.jpg" alt="" />
-          </div>
-        </section>
 
         <section className="about-me-copy">
           <div className="about-me-copy-wrapper">
             <AnimatedCopy animateOnScroll={true} tag="h3">
-              We are the live entertainment curators - connectors and creators of unforgettable experiences.
+              We are the live entertainment curators, connectors and creators of unforgettable experiences.
             </AnimatedCopy>
 
-            <AnimatedCopy animateOnScroll={true} tag="h3">
-              Led by Founder Rory, who has always been obsessed with getting the music absolutely perfect and in sync with the atmosphere - because it’s that spark, the perfect pairing of sound and setting, that turns good events into great ones.
-            </AnimatedCopy>
-
-            <AnimatedCopy animateOnScroll={true} tag="h3">
-              Every project is a new collaboration, a new challenge, and a new
-              chance to create something meaningful. If it moves someone, even
-              for a second — it's done its job.
-            </AnimatedCopy>
+         
           </div>
         </section>
 
@@ -51,10 +34,17 @@ const About = () => {
           </div>
           <div className="services-col">
             <h4>
-              Based in London - one of the most diverse and inspiring music cities in the world - we bring the sounds of the main stage, smokey jazz club, underground gig or the festival woodland to your event. From the familiar to the fresh, the refined to the raw, we make every moment feel alive.
+            Led by founder Rory, Miro brings 15 years of expertise across music, events, sound curation, and live production. 
             </h4>
-
             <div className="services-list">
+
+            
+            <p>We’ve built the relationships and know-how to seamlessly connect you with exceptional artists and entertainment, anywhere in the world.</p>
+            <p>
+            Based in London - one of the world’s most inspiring music cities - we bring the sounds of the main stage, candlelit jazz club, underground gig or secret festival woodland to your event. From the familiar to the fresh, the refined to the raw, trust Miro to create that spark - the perfect pairing of sound and setting that turns good events into great ones.
+            </p>
+            </div>
+            {/* <div className="services-list">
               <div className="service-list-row">
                 <div className="service-list-col">
                   <h5>Music Consultation </h5>
@@ -102,7 +92,7 @@ const About = () => {
                   </p>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </section>
 

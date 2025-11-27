@@ -185,6 +185,9 @@
     bottom: 10vh !important;
   }
 
+  .services {
+    width: 100%;
+  }
   
 
   .home-work {

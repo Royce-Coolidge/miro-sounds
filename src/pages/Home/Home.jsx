@@ -11,6 +11,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CustomEase } from "gsap/CustomEase";
 import ReactLenis from "lenis/react";
+import MiroIcon from "../../assets/miro-marron.svg";
 
 let isInitialLoad = true;
 gsap.registerPlugin(ScrollTrigger, CustomEase);
@@ -23,22 +24,25 @@ import { useLenis } from "lenis/react";
 
 
 const Home = () => {
-  const workItems = Array.isArray(workList) ? workList : [];
+
   const stickyTitlesRef = useRef(null);
   const titlesRef = useRef([]);
   const stickyWorkHeaderRef = useRef(null);
   const homeWorkRef = useRef(null);
   const [showPreloader, setShowPreloader] = useState(isInitialLoad);
   const [loaderAnimating, setLoaderAnimating] = useState(false);
+  const [status, setStatus] = useState('idle');
+  const [scrollIndicatorHidden, setScrollIndicatorHidden] = useState(true);
+  const [mobileScrollIndicatorHidden, setMobileScrollIndicatorHidden] = useState(false);
   const lenis = useLenis();
 
   useEffect(() => {
     return () => {
       isInitialLoad = false;
+      setStatus('entered');
     };
   }, []);
 
-  
 
   const handleVideoLoaded = () => {
     setLoaderAnimating(true);
@@ -46,13 +50,42 @@ const Home = () => {
 
   const handlePreloaderComplete = () => {
     setShowPreloader(false);
-
-  
+    setStatus('entered');
   };
 
-  
-  
-  
+  const handleScrollClick = (e) => {
+    e.preventDefault();
+    const targetElement = document.getElementById('sticky-titles');
+    if (targetElement && lenis) {
+      lenis.scrollTo(targetElement, {
+        offset: 0,
+        duration: 1.5,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+      });
+    }
+    setMobileScrollIndicatorHidden(true);
+    setScrollIndicatorHidden(false);
+  };
+
+  const VisuallyHidden = ({ children }) => (
+    <span style={{
+      position: 'absolute',
+      width: '1px',
+      height: '1px',
+      padding: 0,
+      margin: '-1px',
+      overflow: 'hidden',
+      clip: 'rect(0, 0, 0, 0)',
+      whiteSpace: 'nowrap',
+      borderWidth: 0
+    }}>
+      {children}
+    </span>
+  );
+
+
+
+
   useEffect(() => {
     const handleResize = () => {
       ScrollTrigger.refresh();
@@ -140,6 +173,7 @@ const Home = () => {
 
     let workHeaderPinTrigger;
     if (workHeaderSection && homeWorkSection) {
+      setScrollIndicatorHidden(true);
       workHeaderPinTrigger = ScrollTrigger.create({
         trigger: workHeaderSection,
         start: "top top",
@@ -148,6 +182,7 @@ const Home = () => {
         pin: true,
         pinSpacing: false,
       });
+     
     }
 
     return () => {
@@ -174,89 +209,165 @@ const Home = () => {
       )}
 
       <div className="page home">
-        
-        <section className="hero">
-        
+
+        <section id="hero" className="hero">
+
           <BackgroundVideo onVideoLoaded={handleVideoLoaded} />
 
           <div className="hero-header">
-      <h1>
+            <AnimatedCopy tag="h1" animateOnScroll="false">
               Miro
-            </h1>
-            
-            <h1>
+            </AnimatedCopy>
+
+            <AnimatedCopy tag="h1" animateOnScroll="true">
               sounds
-            </h1>
-            
+            </AnimatedCopy>
+
           </div>
-          <div className="mobile-scroll-indicator">
-            <Link to="/#sticky-titles">
-               <svg
-               aria-hidden
-               stroke="currentColor"
-               width="43"
-               height="15"
-               viewBox="0 0 43 15"
-             >
-               <path d="M1 1l20.5 12L42 1" strokeWidth="2" fill="none" />
-             </svg>
-            </Link>
-            </div>
-             
+          <Link
+            to="/#sticky-titles"
+            className="scrollIndicator"
+            data-status={status}
+            data-hidden={scrollIndicatorHidden}
+            onClick={handleScrollClick}
+          >
+            <VisuallyHidden>Scroll to projects</VisuallyHidden>
+          </Link>
+          <Link
+            to="/#sticky-titles"
+            className="mobileScrollIndicator"
+            data-status={status}
+            data-hidden={mobileScrollIndicatorHidden}
+            onClick={handleScrollClick}
+          >
+            <VisuallyHidden>Scroll to projects</VisuallyHidden>
+            <svg
+              aria-hidden
+              stroke="currentColor"
+              width="43"
+              height="25"
+              viewBox="0 0 43 15"
+            >
+              <path d="M1 1l20.5 12L42 1" strokeWidth="2" fill="none" />
+            </svg>
+          </Link>
+
         </section>
-        
+
 
         <section id="sticky-titles" ref={stickyTitlesRef} className="sticky-titles">
           <div className="sticky-titles-nav">
-          <p className="primary sm">About Us </p>
-          <Link to="/contact" className="primary sm">Let’s Connect</Link>
+            <a
+              href="#how-we-work"
+              className="primary sm"
+              onClick={(e) => {
+                e.preventDefault();
+                const targetElement = document.getElementById('about');
+                if (targetElement && lenis) {
+                  lenis.scrollTo(targetElement, {
+                    offset: 0,
+                    duration: 1.5,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+                  });
+                }
+              }}
+              style={{ cursor: 'pointer' }}
+            >
+              About Me
+            </a>
+            <a
+              href="#contact"
+              className="primary sm"
+              onClick={(e) => {
+                e.preventDefault();
+                const targetElement = document.getElementById('contact');
+                if (targetElement && lenis) {
+                  lenis.scrollTo(targetElement, {
+                    offset: 0,
+                    duration: 1.5,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+                  });
+                }
+              }}
+              style={{ cursor: 'pointer' }}
+            >
+              Let's Connect
+            </a>
           </div>
           <div className="sticky-titles-footer">
             <p className="primary sm">Miro Sounds curates and delivers epic live entertainment.</p>
             <p className="primary sm"></p>
           </div>
           <h2 ref={(el) => (titlesRef.current[0] = el)}>
-            FROM FIRST IDEAS TO THE LAST DANCE...
-            <br></br>
-            WE DESIGN & DELIVER THE PERFECT ENTERTAINMENT
-
-
-        </h2>
-          <h2 ref={(el) => (titlesRef.current[1] = el)}>
+            From first ideas to...
           </h2>
-       
+          <h2 ref={(el) => (titlesRef.current[1] = el)}>
+            To the last dance...
+          </h2>
+          <h2 ref={(el) => (titlesRef.current[2] = el)}>
+            WE DESIGN & DELIVER THE PERFECT ENTERTAINMENT          </h2>
         </section>
 
-        {/* <section ref={stickyWorkHeaderRef} className="sticky-work-header">
-          <AnimatedCopy tag="h1" animateOnScroll="true">
+        <section ref={stickyWorkHeaderRef} className="sticky-work-header">
+          <AnimatedCopy tag="h1" animateOnScroll="true" delay={!showPreloader ? 0.5 : 0}>
             Miro Sounds
           </AnimatedCopy>
-        </section> */}
+        </section>
 
-        <section ref={homeWorkRef} className="home-work">
+        <section id="how-we-work" ref={homeWorkRef} className="home-work">
           <div className="home-work-list">
-           
-              <div
-                className="home-work-item"
-              >
-             
-                <h3>How We Work</h3>
-                
-                <h4>Exceptional music & entertainment curated for any event</h4>
-                <p>For individuals, event planners and brands seeking bespoke support for private parties, weddings and live experiences; we curate elevated music to soundtrack your celebrations.</p>
-                <p>
-                Fom high-energy party bands, DJ sets, big names, best-kept secrets to background tunes, headline acts or day two hangover healers. We’ll source and coordinate your dream line-up. Jazz quartets, Irish trad, Brazilian beats or disco highlife; all genres across all venue styles; from luxury marquees, candlelit gardens, rooftops or beach clubs - we cover it all..
-                </p>
-                <p>
+
+            <div
+              className="home-work-item"
+            >
+
+              <h3>How We Work</h3>
+
+              <h4>Exceptional music & entertainment curated for any event</h4>
+              <p>For individuals, event planners and brands seeking bespoke support for private parties, weddings and live experiences, we curate elevated music to soundtrack your celebrations.</p>
+              <p>
+                High-energy party bands, DJ sets, big names or best-kept secrets. Background tunes, headline moments or day-two hangover healers - we’ll source and coordinate your dream line-up. From jazz quartets and Irish trios to Brazilian beats and disco highlife, across luxury marquees, candlelit gardens, rooftops and beach clubs.
+              </p>
+              <p>
                 And if you want to go beyond music, we also love to help add extra spice with further entertainment like comedy, art, speakers and more.
-                </p>
-                <h4>
-                Tell us your vision and we’ll take it from there
-                </h4>
+              </p>
             </div>
-            <div className="home-work-item"></div>
+            <div className="home-work-item">
+
+              <img src={MiroIcon} alt="Miro Icon" className="miro-icon" width={10} height={10} />
+              <h3>Tell us your vision and we’ll take it from there</h3>
+              <p> Whether you have a clear idea or just a feeling you want to capture, Miro supports from concept stage to final details.</p>
+              <p>We fine-tune every element - genre mix, set times, sound setup, venue acoustics, while handling all behind-the-scenes work; logistics, contracts, production, artist liaison and on-site management. Making sure it all flows seamlessly.</p>
+            </div>
+      
+          </div>
+          <div id="about" className="home-work-item">
+            <h3>About Us</h3>
+          <section className="services">
+          <div className="services-col">
+            <div className="services-banner">
+              <img src="/about/rory.jpg" alt="" />
+            </div>
            
           </div>
+          <div className="services-col">
+            <h4>
+            Led by founder Rory, Miro brings 15 years of expertise across music, events, sound curation, and live production. 
+            </h4>
+            <div className="services-list">
+
+            
+            <p>We’ve built the relationships and know-how to seamlessly connect you with exceptional artists and entertainment, anywhere in the world.</p>
+            <p>
+            Based in London - one of the world’s most inspiring music cities - we bring the sounds of the main stage, candlelit jazz club, underground gig or secret festival woodland to your event. From the familiar to the fresh, the refined to the raw, trust Miro to create that spark - the perfect pairing of sound and setting that turns good events into great ones.
+            </p>
+            </div>
+           
+            
+          </div>
+        </section>
+          </div>
+          
         </section>
 
         {/* <Reviews /> */}
@@ -264,12 +375,12 @@ const Home = () => {
         <section className="hobbies">
           <div className="hobby">
             <AnimatedCopy tag="h4" animateOnScroll={true}>
-            Music Consultation
+              Music Consultation
             </AnimatedCopy>
           </div>
           <div className="hobby">
             <AnimatedCopy tag="h4" animateOnScroll={true}>
-            Artist Selection 
+              Artist Selection
             </AnimatedCopy>
           </div>
           <div className="hobby">
@@ -279,12 +390,12 @@ const Home = () => {
           </div>
           <div className="hobby">
             <AnimatedCopy tag="h4" animateOnScroll={true}>
-            Onsite Management
+              Onsite Management
             </AnimatedCopy>
           </div>
         </section>
 
-        <ContactForm />
+        <ContactForm id="contact" />
         <Footer className="home-footer" />
       </div>
     </ReactLenis>

@@ -1,17 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Menu.css";
 
-import { Link, useLocation } from "react-router-dom";
 import { gsap } from "gsap";
+import { useLenis } from "lenis/react";
 
 const Menu = () => {
   const menuLinks = [
-    { path: "/", label: "Home" },
-    { path: "/about", label: "About" },
-    { path: "/contact", label: "Contact" }
+   
+    { path: "#about", label: "About Us" },
+    { path:"#how-we-work", label: "How We Work" },
+    { path: "#contact", label: "Let's connect"}
   ];
 
-  const location = useLocation();
+  const mobileMenuLinks = [
+    { path: "/", label: "Back to Top" },
+    { path: "/contact", label: "Let's connect"}
+  ];
+
+  const lenis = useLenis();
   const menuContainer = useRef();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuAnimation = useRef();
@@ -22,8 +28,6 @@ const Menu = () => {
   const menuBarRef = useRef();
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [shouldDelayClose, setShouldDelayClose] = useState(false);
-  const previousPathRef = useRef(location.pathname);
   const scrollPositionRef = useRef(0);
 
   const toggleBodyScroll = (disableScroll) => {
@@ -57,25 +61,40 @@ const Menu = () => {
     } else return;
   };
 
-  const handleLinkClick = (path) => {
-    if (path !== location.pathname) {
-      setShouldDelayClose(true);
+  const handleLinkClick = (e, path) => {
+    // All links are now anchor links for single-page site
+    if (path.startsWith('#')) {
+      e.preventDefault();
+
+      const hash = path.substring(1);
+      const targetElement = document.getElementById(hash);
+
+      if (targetElement && lenis) {
+        // Close the menu first
+        closeMenu();
+
+        // Use Lenis for smooth scrolling
+        lenis.scrollTo(targetElement, {
+          offset: 0,
+          duration: 1.5,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+        });
+      }
     }
   };
 
-  useEffect(() => {
-    if (location.pathname !== previousPathRef.current && shouldDelayClose) {
-      const timer = setTimeout(() => {
-        closeMenu();
-        setShouldDelayClose(false);
-      }, 700);
+  const handleLogoClick = (e) => {
+    e.preventDefault();
 
-      previousPathRef.current = location.pathname;
-      return () => clearTimeout(timer);
+    if (lenis) {
+      closeMenu();
+      // Scroll to top
+      lenis.scrollTo(0, {
+        duration: 1.5,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+      });
     }
-
-    previousPathRef.current = location.pathname;
-  }, [location.pathname, shouldDelayClose]);
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -181,15 +200,32 @@ const Menu = () => {
     <div className="menu-container" ref={menuContainer}>
       <div className="menu-bar" ref={menuBarRef}>
         <div className="menu-bar-container">
-          <div className="menu-logo" onClick={closeMenu}>
-            <Link to="/">
+          <div className="menu-logo">
+            <a href="#hero" onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
               <h4>Miro</h4>
-            </Link>
+            </a>
           </div>
           <div className="menu-actions">
-            <div className="menu-toggle">
-              <button className="hamburger-icon" onClick={toggleMenu}></button>
-            </div>
+            <div className="desktop-nav-items">
+            {menuLinks.map((link, index) => (
+              <div key={index} className="">
+                <div className="desktop-nav-item">
+                  <a
+                    className="desktop-nav-link"
+                    href={link.path}
+                    onClick={(e) => handleLinkClick(e, link.path)}
+                  >
+                    {link.label}
+                  </a>
+                </div>
+              </div>
+            ))}
+              </div>
+          {windowWidth < 1000 && (
+              <div className="menu-toggle">
+                <button className="hamburger-icon" onClick={toggleMenu}></button>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -197,16 +233,16 @@ const Menu = () => {
         <div className="menu-col">
           <div className="menu-sub-col">
             <div className="menu-links">
-              {menuLinks.map((link, index) => (
+              {mobileMenuLinks.map((link, index) => (
                 <div key={index} className="menu-link-item">
                   <div className="menu-link-item-holder">
-                    <Link
+                    <a
                       className="menu-link"
-                      to={link.path}
-                      onClick={() => handleLinkClick(link.path)}
+                      href={link.path}
+                      onClick={(e) => handleLinkClick(e, link.path)}
                     >
                       {link.label}
-                    </Link>
+                    </a>
                   </div>
                 </div>
               ))}

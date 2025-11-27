@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 .menu-container {
   position: fixed;
   width: 100vw;
@@ -42,7 +46,12 @@
   top: -0.05em;
   color: var(--bgrory);
   font-family: "Atelier";
-  
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.menu-logo a:hover {
+  opacity: 0.7;
 }
 
 .menu-logo h4 {
@@ -55,7 +64,25 @@
   gap: 2em;
 }
 
+.desktop-nav-items {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  display: flex
+}
+
+.desktop-nav-link {
+  color: var(--bgrory);
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.desktop-nav-link:hover {
+  opacity: 0.7;
+}
+
 .menu-toggle {
+  display: none;
   width: 60px;
   height: 60px;
   display: flex;
@@ -64,6 +91,7 @@
 }
 
 .hamburger-icon {
+  display: none;
   position: absolute;
   display: flex;
   justify-content: center;
@@ -75,7 +103,7 @@
   background: var(--bgrory);
   background: transparent;
   transition: all 300ms;
-  border: 1px dashed var(--fgrory) rgba(255, 255, 255, 0.25);
+  border: 1px dashed var(--bgrory) rgba(255, 255, 255, 0.25);
 }
 
 .hamburger-icon:hover {
@@ -128,6 +156,12 @@
   margin: 2em;
 }
 
+.menu-col,
+.menu-sub-col,
+.menu-links {
+  pointer-events: all;
+}
+
 .menu-link-item {
   position: relative;
   padding: 1em 0 0.125em 0;
@@ -149,6 +183,8 @@
   text-transform: uppercase;
   letter-spacing: -0.01em;
   line-height: 80%;
+  text-decoration: none;
+  cursor: pointer;
   transition: color 0.3s;
 }
 
@@ -156,11 +192,15 @@
   color: rgba(255, 255, 255, 1);
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1000px) {  
   .menu {
     width: calc(100% - 2.5em);
     height: calc(100svh - 2.5em);
     margin: 1.25em;
+  }
+
+  .desktop-nav-item {
+    display: none;
   }
 
   .menu-bar {
@@ -170,6 +210,7 @@
 
   .menu-toggle {
     justify-content: flex-end;
+    display: flex;
   }
 
   .menu-col {

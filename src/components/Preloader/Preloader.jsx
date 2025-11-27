@@ -18,7 +18,7 @@ export default function Preloader({ showPreloader, setLoaderAnimating, onComplet
       },
     });
 
-    console.log(showPreloader);
+
 
     if (showPreloader) {
       setLoaderAnimating(true);
@@ -94,13 +94,13 @@ export default function Preloader({ showPreloader, setLoaderAnimating, onComplet
           stagger: 0.1,
           delay: 0.75,
           onStart: () => {
-            gsap.to(".hero-img", { scale: 1, duration: 2, ease: "hop" });
-            gsap.set(".loader", { zIndex: -1 });
-          },
-          onComplete: () => {
+           
             setLoaderAnimating(false);
             onComplete();
+            gsap.to(".hero", { scale: 1, duration: 2, ease: "hop" });
+            gsap.set(".loader", { zIndex: -1 });
           },
+   
         },
         "<"
       );

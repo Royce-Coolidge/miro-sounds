@@ -42,8 +42,8 @@
   font-family: "Atelier";
   line-height: 1;
   font-size: 13vw;
-  
-  
+
+
 }
 
 .sticky-titles {
@@ -63,12 +63,22 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
- 
+
 }
 
 .sticky-titles-nav {
   border-bottom: 1px dashed var(--font-color-200);
   padding-bottom: 0.5em;
+}
+
+.sticky-titles-nav a {
+  color: var(--font-color-200);
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.sticky-titles-nav a:hover {
+  opacity: 0.7;
 }
 
 .sticky-titles-footer {
@@ -83,7 +93,7 @@
   transform: translate(-50%, -50%);
   text-align: center;
   will-change: transform, opacity;
-  
+
   line-height: 1;
 }
 
@@ -111,7 +121,7 @@
   padding: 8em 2em;
   background-color: var(--bgrory);
   border-radius: 1em;
- 
+
 }
 
 .home-work-list {
@@ -119,7 +129,8 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 0em;
+  gap:6em;
+  margin-bottom: 6em;
 }
 
 .home-work-item {
@@ -132,6 +143,20 @@
   color: var(--fgrory) !important;
 }
 
+.miro-icon {
+  width: 100px;
+  height: 100px;
+}
+@media (max-width: 1000px) {
+  .miro-icon {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+.services {
+  width: 70%;
+}
 
 .hobbies {
   width: 100vw;
@@ -154,13 +179,31 @@
 }
 
 @media (max-width: 1000px) {
-
-  .services {
-    min-height: non;
+  .mobileScrollIndicator svg {
+    width: 20px;
+    height: 20px;
+    bottom: 10vh !important;
   }
+
+  
+
   .home-work {
     margin: 0 auto;
   }
+
+  .hero-header {
+   
+    gap: 0.25em;
+  }
+
+  .hero-header h1 {
+    font-size: 12vw; 
+  }
+
+
+
+  
+
   .hero,
   .sticky-titles,
   .sticky-work-header,
@@ -193,6 +236,7 @@
     aspect-ratio: 5/3;
   }
 }
+
 @keyframes introScrollIndicator {
   0% {
     transform: translate3d(-1px, 0, 0);
@@ -210,50 +254,50 @@
   }
 }
 
-.scroll-indicator-container {
+.scrollIndicator {
+  border: 2px solid color-mix(in lab, var(--bgrory) 40%, transparent);
+  border-radius: 20px;
+  width: 28px;
+  height: 40px;
   position: fixed;
-  bottom: 0;
+  bottom: 12%;
   left: 50%;
   transform: translateX(-50%);
-}
-.scroll-indicator {
-  border: 2px solid color-mix(in lab, var(--font-color-200) 40%, transparent);
-  border-radius: 20px;
-  width: 26px;
-  height: 38px;
-  position: fixed;
-  bottom: 64px;
   transition-property: opacity;
-  transition-duration: 1s;
+  transition-duration: var(--durationL);
   transition-timing-function: ease;
-  opacity: 1;
+  opacity: 0;
 
   &::before {
     content: '';
     height: 7px;
     width: 2px;
-    background: color-mix(in lab, var(--font-color-200) 40%, transparent);
+    background: color-mix(in lab, var(--bgrory) 40%, transparent);
     border-radius: 4px;
     position: absolute;
     top: 6px;
     left: 50%;
     transform: translateX(-1px);
+    animation: introScrollIndicator 2s ease infinite;
   }
 
-
+  @media (--mediaUseMotion) {
     transition-property: opacity, transform;
 
     &::before {
       animation: introScrollIndicator 2s ease infinite;
     }
-  
-  
+  }
+
+  &[data-status='entered'] {
+    opacity: 1;
+  }
 
   &[data-hidden='true'] {
     opacity: 0;
 
     @media (--mediaUseMotion) {
-      transform: translate3d(0, 20px, 0);
+      transform: translate3d(-50%, 20px, 0);
     }
   }
 
@@ -279,50 +323,59 @@
     transform: translateY(0);
   }
 }
-@keyframes introMobileScrollIndicator {
-  0% {
-    transform: translateY(0);
-  }
 
-  50% {
-    transform: translateY(-10px);
-  }
-
-  100% {
-    transform: translateY(0);
-  }
-}
-
-.mobile-scroll-indicator {
-  position: absolute;
-  width: 100vw;
-  bottom: 0;
+.mobileScrollIndicator {
+  position: fixed;
+  bottom: 1px;
+  left: 48%;
   transform: translateX(-50%);
-  opacity: 1;
+  z-index: 999;
+  border-radius: 30%;
+  background-color: transparent;
+  opacity: 0;
   animation-duration: 1.5s;
-  animation-iteration-count: infinite;
-  transition-property: opacity;
-  transition-timing-function: cubic-bezier(0.8, 0.1, 0.27, 1);
-  transition-duration: var(--durationM);
   padding: 20px;
-  opacity: 1;
+  animation: introScrollIndicator 2s ease infinite;
+  transform: translate(-50%, -50%);
 
-  @media (--mediaUseMotion) {
-    animation-name: introMobileScrollIndicator;
-    transition-property: opacity, transform;
-    transform: translate3d(0, 20px, 0);
+
+  &[data-status='entered'] {
+    opacity: 1;
   }
 
+  &[data-hidden='true'] {
+    opacity: 0;
+    transform: translateX(-50%);
+  }
 
   @media (--mediaNoTouch) {
     display: none;
   }
+  
 
   & svg {
-    stroke: color-mix(in lab, var(--font-color-200) 50%, transparent);
+    stroke: var(--bgrory) !important;
   }
 
   &:focus-visible {
     opacity: 1;
+  }
+
+
+}
+
+
+
+@media (max-width: 696px) {
+  .mobileScrollIndicator {
+    bottom: 10vh !important;
+    padding: 10px !important;
+    left: 42% !important;
+  }
+
+  .mobileScrollIndicator svg {
+    width: 40px;
+    height: 20px;
+    bottom: 10vh !important;
   }
 }

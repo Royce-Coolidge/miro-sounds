@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./ContactForm.css";
 
-const ContactForm = () => {
+const ContactForm = ({ id }) => {
   const [copied, setCopied] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const email = "rory@mirosounds.com";
@@ -9,7 +9,7 @@ const ContactForm = () => {
   React.useEffect(() => {
     // Detect if device supports hover (typically desktop)
     const checkMobile = () => {
-      setIsMobile(window.matchMedia("(hover: none)").matches || window.innerWidth < 900);
+      setIsMobile(window.matchMedia("(hover: none)").matches || window.innerWidth < 700);
     };
 
     checkMobile();
@@ -31,16 +31,16 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="contact-form">
+    <div id={id} className="contact-form">
       <div className="contact-form-row">
         <div className="contact-form-row-copy-item">
-          <p className="primary sm">Make your night unforgettable</p>
+
         </div>
         <div className="contact-form-row-copy-item">
-          <p className="primary sm">(contact — 07)</p>
+
         </div>
         <div className="contact-form-row-copy-item">
-          <p className="primary sm">&copy; 2025</p>
+
         </div>
       </div>
 
@@ -50,46 +50,57 @@ const ContactForm = () => {
             <h3> Get in Touch</h3>
 
             <p>
-            Send us a brief, give us a call, or we can come and say Hello.
+              Send us a brief, give us a call, or we can come and say Hello.
             </p>
           </div>
 
-          
+
         </div>
 
         <div className="contact-form-col">
-         
+
           <div className="email-container">
-            {isMobile ? (
-              <a href={`mailto:${email}`} className="email-link">
-                <h3>{email}</h3>
-              </a>
-            ) : (
-              <h3
-                className={`email-copy ${copied ? "copied" : ""}`}
-                onClick={handleCopy}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    handleCopy(e);
-                  }
-                }}
-              >
-                {email}
-                <span className="tooltip">
-                  {copied ? "Email copied!" : "Click to copy"}
-                </span>
-            </h3>
-            )}
+            <h4
+              className="contact-form-phone"
+            >Email{" "}</h4>
+            <p
+              className={`email-copy ${copied ? "copied" : ""}`}
+              onClick={handleCopy}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  handleCopy(e);
+                }
+              }}
+            >
+              {email}
+              <span className="tooltip">
+                {copied ? "Email copied!" : "Click to copy"}
+              </span>
+            </p>
+
           </div>
+          
+          <h4
+            className="contact-form-phone">
+            Call/WhatsApp{" "}
+          </h4>
+          <a
+            className="contact-form-phone-link"
+            href="tel:+447444840752"
+            aria-label="Call or WhatsApp Miro Sounds at +44 7444 840752"
+          >
+            +447444840752
+          </a>
+
         </div>
       </div>
       <div className="contact-form-row">
         <div className="contact-form-availability">
-            <p className="primary sm">Available for Summer 2026</p>
-            <p className="primary sm">Clients worldwide</p>
+          <p className="primary sm"></p>
+          <p className="primary sm"></p>
         </div>
       </div>
     </div>

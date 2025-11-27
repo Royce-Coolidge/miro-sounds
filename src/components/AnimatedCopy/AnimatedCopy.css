@@ -11,3 +11,7 @@
   display: block;
   will-change: transform;
 }
+
+.animated-copy  {
+  letter-spacing: 0em !important;
+}

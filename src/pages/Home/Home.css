@@ -154,9 +154,7 @@
   }
 }
 
-.services {
-  width: 70%;
-}
+
 
 .hobbies {
   width: 100vw;
@@ -178,6 +176,8 @@
   border-radius: 1em;
 }
 
+
+
 @media (max-width: 1000px) {
   .mobileScrollIndicator svg {
     width: 20px;
@@ -185,14 +185,8 @@
     bottom: 10vh !important;
   }
 
-  .services {
-    width: 100%;
-  }
-
-  .services img {
-    min-height: 400px;
-  }
   
+ 
 
   .home-work {
     margin: 0 auto;

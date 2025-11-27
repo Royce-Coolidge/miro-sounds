@@ -360,7 +360,7 @@ const Home = () => {
           <section className="services">
           <div className="services-col">
             <div className="services-banner">
-              <img src="/about/rory.jpg" alt="" />
+              <img src="/about/rory.jpg" alt="" width={1000} height={100} className="services-banner-img"/>
             </div>
            
           </div>

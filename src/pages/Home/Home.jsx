@@ -43,6 +43,17 @@ const Home = () => {
     };
   }, []);
 
+  useEffect(() => {
+    console.log("loaderAnimating", loaderAnimating);
+    if (lenis) {
+      if (loaderAnimating) {
+        lenis.stop();
+      } else {
+        lenis.start();
+      }
+    }
+  }, [lenis, loaderAnimating]);
+
 
   const handleVideoLoaded = () => {
     setLoaderAnimating(true);
@@ -62,9 +73,12 @@ const Home = () => {
         duration: 1.5,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
       });
+      lenis.start();
+      
+      setScrollIndicatorHidden(false);
+      setMobileScrollIndicatorHidden(true);
     }
-    setMobileScrollIndicatorHidden(true);
-    setScrollIndicatorHidden(false);
+   
   };
 
   const VisuallyHidden = ({ children }) => (
@@ -173,7 +187,7 @@ const Home = () => {
 
     let workHeaderPinTrigger;
     if (workHeaderSection && homeWorkSection) {
-      setScrollIndicatorHidden(true);
+      
       workHeaderPinTrigger = ScrollTrigger.create({
         trigger: workHeaderSection,
         start: "top top",
@@ -215,7 +229,7 @@ const Home = () => {
           <BackgroundVideo onVideoLoaded={handleVideoLoaded} />
 
           <div className="hero-header">
-            <AnimatedCopy tag="h1" animateOnScroll="false">
+            <AnimatedCopy tag="h1" animateOnScroll="true">
               Miro
             </AnimatedCopy>
 

@@ -344,7 +344,7 @@
   }
 
   &[data-hidden='true'] {
-    opacity: 0;
+    display: none;
     transform: translateX(-50%);
   }
 

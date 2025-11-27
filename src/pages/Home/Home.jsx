@@ -43,16 +43,16 @@ const Home = () => {
     };
   }, []);
 
-  useEffect(() => {
-    console.log("loaderAnimating", loaderAnimating);
-    if (lenis) {
-      if (loaderAnimating) {
-        lenis.stop();
-      } else {
-        lenis.start();
-      }
-    }
-  }, [lenis, loaderAnimating]);
+  // useEffect(() => {
+  //   console.log("loaderAnimating", loaderAnimating);
+  //   if (lenis) {
+  //     if (loaderAnimating) {
+  //       lenis.stop();
+  //     } else {
+  //       lenis.start();
+  //     }
+  //   }
+  // }, [lenis, loaderAnimating]);
 
 
   const handleVideoLoaded = () => {
@@ -243,7 +243,7 @@ const Home = () => {
             className="scrollIndicator"
             data-status={status}
             data-hidden={scrollIndicatorHidden}
-            onClick={handleScrollClick}
+        
           >
             <VisuallyHidden>Scroll to projects</VisuallyHidden>
           </Link>

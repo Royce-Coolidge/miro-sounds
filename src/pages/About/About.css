@@ -59,7 +59,7 @@
 }
 
 .services {
-  margin: 2em;
+  
   padding: 2em;
   display: flex;
   gap: 2em;
@@ -274,7 +274,7 @@
 
   .services {
     flex-direction: column;
-    margin: 1.25em;
+  
     padding: 1.25em;
   }
 
@@ -285,5 +285,11 @@
   .service-list-row {
     flex-direction: column;
     gap: 1em;
+  }
+}
+
+@media (max-width: 696px) {
+  .services {
+    max-width: 100%;
   }
 }

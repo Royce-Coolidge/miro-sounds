@@ -188,6 +188,10 @@
   .services {
     width: 100%;
   }
+
+  .services img {
+    min-height: 400px;
+  }
   
 
   .home-work {

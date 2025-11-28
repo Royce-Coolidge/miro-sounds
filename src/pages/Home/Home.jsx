@@ -254,14 +254,7 @@ const Home = () => {
             </AnimatedCopy>
           </div>
 
-          <Link
-            to="/#sticky-titles"
-            className="scrollIndicator"
-            data-status={status}
-            data-hidden={scrollIndicatorHidden}
-          >
-            <VisuallyHidden>Scroll to projects</VisuallyHidden>
-          </Link>
+          
           <Link
             to="/#sticky-titles"
             className="mobileScrollIndicator"

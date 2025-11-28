@@ -29,11 +29,13 @@ const Home = () => {
   const titlesRef = useRef([]);
   const stickyWorkHeaderRef = useRef(null);
   const homeWorkRef = useRef(null);
+  const videoRef = useRef(null);
   const [showPreloader, setShowPreloader] = useState(isInitialLoad);
   const [loaderAnimating, setLoaderAnimating] = useState(false);
   const [status, setStatus] = useState('idle');
   const [scrollIndicatorHidden, setScrollIndicatorHidden] = useState(true);
   const [mobileScrollIndicatorHidden, setMobileScrollIndicatorHidden] = useState(false);
+  const [videoError, setVideoError] = useState(false);
   const lenis = useLenis();
 
   useEffect(() => {
@@ -43,25 +45,40 @@ const Home = () => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   console.log("loaderAnimating", loaderAnimating);
-  //   if (lenis) {
-  //     if (loaderAnimating) {
-  //       lenis.stop();
-  //     } else {
-  //       lenis.start();
-  //     }
-  //   }
-  // }, [lenis, loaderAnimating]);
+  useEffect(() => {
+    console.log("loaderAnimating", loaderAnimating);
+    if (lenis) {
+      if (loaderAnimating) {
+        lenis.stop();
+      } else {
+        lenis.start();
+      }
+    }
+  }, [lenis, loaderAnimating]);
 
 
   const handleVideoLoaded = () => {
     setLoaderAnimating(true);
   };
 
-  const handlePreloaderComplete = () => {
+  const handlePreloaderComplete = async () => {
     setShowPreloader(false);
     setStatus('entered');
+
+    // Start video playback after preloader completes
+    if (videoRef.current) {
+      const playSuccess = await videoRef.current.play();
+      if (!playSuccess) {
+        console.warn("Video playback failed after preloader");
+      }
+    }
+  };
+
+  const handleVideoError = (error) => {
+    console.error("Video error:", error);
+    setVideoError(true);
+    // Continue with the experience even if video fails
+    // The preloader will still complete normally
   };
 
   const handleScrollClick = (e) => {
@@ -75,8 +92,6 @@ const Home = () => {
       });
       lenis.start();
       
-      setScrollIndicatorHidden(false);
-      setMobileScrollIndicatorHidden(true);
     }
    
   };
@@ -226,7 +241,11 @@ const Home = () => {
 
         <section id="hero" className="hero">
 
-          <BackgroundVideo onVideoLoaded={handleVideoLoaded} />
+          <BackgroundVideo
+            ref={videoRef}
+            onVideoLoaded={handleVideoLoaded}
+            onVideoError={handleVideoError}
+          />
 
           <div className="hero-header">
             <AnimatedCopy tag="h1" animateOnScroll="true">

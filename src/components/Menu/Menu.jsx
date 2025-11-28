@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import "./Menu.css";
 
 import { gsap } from "gsap";
@@ -13,8 +13,8 @@ const Menu = () => {
   ];
 
   const mobileMenuLinks = [
-    { path: "/", label: "Back to Top" },
-    { path: "/contact", label: "Let's connect"}
+    { path: "#hero", label: "Back to Top" },
+    { path: "#contact", label: "Let's connect"}
   ];
 
   const lenis = useLenis();
@@ -29,8 +29,15 @@ const Menu = () => {
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const scrollPositionRef = useRef(0);
+  const isNavigatingRef = useRef(false); // Prevent multiple simultaneous navigations
 
-  const toggleBodyScroll = (disableScroll) => {
+  /**
+   * Toggle body scroll lock for mobile menu
+   * Prevents background scrolling when menu is open
+   * @param {boolean} disableScroll - true to lock, false to unlock
+   * @param {boolean} skipRestore - if true, don't restore scroll position (for navigation)
+   */
+  const toggleBodyScroll = useCallback((disableScroll, skipRestore = false) => {
     if (disableScroll) {
       scrollPositionRef.current = window.pageYOffset;
       document.body.style.overflow = "hidden";
@@ -38,63 +45,176 @@ const Menu = () => {
       document.body.style.top = `-${scrollPositionRef.current}px`;
       document.body.style.width = "100%";
     } else {
+      const scrollY = scrollPositionRef.current;
       document.body.style.removeProperty("overflow");
       document.body.style.removeProperty("position");
       document.body.style.removeProperty("top");
       document.body.style.removeProperty("width");
-      window.scrollTo(0, scrollPositionRef.current);
+
+      // Only restore scroll position if not navigating
+      // When navigating, let Lenis handle the scroll to target
+      if (!skipRestore) {
+        window.scrollTo(0, scrollY);
+      }
     }
-  };
+  }, []);
 
   const toggleMenu = () => {
-    document.querySelector(".hamburger-icon").classList.toggle("active");
+    const hamburger = document.querySelector(".hamburger-icon");
+    if (hamburger) {
+      hamburger.classList.toggle("active");
+    }
     const newMenuState = !isMenuOpen;
     setIsMenuOpen(newMenuState);
     toggleBodyScroll(newMenuState);
   };
 
-  const closeMenu = () => {
-    if (isMenuOpen) {
-      document.querySelector(".hamburger-icon").classList.toggle("active");
-      setIsMenuOpen(false);
-      toggleBodyScroll(false);
-    } else return;
-  };
+  /**
+   * Close menu and return a promise that resolves when animations complete
+   * This ensures smooth scrolling happens after menu is fully closed
+   * @param {boolean} skipScrollRestore - if true, don't restore scroll position (for navigation)
+   */
+  const closeMenu = useCallback((skipScrollRestore = false) => {
+    return new Promise((resolve) => {
+      if (isMenuOpen) {
+        const hamburger = document.querySelector(".hamburger-icon");
+        if (hamburger) {
+          hamburger.classList.remove("active");
+        }
+        setIsMenuOpen(false);
 
-  const handleLinkClick = (e, path) => {
-    // All links are now anchor links for single-page site
+        // Wait for menu animation to complete (1.25s max based on GSAP timeline)
+        setTimeout(() => {
+          toggleBodyScroll(false, skipScrollRestore);
+          resolve();
+        }, 1300); // Slightly longer than animation duration
+      } else {
+        resolve();
+      }
+    });
+  }, [isMenuOpen, toggleBodyScroll]);
+
+  /**
+   * Handle navigation link clicks
+   * Closes menu, waits for animations, then scrolls to target
+   * Handles edge cases: rapid clicks, missing elements, Lenis unavailable
+   */
+  const handleLinkClick = useCallback(async (e, path) => {
+    // Prevent rapid/multiple clicks
+    if (isNavigatingRef.current) {
+      e.preventDefault();
+      return;
+    }
+
+    // Handle anchor links for single-page navigation
     if (path.startsWith('#')) {
       e.preventDefault();
+      isNavigatingRef.current = true;
 
-      const hash = path.substring(1);
-      const targetElement = document.getElementById(hash);
+      try {
+        const hash = path.substring(1);
+        console.log(`[Menu] Navigating to: #${hash}`);
+        const targetElement = document.getElementById(hash);
 
-      if (targetElement && lenis) {
-        // Close the menu first
-        closeMenu();
+        // Validate target element exists
+        if (!targetElement) {
+          console.warn(`[Menu] Navigation target not found: ${hash}`);
+          isNavigatingRef.current = false;
+          return;
+        }
 
-        // Use Lenis for smooth scrolling
+        console.log(`[Menu] Target element found, closing menu...`);
+        // Close menu and wait for animations to complete
+        // Skip scroll restore so Lenis can handle the navigation
+        await closeMenu(true);
+        console.log(`[Menu] Menu closed, preparing to scroll...`);
+
+        // Ensure Lenis is available and started
+        if (!lenis) {
+          console.warn("[Menu] Lenis not available, falling back to native scroll");
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+          isNavigatingRef.current = false;
+          return;
+        }
+
+        console.log(`[Menu] Starting Lenis scroll to target...`);
+        // Ensure Lenis is running (in case it was stopped elsewhere)
+        lenis.start();
+
+        // Perform smooth scroll with Lenis
+        // No additional delay needed since we skipped scroll restoration
         lenis.scrollTo(targetElement, {
           offset: 0,
           duration: 1.5,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          // Re-enable navigation after scroll completes
+          onComplete: () => {
+            console.log(`[Menu] Scroll complete!`);
+            isNavigatingRef.current = false;
+          }
         });
+
+        // Fallback: re-enable navigation after max duration
+        setTimeout(() => {
+          isNavigatingRef.current = false;
+        }, 2000);
+
+      } catch (error) {
+        console.error("[Menu] Navigation error:", error);
+        isNavigatingRef.current = false;
       }
     }
-  };
+  }, [closeMenu, lenis]);
 
-  const handleLogoClick = (e) => {
+  /**
+   * Handle logo click to scroll to top
+   * Uses same pattern as handleLinkClick for consistency
+   */
+  const handleLogoClick = useCallback(async (e) => {
     e.preventDefault();
 
-    if (lenis) {
-      closeMenu();
+    // Prevent rapid clicks
+    if (isNavigatingRef.current) {
+      return;
+    }
+
+    isNavigatingRef.current = true;
+
+    try {
+      // Close menu and wait for animations
+      // Skip scroll restore so Lenis can handle scrolling to top
+      await closeMenu(true);
+
+      // Ensure Lenis is available
+      if (!lenis) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        isNavigatingRef.current = false;
+        return;
+      }
+
+      // Ensure Lenis is running
+      lenis.start();
+
       // Scroll to top
+      // No additional delay needed since we skipped scroll restoration
       lenis.scrollTo(0, {
         duration: 1.5,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        onComplete: () => {
+          isNavigatingRef.current = false;
+        }
       });
+
+      // Fallback timeout
+      setTimeout(() => {
+        isNavigatingRef.current = false;
+      }, 2000);
+
+    } catch (error) {
+      console.error("Logo click navigation error:", error);
+      isNavigatingRef.current = false;
     }
-  };
+  }, [closeMenu, lenis]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -188,10 +308,20 @@ const Menu = () => {
     };
   }, [isMenuOpen]);
 
+  // Cleanup: ensure body scroll is restored on unmount
   useEffect(() => {
     return () => {
+      // Reset navigation flag
+      isNavigatingRef.current = false;
+
+      // Ensure body scroll is restored
       if (document.body.style.position === "fixed") {
-        toggleBodyScroll(false);
+        const scrollY = scrollPositionRef.current;
+        document.body.style.removeProperty("overflow");
+        document.body.style.removeProperty("position");
+        document.body.style.removeProperty("top");
+        document.body.style.removeProperty("width");
+        window.scrollTo(0, scrollY);
       }
     };
   }, []);
@@ -222,9 +352,15 @@ const Menu = () => {
             ))}
               </div>
           {windowWidth < 1000 && (
-              <div className="menu-toggle">
-                <button className="hamburger-icon" onClick={toggleMenu}></button>
-              </div>
+              <div className="menu-nav-item">
+              <a
+                className="menu-nav-link"
+                href="#contact"
+                onClick={(e) => handleLinkClick(e, "#contact")}
+              >
+                Let's connect
+              </a>
+            </div>
             )}
           </div>
         </div>

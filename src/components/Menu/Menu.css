@@ -71,7 +71,7 @@ html {
   display: flex
 }
 
-.desktop-nav-link {
+.desktop-nav-link, .menu-nav-link {
   color: var(--bgrory);
   text-decoration: none;
   transition: opacity 0.3s ease;

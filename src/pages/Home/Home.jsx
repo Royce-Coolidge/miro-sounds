@@ -63,16 +63,20 @@ const Home = () => {
     setLoaderAnimating(true);
   };
 
-  const handlePreloaderComplete = async () => {
+  const handlePreloaderComplete = () => {
     setShowPreloader(false);
     setStatus('entered');
+    setScrollIndicatorHidden(false);
 
-    // Start video playback after preloader completes
+    // Attempt video playback without blocking (fire-and-forget)
+    // Mobile browsers often block autoplay, so we don't await
     if (videoRef.current) {
-      const playSuccess = await videoRef.current.play();
-      if (!playSuccess) {
-        console.warn("Video playback failed after preloader");
-      }
+      // Use setTimeout to ensure state updates aren't blocked
+      setTimeout(() => {
+        videoRef.current.play().catch((error) => {
+          console.warn("Video playback failed (expected on mobile):", error);
+        });
+      }, 100);
     }
   };
 
@@ -296,7 +300,7 @@ const Home = () => {
               }}
               style={{ cursor: 'pointer' }}
             >
-              About Me
+              About Us
             </a>
             <a
               href="#contact"

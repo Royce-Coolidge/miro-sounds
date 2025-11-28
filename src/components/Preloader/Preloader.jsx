@@ -20,6 +20,17 @@ export default function Preloader({ showPreloader, setLoaderAnimating, onComplet
     });
 
     if (showPreloader) {
+      // Failsafe: ensure preloader completes even if animation fails
+      const failsafeTimeout = setTimeout(() => {
+        console.warn("Preloader failsafe triggered");
+        setLoaderAnimating(false);
+        onComplete();
+      }, 10000); // 10 second max
+
+      // Clear failsafe when animation completes normally
+      tl.eventCallback("onComplete", () => {
+        clearTimeout(failsafeTimeout);
+      });
       setLoaderAnimating(true);
       const counts = document.querySelectorAll(".count");
 
@@ -49,10 +60,6 @@ export default function Preloader({ showPreloader, setLoaderAnimating, onComplet
         }
       });
 
-      tl.to(".spinner", {
-        opacity: 0,
-        duration: 0.3,
-      });
 
       tl.to(
         ".word h1",
@@ -63,12 +70,7 @@ export default function Preloader({ showPreloader, setLoaderAnimating, onComplet
         "<"
       );
 
-      tl.to(".divider", {
-        scaleY: "100%",
-        duration: 1,
-        onComplete: () =>
-          gsap.to(".divider", { opacity: 0, duration: 0.3, delay: 0.3 }),
-      });
+  
 
       tl.to("#word-1 h1", {
         y: "100%",
@@ -124,7 +126,7 @@ export default function Preloader({ showPreloader, setLoaderAnimating, onComplet
           <h1>Sounds</h1>
         </div>
       </div>
-      <div className="divider"></div>
+    
       <div className="counter">
         <div className="count">
           <div className="digit">

@@ -1,15 +1,16 @@
-import { useEffect } from "react";
 import "./Preloader.css";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import CustomEase from "gsap/CustomEase";
-gsap.registerPlugin( CustomEase);
+
+gsap.registerPlugin(CustomEase);
 CustomEase.create("hop", "0.9, 0, 0.1, 1");
 
+/**
+ * Preloader component with animated loading sequence
+ * Displays counter animation, logo reveal, and transition
+ */
 export default function Preloader({ showPreloader, setLoaderAnimating, onComplete }) {
-
-
-
   useGSAP(() => {
     const tl = gsap.timeline({
       delay: 0.3,
@@ -17,8 +18,6 @@ export default function Preloader({ showPreloader, setLoaderAnimating, onComplet
         ease: "hop",
       },
     });
-
-
 
     if (showPreloader) {
       setLoaderAnimating(true);
@@ -94,84 +93,80 @@ export default function Preloader({ showPreloader, setLoaderAnimating, onComplet
           stagger: 0.1,
           delay: 0.75,
           onStart: () => {
-           
             setLoaderAnimating(false);
             onComplete();
             gsap.to(".hero", { scale: 1, duration: 2, ease: "hop" });
             gsap.set(".loader", { zIndex: -1 });
           },
-   
         },
         "<"
       );
     }
   }, [showPreloader]);
 
-if (!showPreloader) {
-  return null;
-}
+  if (!showPreloader) {
+    return null;
+  }
 
   return (
     <div className="loader">
-          <div className="overlay">
-            <div className="block"></div>
-            <div className="block"></div>
+      <div className="overlay">
+        <div className="block"></div>
+        <div className="block"></div>
+      </div>
+      <div className="intro-logo">
+        <div className="word" id="word-1">
+          <h1>
+            <span>Miro</span>
+          </h1>
+        </div>
+        <div className="word" id="word-2">
+          <h1>Sounds</h1>
+        </div>
+      </div>
+      <div className="divider"></div>
+      <div className="counter">
+        <div className="count">
+          <div className="digit">
+            <h1>0</h1>
           </div>
-          <div className="intro-logo">
-            <div className="word" id="word-1">
-              <h1>
-                <span>Miro</span>
-              </h1>
-            </div>
-            <div className="word" id="word-2">
-              <h1>Sounds</h1>
-            </div>
-          </div>
-          <div className="divider"></div>
-          <div className="spinner-container">
-          </div>
-          <div className="counter">
-            <div className="count">
-              <div className="digit">
-                <h1>0</h1>
-              </div>
-              <div className="digit">
-                <h1>0</h1>
-              </div>
-            </div>
-            <div className="count">
-              <div className="digit">
-                <h1>2</h1>
-              </div>
-              <div className="digit">
-                <h1>7</h1>
-              </div>
-            </div>
-            <div className="count">
-              <div className="digit">
-                <h1>6</h1>
-              </div>
-              <div className="digit">
-                <h1>5</h1>
-              </div>
-            </div>
-            <div className="count">
-              <div className="digit">
-                <h1>9</h1>
-              </div>
-              <div className="digit">
-                <h1>8</h1>
-              </div>
-            </div>
-            <div className="count">
-              <div className="digit">
-                <h1>9</h1>
-              </div>
-              <div className="digit">
-                <h1>9</h1>
-              </div>
-            </div>
+          <div className="digit">
+            <h1>0</h1>
           </div>
         </div>
+        <div className="count">
+          <div className="digit">
+            <h1>2</h1>
+          </div>
+          <div className="digit">
+            <h1>7</h1>
+          </div>
+        </div>
+        <div className="count">
+          <div className="digit">
+            <h1>6</h1>
+          </div>
+          <div className="digit">
+            <h1>5</h1>
+          </div>
+        </div>
+        <div className="count">
+          <div className="digit">
+            <h1>9</h1>
+          </div>
+          <div className="digit">
+            <h1>8</h1>
+          </div>
+        </div>
+        <div className="count">
+          <div className="digit">
+            <h1>9</h1>
+          </div>
+          <div className="digit">
+            <h1>9</h1>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

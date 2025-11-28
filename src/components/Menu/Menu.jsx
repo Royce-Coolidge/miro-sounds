@@ -5,31 +5,33 @@ import { gsap } from "gsap";
 import { useLenis } from "lenis/react";
 
 const Menu = () => {
+  // Navigation links configuration
   const menuLinks = [
-   
     { path: "#about", label: "About Us" },
-    { path:"#how-we-work", label: "How We Work" },
-    { path: "#contact", label: "Let's connect"}
+    { path: "#how-we-work", label: "How We Work" },
+    { path: "#contact", label: "Let's connect" }
   ];
 
   const mobileMenuLinks = [
     { path: "#hero", label: "Back to Top" },
-    { path: "#contact", label: "Let's connect"}
+    { path: "#contact", label: "Let's connect" }
   ];
 
+  // State and refs
   const lenis = useLenis();
-  const menuContainer = useRef();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  // Animation refs
   const menuAnimation = useRef();
   const menuLinksAnimation = useRef();
   const menuBarAnimation = useRef();
-
-  const lastScrollY = useRef(0);
   const menuBarRef = useRef();
 
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  // Scroll and navigation state
+  const lastScrollY = useRef(0);
   const scrollPositionRef = useRef(0);
-  const isNavigatingRef = useRef(false); // Prevent multiple simultaneous navigations
+  const isNavigatingRef = useRef(false);
 
   /**
    * Toggle body scroll lock for mobile menu
@@ -113,43 +115,31 @@ const Menu = () => {
 
       try {
         const hash = path.substring(1);
-        console.log(`[Menu] Navigating to: #${hash}`);
         const targetElement = document.getElementById(hash);
 
-        // Validate target element exists
         if (!targetElement) {
-          console.warn(`[Menu] Navigation target not found: ${hash}`);
+          console.warn(`Navigation target not found: #${hash}`);
           isNavigatingRef.current = false;
           return;
         }
 
-        console.log(`[Menu] Target element found, closing menu...`);
-        // Close menu and wait for animations to complete
-        // Skip scroll restore so Lenis can handle the navigation
+        // Close menu and wait for animations, skip scroll restore
         await closeMenu(true);
-        console.log(`[Menu] Menu closed, preparing to scroll...`);
 
-        // Ensure Lenis is available and started
+        // Fallback to native scroll if Lenis unavailable
         if (!lenis) {
-          console.warn("[Menu] Lenis not available, falling back to native scroll");
           targetElement.scrollIntoView({ behavior: 'smooth' });
           isNavigatingRef.current = false;
           return;
         }
 
-        console.log(`[Menu] Starting Lenis scroll to target...`);
-        // Ensure Lenis is running (in case it was stopped elsewhere)
+        // Ensure Lenis is running and perform smooth scroll
         lenis.start();
-
-        // Perform smooth scroll with Lenis
-        // No additional delay needed since we skipped scroll restoration
         lenis.scrollTo(targetElement, {
           offset: 0,
           duration: 1.5,
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-          // Re-enable navigation after scroll completes
           onComplete: () => {
-            console.log(`[Menu] Scroll complete!`);
             isNavigatingRef.current = false;
           }
         });
@@ -181,22 +171,18 @@ const Menu = () => {
     isNavigatingRef.current = true;
 
     try {
-      // Close menu and wait for animations
-      // Skip scroll restore so Lenis can handle scrolling to top
+      // Close menu and wait for animations, skip scroll restore
       await closeMenu(true);
 
-      // Ensure Lenis is available
+      // Fallback to native scroll if Lenis unavailable
       if (!lenis) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         isNavigatingRef.current = false;
         return;
       }
 
-      // Ensure Lenis is running
+      // Ensure Lenis is running and scroll to top
       lenis.start();
-
-      // Scroll to top
-      // No additional delay needed since we skipped scroll restoration
       lenis.scrollTo(0, {
         duration: 1.5,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -216,6 +202,11 @@ const Menu = () => {
     }
   }, [closeMenu, lenis]);
 
+  // ============================================
+  // Effects
+  // ============================================
+
+  // Track window width for responsive behavior
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -227,6 +218,7 @@ const Menu = () => {
     };
   }, []);
 
+  // Setup GSAP animations for menu
   useEffect(() => {
     gsap.set(".menu-link-item-holder", { y: 125 });
 
@@ -266,6 +258,7 @@ const Menu = () => {
       });
   }, [windowWidth]);
 
+  // Play/reverse animations based on menu state
   useEffect(() => {
     if (isMenuOpen) {
       menuAnimation.current.play();
@@ -278,6 +271,7 @@ const Menu = () => {
     }
   }, [isMenuOpen]);
 
+  // Auto-hide menu bar on scroll down, show on scroll up
   useEffect(() => {
     const handleScroll = () => {
       if (isMenuOpen) return;
@@ -327,19 +321,18 @@ const Menu = () => {
   }, []);
 
   return (
-    <div className="menu-container" ref={menuContainer}>
+    <div className="menu-container">
       <div className="menu-bar" ref={menuBarRef}>
         <div className="menu-bar-container">
           <div className="menu-logo">
-            <a href="#hero" onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
+            <a href="#hero" onClick={handleLogoClick}>
               <h4>Miro</h4>
             </a>
           </div>
           <div className="menu-actions">
             <div className="desktop-nav-items">
-            {menuLinks.map((link, index) => (
-              <div key={index} className="">
-                <div className="desktop-nav-item">
+              {menuLinks.map((link, index) => (
+                <div key={index} className="desktop-nav-item">
                   <a
                     className="desktop-nav-link"
                     href={link.path}
@@ -348,19 +341,18 @@ const Menu = () => {
                     {link.label}
                   </a>
                 </div>
-              </div>
-            ))}
-              </div>
-          {windowWidth < 1000 && (
-              <div className="menu-nav-item">
-              <a
-                className="menu-nav-link"
-                href="#contact"
-                onClick={(e) => handleLinkClick(e, "#contact")}
-              >
-                Let's connect
-              </a>
+              ))}
             </div>
+            {windowWidth < 1000 && (
+              <div className="menu-nav-item">
+                <a
+                  className="menu-nav-link"
+                  href="#contact"
+                  onClick={(e) => handleLinkClick(e, "#contact")}
+                >
+                  Let's connect
+                </a>
+              </div>
             )}
           </div>
         </div>

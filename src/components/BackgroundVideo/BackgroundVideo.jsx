@@ -1,10 +1,15 @@
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import "./BackgroundVideo.css";
 
+/**
+ * Background video component with controlled playback
+ * Exposes play/pause methods via ref for parent control
+ */
 const BackgroundVideo = forwardRef(({ onVideoLoaded, onVideoError }, ref) => {
   const videoRef = useRef(null);
   const [isReady, setIsReady] = useState(false);
 
+  // Expose video control methods to parent component
   useImperativeHandle(ref, () => ({
     play: async () => {
       if (videoRef.current && isReady) {

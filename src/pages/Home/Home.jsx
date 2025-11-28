@@ -1,43 +1,46 @@
-import workList from "../../data/workList";
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import "./Home.css";
-
-import AnimatedCopy from "../../components/AnimatedCopy/AnimatedCopy";
-import ContactForm from "../../components/ContactForm/ContactForm";
-import Footer from "../../components/Footer/Footer";
-
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CustomEase } from "gsap/CustomEase";
 import ReactLenis from "lenis/react";
-import MiroIcon from "../../assets/miro-marron.svg";
+import { useLenis } from "lenis/react";
 
-let isInitialLoad = true;
-gsap.registerPlugin(ScrollTrigger, CustomEase);
-CustomEase.create("hop", "0.9, 0, 0.1, 1");
-
+import AnimatedCopy from "../../components/AnimatedCopy/AnimatedCopy";
+import ContactForm from "../../components/ContactForm/ContactForm";
+import Footer from "../../components/Footer/Footer";
 import Transition from "../../components/Transition/Transition";
 import BackgroundVideo from "../../components/BackgroundVideo/BackgroundVideo";
 import Preloader from "../../components/Preloader/Preloader";
-import { useLenis } from "lenis/react";
 
+import MiroIcon from "../../assets/miro-marron.svg";
+import "./Home.css";
+
+// Track initial page load for preloader
+let isInitialLoad = true;
+
+// Register GSAP plugins and custom easing
+gsap.registerPlugin(ScrollTrigger, CustomEase);
+CustomEase.create("hop", "0.9, 0, 0.1, 1");
 
 const Home = () => {
-
+  // Refs
   const stickyTitlesRef = useRef(null);
   const titlesRef = useRef([]);
   const stickyWorkHeaderRef = useRef(null);
   const homeWorkRef = useRef(null);
   const videoRef = useRef(null);
+
+  // State
   const [showPreloader, setShowPreloader] = useState(isInitialLoad);
   const [loaderAnimating, setLoaderAnimating] = useState(false);
   const [status, setStatus] = useState('idle');
   const [scrollIndicatorHidden, setScrollIndicatorHidden] = useState(true);
   const [mobileScrollIndicatorHidden, setMobileScrollIndicatorHidden] = useState(false);
-  const [videoError, setVideoError] = useState(false);
+
   const lenis = useLenis();
 
+  // Reset initial load flag on component unmount
   useEffect(() => {
     return () => {
       isInitialLoad = false;
@@ -45,8 +48,8 @@ const Home = () => {
     };
   }, []);
 
+  // Control Lenis scroll based on preloader animation state
   useEffect(() => {
-    console.log("loaderAnimating", loaderAnimating);
     if (lenis) {
       if (loaderAnimating) {
         lenis.stop();
@@ -55,7 +58,6 @@ const Home = () => {
       }
     }
   }, [lenis, loaderAnimating]);
-
 
   const handleVideoLoaded = () => {
     setLoaderAnimating(true);
@@ -76,9 +78,6 @@ const Home = () => {
 
   const handleVideoError = (error) => {
     console.error("Video error:", error);
-    setVideoError(true);
-    // Continue with the experience even if video fails
-    // The preloader will still complete normally
   };
 
   const handleScrollClick = (e) => {
@@ -91,11 +90,12 @@ const Home = () => {
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
       });
       lenis.start();
-      
+      setScrollIndicatorHidden(false);
+      setMobileScrollIndicatorHidden(true);
     }
-   
   };
 
+  // Accessibility helper component for screen readers
   const VisuallyHidden = ({ children }) => (
     <span style={{
       position: 'absolute',
@@ -112,9 +112,7 @@ const Home = () => {
     </span>
   );
 
-
-
-
+  // Setup GSAP ScrollTrigger animations for sticky titles and work sections
   useEffect(() => {
     const handleResize = () => {
       ScrollTrigger.refresh();
@@ -202,7 +200,6 @@ const Home = () => {
 
     let workHeaderPinTrigger;
     if (workHeaderSection && homeWorkSection) {
-      
       workHeaderPinTrigger = ScrollTrigger.create({
         trigger: workHeaderSection,
         start: "top top",
@@ -211,7 +208,6 @@ const Home = () => {
         pin: true,
         pinSpacing: false,
       });
-     
     }
 
     return () => {
@@ -238,9 +234,7 @@ const Home = () => {
       )}
 
       <div className="page home">
-
         <section id="hero" className="hero">
-
           <BackgroundVideo
             ref={videoRef}
             onVideoLoaded={handleVideoLoaded}
@@ -251,18 +245,16 @@ const Home = () => {
             <AnimatedCopy tag="h1" animateOnScroll="true">
               Miro
             </AnimatedCopy>
-
             <AnimatedCopy tag="h1" animateOnScroll="true">
               sounds
             </AnimatedCopy>
-
           </div>
+
           <Link
             to="/#sticky-titles"
             className="scrollIndicator"
             data-status={status}
             data-hidden={scrollIndicatorHidden}
-        
           >
             <VisuallyHidden>Scroll to projects</VisuallyHidden>
           </Link>
@@ -284,9 +276,7 @@ const Home = () => {
               <path d="M1 1l20.5 12L42 1" strokeWidth="2" fill="none" />
             </svg>
           </Link>
-
         </section>
-
 
         <section id="sticky-titles" ref={stickyTitlesRef} className="sticky-titles">
           <div className="sticky-titles-nav">
@@ -329,7 +319,6 @@ const Home = () => {
           </div>
           <div className="sticky-titles-footer">
             <p className="primary sm">Miro Sounds curates and delivers epic live entertainment.</p>
-            <p className="primary sm"></p>
           </div>
           <h2 ref={(el) => (titlesRef.current[0] = el)}>
             From first ideas to...
@@ -349,13 +338,8 @@ const Home = () => {
 
         <section id="how-we-work" ref={homeWorkRef} className="home-work">
           <div className="home-work-list">
-
-            <div
-              className="home-work-item"
-            >
-
+            <div className="home-work-item">
               <h3>How We Work</h3>
-
               <h4>Exceptional music & entertainment curated for any event</h4>
               <p>For individuals, event planners and brands seeking bespoke support for private parties, weddings and live experiences, we curate elevated music to soundtrack your celebrations.</p>
               <p>
@@ -365,45 +349,37 @@ const Home = () => {
                 And if you want to go beyond music, we also love to help add extra spice with further entertainment like comedy, art, speakers and more.
               </p>
             </div>
-            <div className="home-work-item">
 
+            <div className="home-work-item">
               <img src={MiroIcon} alt="Miro Icon" className="miro-icon" width={10} height={10} />
-              <h3>Tell us your vision and we’ll take it from there</h3>
-              <p> Whether you have a clear idea or just a feeling you want to capture, Miro supports from concept stage to final details.</p>
+              <h3>Tell us your vision and we'll take it from there</h3>
+              <p>Whether you have a clear idea or just a feeling you want to capture, Miro supports from concept stage to final details.</p>
               <p>We fine-tune every element - genre mix, set times, sound setup, venue acoustics, while handling all behind-the-scenes work; logistics, contracts, production, artist liaison and on-site management. Making sure it all flows seamlessly.</p>
             </div>
-      
           </div>
+
           <div id="about" className="home-work-item">
             <h3>About Us</h3>
-          <section className="services">
-          <div className="services-col">
-            <div className="services-banner">
-              <img src="/about/rory.jpg" alt="" width={1000} height={100} className="services-banner-img"/>
-            </div>
-           
-          </div>
-          <div className="services-col">
-            <h4>
-            Led by founder Rory, Miro brings 15 years of expertise across music, events, sound curation, and live production. 
-            </h4>
-            <div className="services-list">
-
-            
-            <p>We’ve built the relationships and know-how to seamlessly connect you with exceptional artists and entertainment, anywhere in the world.</p>
-            <p>
-            Based in London - one of the world’s most inspiring music cities - we bring the sounds of the main stage, candlelit jazz club, underground gig or secret festival woodland to your event. From the familiar to the fresh, the refined to the raw, trust Miro to create that spark - the perfect pairing of sound and setting that turns good events into great ones.
-            </p>
-            </div>
-           
-            
+            <section className="services">
+              <div className="services-col">
+                <div className="services-banner">
+                  <img src="/about/rory.jpg" alt="Founder Rory" width={1000} height={100} className="services-banner-img" />
+                </div>
+              </div>
+              <div className="services-col">
+                <h4>
+                  Led by founder Rory, Miro brings 15 years of expertise across music, events, sound curation, and live production.
+                </h4>
+                <div className="services-list">
+                  <p>We've built the relationships and know-how to seamlessly connect you with exceptional artists and entertainment, anywhere in the world.</p>
+                  <p>
+                    Based in London - one of the world's most inspiring music cities - we bring the sounds of the main stage, candlelit jazz club, underground gig or secret festival woodland to your event. From the familiar to the fresh, the refined to the raw, trust Miro to create that spark - the perfect pairing of sound and setting that turns good events into great ones.
+                  </p>
+                </div>
+              </div>
+            </section>
           </div>
         </section>
-          </div>
-          
-        </section>
-
-        {/* <Reviews /> */}
 
         <section className="hobbies">
           <div className="hobby">

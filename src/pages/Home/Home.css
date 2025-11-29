@@ -238,12 +238,19 @@
     gap: 0.25em;
   }
 
-  .hero-header h1 {
+  .hero-header h1  {
     font-size: 12vw; 
   }
+  
 
+.hero-header-2 h5{
+  font-size: 8vw;
+}
 
-
+.hero-header-2 {
+  top: 50%;
+width: 80%;
+}
   .hero,
   .sticky-titles,
   .sticky-work-header,

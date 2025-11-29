@@ -127,7 +127,7 @@ const Home = () => {
     const stickySection = stickyTitlesRef.current;
     const titles = titlesRef.current.filter(Boolean);
 
-    if (!stickySection || titles.length !== 3) {
+    if (!stickySection || titles.length !== 2) {
       window.removeEventListener("resize", handleResize);
       return;
     }
@@ -139,7 +139,7 @@ const Home = () => {
     const pinTrigger = ScrollTrigger.create({
       trigger: stickySection,
       start: "top top",
-      end: `+=${window.innerHeight * 5}`,
+      end: `+=${window.innerHeight * 2}`,
       pin: true,
       pinSpacing: true,
     });
@@ -148,7 +148,7 @@ const Home = () => {
       scrollTrigger: {
         trigger: stickySection,
         start: "top top",
-        end: `+=${window.innerHeight * 4}`,
+        end: `+=${window.innerHeight * 2}`,
         scrub: 0.5,
       },
     });
@@ -159,7 +159,7 @@ const Home = () => {
         {
           opacity: 0,
           scale: 0.75,
-          duration: 0.3,
+          duration: 0.2,
           ease: "power2.out",
         },
         1
@@ -170,7 +170,7 @@ const Home = () => {
         {
           opacity: 1,
           scale: 1,
-          duration: 0.3,
+          duration: 0.2,
           ease: "power2.in",
         },
         1.25
@@ -182,22 +182,13 @@ const Home = () => {
         {
           opacity: 0,
           scale: 0.75,
-          duration: 0.3,
+          duration: 0.2,
           ease: "power2.out",
         },
         2.5
       )
 
-      .to(
-        titles[2],
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 0.3,
-          ease: "power2.in",
-        },
-        2.75
-      );
+      
 
     const workHeaderSection = stickyWorkHeaderRef.current;
     const homeWorkSection = homeWorkRef.current;
@@ -238,7 +229,13 @@ const Home = () => {
       )}
 
       <div className="page home">
+        <div className="hero-header-2">
+          <h4>
+          Curating Exceptional Music <br />  For Unforgettable Experiences
+          </h4>
+          </div>
         <section id="hero" className="hero">
+      
           <BackgroundVideo
             ref={videoRef}
             onVideoLoaded={handleVideoLoaded}
@@ -277,54 +274,19 @@ const Home = () => {
 
         <section id="sticky-titles" ref={stickyTitlesRef} className="sticky-titles">
           <div className="sticky-titles-nav">
-            <a
-              href="#how-we-work"
-              className="primary sm"
-              onClick={(e) => {
-                e.preventDefault();
-                const targetElement = document.getElementById('about');
-                if (targetElement && lenis) {
-                  lenis.scrollTo(targetElement, {
-                    offset: 0,
-                    duration: 1.5,
-                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
-                  });
-                }
-              }}
-              style={{ cursor: 'pointer' }}
-            >
-              About Us
-            </a>
-            <a
-              href="#contact"
-              className="primary sm"
-              onClick={(e) => {
-                e.preventDefault();
-                const targetElement = document.getElementById('contact');
-                if (targetElement && lenis) {
-                  lenis.scrollTo(targetElement, {
-                    offset: 0,
-                    duration: 1.5,
-                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
-                  });
-                }
-              }}
-              style={{ cursor: 'pointer' }}
-            >
-              Let's Connect
-            </a>
+            
           </div>
           <div className="sticky-titles-footer">
             <p className="primary sm">Miro Sounds curates and delivers epic live entertainment.</p>
           </div>
           <h2 ref={(el) => (titlesRef.current[0] = el)}>
-            From first ideas to...
+            From first ideas <br></br> to the last dance
           </h2>
           <h2 ref={(el) => (titlesRef.current[1] = el)}>
-            To the last dance...
-          </h2>
-          <h2 ref={(el) => (titlesRef.current[2] = el)}>
             WE DESIGN & DELIVER THE PERFECT ENTERTAINMENT          </h2>
+          
+      
+          
         </section>
 
         <section ref={stickyWorkHeaderRef} className="sticky-work-header">
@@ -340,42 +302,22 @@ const Home = () => {
               <h4>Exceptional music & entertainment curated for any event</h4>
               <p>For individuals, event planners and brands seeking bespoke support for private parties, weddings and live experiences, we curate elevated music to soundtrack your celebrations.</p>
               <p>
-                High-energy party bands, DJ sets, big names or best-kept secrets. Background tunes, headline moments or day-two hangover healers - we’ll source and coordinate your dream line-up. From jazz quartets and Irish trios to Brazilian beats and disco highlife, across luxury marquees, candlelit gardens, rooftops and beach clubs.
+                High-energy party bands, DJ sets, big names or best-kept secrets. Background tunes, headline moments or day-two hangover healers - we’ll source and coordinate your dream line-up. All genres in any venue - from old classics to Brazilian beats, jazz quartets to Irish trios, luxury marquees to candlelit rooftops.
               </p>
               <p>
                 And if you want to go beyond music, we also love to help add extra spice with further entertainment like comedy, art, speakers and more.
               </p>
+               <img src={MiroIcon} alt="Miro Icon" className="miro-icon" width={10} height={10} />
             </div>
 
             <div className="home-work-item">
-              <img src={MiroIcon} alt="Miro Icon" className="miro-icon" width={10} height={10} />
-              <h3>Tell us your vision and we'll take it from there</h3>
+             
+              <h4>Tell us your vision and we'll take it from there</h4>
               <p>Whether you have a clear idea or just a feeling you want to capture, Miro supports from concept stage to final details.</p>
               <p>We fine-tune every element - genre mix, set times, sound setup, venue acoustics, while handling all behind-the-scenes work; logistics, contracts, production, artist liaison and on-site management. Making sure it all flows seamlessly.</p>
             </div>
           </div>
 
-          <div id="about" className="home-work-item">
-            <h3>About Us</h3>
-            <section className="services">
-              <div className="services-col">
-                <div className="services-banner">
-                  <img src="/about/rory.jpg" alt="Founder Rory" width={1000} height={100} className="services-banner-img" />
-                </div>
-              </div>
-              <div className="services-col">
-                <h4>
-                  Led by founder Rory, Miro brings 15 years of expertise across music, events, sound curation, and live production.
-                </h4>
-                <div className="services-list">
-                  <p>We've built the relationships and know-how to seamlessly connect you with exceptional artists and entertainment, anywhere in the world.</p>
-                  <p>
-                    Based in London - one of the world's most inspiring music cities - we bring the sounds of the main stage, candlelit jazz club, underground gig or secret festival woodland to your event. From the familiar to the fresh, the refined to the raw, trust Miro to create that spark - the perfect pairing of sound and setting that turns good events into great ones.
-                  </p>
-                </div>
-              </div>
-            </section>
-          </div>
         </section>
 
         <section className="hobbies">
@@ -400,6 +342,34 @@ const Home = () => {
             </AnimatedCopy>
           </div>
         </section>
+
+        <section id="about" className="home-work-2">
+            <div className="home-work-list">
+
+              <div className="home-work-item">
+                <h3>About Us</h3>
+                <h4>We are live entertainment curators, connectors and creators of unforgettable experiences.</h4>
+                <section className="services">
+                  <div className="services-col">
+                    <div className="services-banner">
+                      <img src="/about/rory.jpg" alt="Founder Rory" width={1000} height={100} className="services-banner-img" />
+                    </div>
+                  </div>
+                  <div className="services-col">
+                    <p>
+                      Led by founder Rory, Miro brings 15 years of expertise across music, events, sound curation, and live production.
+                    </p>
+                    <div className="services-list">
+                      <p>We've built the relationships and know-how to seamlessly connect you with exceptional artists and entertainment, anywhere in the world.</p>
+                      <p>
+                        Based in London - one of the world's most inspiring music cities - we bring the sounds of the main stage, candlelit jazz club, underground gig or secret festival woodland to your event. From the familiar to the fresh, the refined to the raw, trust Miro to create that spark - the perfect pairing of sound and setting that turns good events into great ones.
+                      </p>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </section>
 
         <ContactForm id="contact" />
         <Footer className="home-footer" />

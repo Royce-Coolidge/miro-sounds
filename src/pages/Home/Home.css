@@ -46,6 +46,22 @@
 
 }
 
+.hero-header-2 {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  text-wrap: balance;
+}
+
+.hero-header-2 h4 {
+  color: var(--bgrory);
+  text-align: center;
+  font-size: 3vw;
+  line-height: 1;
+}
+
 .sticky-titles {
   position: relative;
   width: 100vw;
@@ -124,14 +140,24 @@
 
 }
 
+.home-work-2 {
+  max-width: 100%;
+  margin: 4rem 2rem;
+  padding: 8em 2em;
+  background-color: var(--bgrory);
+  border-radius: 1em;
+}
+
 .home-work-list {
-  width: 60%;
+  width: 65%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap:6em;
-  margin-bottom: 6em;
+  gap: 4em;
+ 
 }
+
+
 
 .home-work-item {
   display: flex;
@@ -141,6 +167,10 @@
   text-align: center;
   gap: 2em;
   color: var(--fgrory) !important;
+}
+
+.home-work-item h4, .home-work-item p {
+  text-wrap: balance;
 }
 
 .miro-icon {
@@ -438,7 +468,7 @@
 
 
 
-@media (max-width: 696px) {
+@media (max-width: 400px) {
   .mobileScrollIndicator {
     bottom: 10vh !important;
     padding: 10px !important;

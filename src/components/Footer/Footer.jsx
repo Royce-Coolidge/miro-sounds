@@ -21,7 +21,7 @@ const Footer = ( { className, children } ) => {
 
         <div className="footer-copyright-line">
           <p className="primary sm">&copy; MIRO SOUNDS 2025</p>
-          {/* <span className="primary sm">Website by <a className="primary sm" href="https://rowleythompson.com" target="_blank" rel="noopener noreferrer">ROWLEY</a></span> */}
+          <span className="primary sm"><a className="primary sm" href="https://www.instagram.com/miro.sounds/" target="_blank" rel="noopener noreferrer">Instagram</a></span>
         </div> 
       </div>
     </div>

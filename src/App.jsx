@@ -6,11 +6,6 @@ import { AnimatePresence } from "framer-motion";
 import Menu from "./components/Menu/Menu";
 import Home from "./pages/Home/Home";
 
-// Lazy load non-critical routes for better code splitting
-const About = lazy(() => import("./pages/About/About"));
-const FAQ = lazy(() => import("./pages/FAQ/FAQ"));
-const Contact = lazy(() => import("./pages/Contact/Contact"));
-
 import "./App.css";
 
 /**

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./ContactForm.css";
+import { ImInstagram } from "react-icons/im";
 
 const ContactForm = ({ id }) => {
   const [copied, setCopied] = useState(false);
@@ -33,55 +34,25 @@ const ContactForm = ({ id }) => {
   return (
     <div id={id} className="contact-form">
       <div className="contact-form-row">
-        <div className="contact-form-row-copy-item">
-
+        <div className="contact-form-availability">
+          <p className="primary sm"></p>
+          <p className="primary sm"></p>
         </div>
-        <div className="contact-form-row-copy-item">
+      </div>
+      <div className="contact-form-row">
+      <div className="contact-form-header">
+            <h3> Get in Touch</h3>
 
-        </div>
-        <div className="contact-form-row-copy-item">
-
-        </div>
+            
+          </div>
       </div>
 
       <div className="contact-form-row">
-        <div className="contact-form-col">
-          <div className="contact-form-header">
-            <h3> Get in Touch</h3>
-
-            <p>
-              Send us a brief, give us a call, or we can come and say Hello.
-            </p>
-          </div>
-
-
-        </div>
-
+       
+        
         <div className="contact-form-col">
 
-          <div className="email-container">
-            <h4
-              className="contact-form-phone"
-            >Email{" "}</h4>
-            <p
-              className={`email-copy ${copied ? "copied" : ""}`}
-              onClick={handleCopy}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  handleCopy(e);
-                }
-              }}
-            >
-              {email}
-              <span className="tooltip">
-                {copied ? "Email copied!" : "Click to copy"}
-              </span>
-            </p>
-
-          </div>
+         
           
           <h4
             className="contact-form-phone">
@@ -96,6 +67,49 @@ const ContactForm = ({ id }) => {
           </a>
 
         </div>
+        <div className="contact-form-col">
+
+<div className="email-container">
+  <h4
+    className="contact-form-phone"
+  >Email{" "}</h4>
+  <p
+    className={`email-copy ${copied ? "copied" : ""}`}
+    onClick={handleCopy}
+    role="button"
+    tabIndex={0}
+    onKeyDown={(e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleCopy(e);
+      }
+    }}
+  >
+    {email}
+    <span className="tooltip">
+      {copied ? "Email copied!" : "Click to copy"}
+    </span>
+  </p>
+
+          </div>
+          
+
+
+
+        </div>
+        <div className="contact-form-col">
+        
+        
+        <h4
+            className="contact-form-phone">
+           Instagram
+          </h4>
+          <a className="contact-form-phone-link" href="https://www.instagram.com/miro.sounds/" target="_blank" rel="noopener noreferrer">
+          @miro.sounds</a>
+
+        </div>
+
+
       </div>
       <div className="contact-form-row">
         <div className="contact-form-availability">

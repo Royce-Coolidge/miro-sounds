@@ -2,6 +2,8 @@
   padding: 2em;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 4em;
   margin: 2em;
   background-color: var(--fgrory);
@@ -28,9 +30,10 @@
   color: var(--fgrory);
 }
 
-.contact-form-row:nth-child(1) {
+.contact-form-row {
   width: 100%;
   display: flex;
+  justify-content: center;
   gap: 1em;
 }
 
@@ -42,25 +45,26 @@
   text-align: center;
 }
 
-.contact-form-row-copy-item:nth-child(3) {
-  text-align: right;
-}
 
-.contact-form-col:nth-child(1) {
+
+.contact-form-col {
   display: flex;
   flex-direction: column;
-  gap: 1.5em;
+  align-items: center;
+  text-align: center;
 }
 
 .contact-form-header {
   display: flex;
   flex-direction: column;
   gap: 1.5em;
+  align-items: center;
 }
 
 .contact-form-header p {
   margin-bottom: 0.5em;
   width: 75%;
+  text-align: center;
 }
 
 .contact-form-row:nth-child(2) {
@@ -72,15 +76,11 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1.5em;
+  min-width: 300px;
+  text-align: center;
 }
 
-.contact-form-col:nth-child(1) {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 4em;
-}
+
 
 .contact-form-availability {
   width: 100%;
@@ -91,11 +91,6 @@
   padding: 0.5em 0;
 }
 
-.contact-form-col:nth-child(2) {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75em;
-}
 
 
 
@@ -187,6 +182,10 @@
  
 }
 
+.contact-form-phone-link {
+  text-transform: lowercase;
+}
+
 @media (max-width: 900px) {
   .contact-form {
     margin: 1.25em;
@@ -200,10 +199,7 @@
   text-align: center;
 }
 
-  .contact-form-row:nth-child(1) {
-    flex-direction: column;
-    gap: 0.25em;
-  }
+
 
   .contact-form-row-copy-item {
     text-align: center;
@@ -216,14 +212,17 @@
     text-align: center;
   }
 
-  .contact-form-row:nth-child(2) {
+  .contact-form-row{
     flex-direction: column;
-    gap: 4em;
+    align-items: center;
+    
   }
 
   .contact-form-header p,
   .contact-form-availability {
     width: 100%;
+    text-align: center;
+
   }
 
   .contact-form-col:nth-child(1) {

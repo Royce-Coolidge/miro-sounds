@@ -48,16 +48,16 @@ const Home = () => {
     };
   }, []);
 
-  // Control Lenis scroll based on preloader animation state
-  useEffect(() => {
-    if (lenis) {
-      if (loaderAnimating) {
-        lenis.stop();
-      } else {
-        lenis.start();
-      }
-    }
-  }, [lenis, loaderAnimating]);
+  // // Control Lenis scroll based on preloader animation state
+  // useEffect(() => {
+  //   if (lenis) {
+  //     if (loaderAnimating) {
+  //       lenis.stop();
+  //     } else {
+  //       lenis.start();
+  //     }
+  //   }
+  // }, [lenis, loaderAnimating]);
 
   const handleVideoLoaded = () => {
     setLoaderAnimating(true);
@@ -230,9 +230,9 @@ const Home = () => {
 
       <div className="page home">
         <div className="hero-header-2">
-          <h4>
+          <h5>
           Curating Exceptional Music <br />  For Unforgettable Experiences
-          </h4>
+          </h5>
           </div>
         <section id="hero" className="hero">
       

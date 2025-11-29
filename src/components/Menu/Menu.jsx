@@ -9,12 +9,12 @@ const Menu = () => {
   const menuLinks = [
     { path: "#about", label: "About Us" },
     { path: "#how-we-work", label: "How We Work" },
-    { path: "#contact", label: "Let's connect" }
+    { path: "#contact", label: "Get in Touch" }
   ];
 
   const mobileMenuLinks = [
     { path: "#hero", label: "Back to Top" },
-    { path: "#contact", label: "Let's connect" }
+    { path: "#contact", label: "Get in Touch" }
   ];
 
   // State and refs

@@ -212,7 +212,7 @@
 
 
 
-@media (max-width: 1000px) {
+@media (max-width: 600px) {
   .mobileScrollIndicator svg {
     width: 20px;
     height: 20px;

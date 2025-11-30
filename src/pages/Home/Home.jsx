@@ -13,7 +13,7 @@ import Transition from "../../components/Transition/Transition";
 import BackgroundVideo from "../../components/BackgroundVideo/BackgroundVideo";
 import Preloader from "../../components/Preloader/Preloader";
 
-import MiroIcon from "../../assets/miro-marron.svg";
+import MiroIcon from "../../../public/work/miro-tab.png";
 import "./Home.css";
 
 // Track initial page load for preloader
@@ -231,7 +231,7 @@ const Home = () => {
       <div className="page home">
         <div className="hero-header-2">
           <h5>
-          Curating Exceptional Music <br />  For Unforgettable Experiences
+          Curating Outstanding Music <br /> For Unforgettable Events
           </h5>
           </div>
         <section id="hero" className="hero">
@@ -277,10 +277,10 @@ const Home = () => {
             
           </div>
           <div className="sticky-titles-footer">
-            <p className="primary sm">Miro Sounds curates and delivers epic live entertainment.</p>
+            <p className="primary sm"></p>
           </div>
           <h2 ref={(el) => (titlesRef.current[0] = el)}>
-            From first ideas <br></br> to the last dance
+            From first ideas <br></br> to last dance...
           </h2>
           <h2 ref={(el) => (titlesRef.current[1] = el)}>
             WE DESIGN & DELIVER THE PERFECT ENTERTAINMENT          </h2>
@@ -302,7 +302,7 @@ const Home = () => {
               <h4>Exceptional music & entertainment curated for any event</h4>
               <p>For individuals, event planners and brands seeking bespoke support for private parties, weddings and live experiences, we curate elevated music to soundtrack your celebrations.</p>
               <p>
-                High-energy party bands, DJ sets, big names or best-kept secrets. Background tunes, headline moments or day-two hangover healers - we’ll source and coordinate your dream line-up. All genres in any venue - from old classics to Brazilian beats, jazz quartets to Irish trios, luxury marquees to candlelit rooftops.
+                Party bands, DJ sets, big names or best-kept secrets. Background tunes, headline moments or hangover healers - we’ll source and coordinate your dream line-up. All genres in any venue - from old classics to disco house bangers, Brazilian beats to rhythm & blues, luxury marquees to candlelit rooftops.
               </p>
               <p>
                 And if you want to go beyond music, we also love to help add extra spice with further entertainment like comedy, art, speakers and more.

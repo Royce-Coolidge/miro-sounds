@@ -225,9 +225,6 @@
 
   }
 
-  .contact-form-col:nth-child(1) {
-    gap: 2em;
-  }
 
   .contact-form-availability {
     flex-direction: column;

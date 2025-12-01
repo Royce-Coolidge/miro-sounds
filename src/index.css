@@ -178,7 +178,7 @@ textarea::placeholder {
   -webkit-font-smoothing: antialiased;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 600px) {
   h1 {
     font-size: 14vw;
     line-height: 12vw;

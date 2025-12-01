@@ -13,7 +13,7 @@ import Transition from "../../components/Transition/Transition";
 import BackgroundVideo from "../../components/BackgroundVideo/BackgroundVideo";
 import Preloader from "../../components/Preloader/Preloader";
 
-import MiroIcon from "../../../public/work/miro-tab.png";
+import MiroIcon from "../../assets/miro-tab.png";
 import "./Home.css";
 
 // Track initial page load for preloader
@@ -48,35 +48,36 @@ const Home = () => {
     };
   }, []);
 
-  // // Control Lenis scroll based on preloader animation state
-  // useEffect(() => {
-  //   if (lenis) {
-  //     if (loaderAnimating) {
-  //       lenis.stop();
-  //     } else {
-  //       lenis.start();
-  //     }
-  //   }
-  // }, [lenis, loaderAnimating]);
+  // Control Lenis scroll based on preloader animation state
+  useEffect(() => {
+    if (lenis) {
+      if (loaderAnimating) {
+        lenis.stop();
+      } else {
+        lenis.start();
+      }
+    }
+  }, [lenis, loaderAnimating]);
 
   const handleVideoLoaded = () => {
     setLoaderAnimating(true);
   };
 
   const handlePreloaderComplete = () => {
+    console.log("🎉 Preloader complete! Starting video...");
     setShowPreloader(false);
     setStatus('entered');
     setScrollIndicatorHidden(false);
 
-    // Attempt video playback without blocking (fire-and-forget)
-    // Mobile browsers often block autoplay, so we don't await
+    // Play video from 00:00 after preloader completes
+    // The play() method in BackgroundVideo resets currentTime automatically
     if (videoRef.current) {
-      // Use setTimeout to ensure state updates aren't blocked
-      setTimeout(() => {
-        videoRef.current.play().catch((error) => {
-          console.warn("Video playback failed (expected on mobile):", error);
-        });
-      }, 100);
+      console.log("🎉 videoRef exists, calling play()");
+      videoRef.current.play().catch((error) => {
+        console.error("🎉 ❌ Video playback failed:", error);
+      });
+    } else {
+      console.error("🎉 ❌ videoRef.current is null!");
     }
   };
 

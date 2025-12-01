@@ -357,10 +357,11 @@ const Home = () => {
                     </div>
                   </div>
                   <div className="services-col">
-                    <p>
+                  
+                  <div className="services-list">
+                  <p>
                       Led by founder Rory, Miro brings 15 years of expertise across music, events, sound curation, and live production.
                     </p>
-                    <div className="services-list">
                       <p>We've built the relationships and know-how to seamlessly connect you with exceptional artists and entertainment, anywhere in the world.</p>
                       <p>
                         Based in London - one of the world's most inspiring music cities - we bring the sounds of the main stage, candlelit jazz club, underground gig or secret festival woodland to your event. From the familiar to the fresh, the refined to the raw, trust Miro to create that spark - the perfect pairing of sound and setting that turns good events into great ones.

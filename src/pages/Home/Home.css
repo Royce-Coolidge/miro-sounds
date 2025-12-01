@@ -511,7 +511,7 @@ width: 80%;
   }
 
   .services-list p {
-      text-align: left !important;
+      text-align: center !important;
   }
   .mobileScrollIndicator svg {
     width: 40px;

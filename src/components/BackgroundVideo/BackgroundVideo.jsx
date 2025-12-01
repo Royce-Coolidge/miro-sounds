@@ -8,33 +8,6 @@ import "./BackgroundVideo.css";
 const BackgroundVideo = forwardRef(({ onVideoLoaded, onVideoError }, ref) => {
   const videoRef = useRef(null);
   const [isReady, setIsReady] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
-
-  // Ensure video stays paused and ready on user interaction (mobile)
-  // Don't auto-play - just mark as interacted for later controlled playback
-  useEffect(() => {
-    const handleInteraction = () => {
-      if (!hasInteracted && videoRef.current) {
-        setHasInteracted(true);
-        // On mobile, user interaction unlocks video playback capability
-        // but we still don't play yet - wait for preloader to complete
-        videoRef.current.pause();
-        videoRef.current.currentTime = 0;
-      }
-    };
-
-    // Listen for user interactions to unlock playback on mobile
-    const events = ['touchstart', 'click'];
-    events.forEach(event => {
-      window.addEventListener(event, handleInteraction, { once: true, passive: true });
-    });
-
-    return () => {
-      events.forEach(event => {
-        window.removeEventListener(event, handleInteraction);
-      });
-    };
-  }, [hasInteracted]);
 
   // Expose video control methods to parent component
   useImperativeHandle(ref, () => ({

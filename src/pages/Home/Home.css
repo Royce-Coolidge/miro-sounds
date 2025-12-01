@@ -421,7 +421,6 @@ width: 80%;
 }
 
 .services {
-  
   padding: 2em;
   display: flex;
   gap: 2em;
@@ -478,9 +477,13 @@ width: 80%;
   color: var(--fgrory);
   text-align: left;
 }
-.services-col p{
+.services-col p {
   color: var(--fgrory);
   text-align: left;
+  text-wrap: wrap !important;
+}
+.services-list p {
+  text-wrap: wrap !important;
 }
 
 .service-list-col h5 {
@@ -523,6 +526,7 @@ width: 80%;
 
   .services-list p {
       text-align: center !important;
+    
   }
   .mobileScrollIndicator svg {
     width: 40px;

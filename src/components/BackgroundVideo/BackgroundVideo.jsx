@@ -48,12 +48,13 @@ const BackgroundVideo = forwardRef(({ onVideoLoaded, onVideoError }, ref) => {
           return true;
         } catch (error) {
           console.error("▶️ ❌ Failed to play video:", error);
-          // Don't call onVideoError for play failures - they're expected on mobile
-          return false;
+          // Throw the error so parent can handle it
+          throw error;
         }
       }
-      console.error("▶️ ❌ videoRef.current is null");
-      return false;
+      const error = new Error("videoRef.current is null");
+      console.error("▶️ ❌", error.message);
+      throw error;
     },
     pause: () => {
       if (videoRef.current) {

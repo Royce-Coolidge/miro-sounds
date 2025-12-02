@@ -74,7 +74,24 @@ const Home = () => {
     if (videoRef.current) {
       console.log("🎉 videoRef exists, calling play()");
       videoRef.current.play().catch((error) => {
-        console.error("🎉 ❌ Video playback failed:", error);
+        console.error("🎉 ❌ Video playback failed (likely autoplay policy):", error);
+        console.log("🎉 Will retry on user interaction...");
+
+        // Setup one-time event listener to play video on first user interaction
+        const playOnInteraction = () => {
+          console.log("🎉 User interacted, retrying video play...");
+          if (videoRef.current) {
+            videoRef.current.play().catch((retryError) => {
+              console.error("🎉 ❌ Video playback failed on retry:", retryError);
+            });
+          }
+        };
+
+        // Listen for any user interaction
+        const events = ['click', 'touchstart', 'pointerdown', 'keydown'];
+        events.forEach(event => {
+          document.addEventListener(event, playOnInteraction, { once: true, passive: true });
+        });
       });
     } else {
       console.error("🎉 ❌ videoRef.current is null!");

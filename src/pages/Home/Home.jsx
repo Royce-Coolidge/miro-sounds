@@ -63,38 +63,15 @@ const Home = () => {
     setLoaderAnimating(true);
   };
 
-  const handleUserInteraction = () => {
-    // Unlock video playback on mobile by playing then immediately pausing
-    // This requires user interaction before video.play() will work on mobile
-    if (videoRef.current) {
-      videoRef.current.play()
-        .then(() => {
-          // Immediately pause - we just needed to unlock the video
-          videoRef.current.pause();
-          console.log("Video unlocked for mobile playback");
-        })
-        .catch(() => {
-          // Ignore errors - video will try again on preloader complete
-        });
-    }
-  };
-
   const handlePreloaderComplete = () => {
     setShowPreloader(false);
     setStatus('entered');
     setScrollIndicatorHidden(false);
 
-    // Play video from 00:00 after preloader
-    // Video should be unlocked by user interaction with preloader
+    // Reset video to 00:00 and ensure it's playing
+    // autoPlay attribute handles initial playback on mobile
     if (videoRef.current) {
-      videoRef.current.play().catch(() => {
-        console.log("Video play blocked - waiting for interaction");
-        // Fallback: retry on next user interaction if still blocked
-        const retry = () => videoRef.current?.play().catch(() => {});
-        ['click', 'touchstart'].forEach(event =>
-          document.addEventListener(event, retry, { once: true, passive: true })
-        );
-      });
+      videoRef.current.play();
     }
   };
 
@@ -243,7 +220,6 @@ const Home = () => {
           showPreloader={showPreloader}
           setLoaderAnimating={setLoaderAnimating}
           onComplete={handlePreloaderComplete}
-          onUserInteraction={handleUserInteraction}
         />
       )}
 

@@ -8,6 +8,30 @@ import "./BackgroundVideo.css";
 const BackgroundVideo = forwardRef(({ onVideoLoaded, onVideoError }, ref) => {
   const videoRef = useRef(null);
   const [isReady, setIsReady] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
+
+  // Handle mobile interaction requirement for video playback
+  // Mobile browsers require user interaction before video.play() works
+  useEffect(() => {
+    const handleInteraction = () => {
+      if (!hasInteracted) {
+        setHasInteracted(true);
+        console.log("📱 User interaction detected - video playback unlocked");
+      }
+    };
+
+    // Listen for any user interaction to unlock video on mobile
+    const events = ['touchstart', 'click', 'pointerdown'];
+    events.forEach(event => {
+      document.addEventListener(event, handleInteraction, { once: true, passive: true });
+    });
+
+    return () => {
+      events.forEach(event => {
+        document.removeEventListener(event, handleInteraction);
+      });
+    };
+  }, [hasInteracted]);
 
   // Expose video control methods to parent component
   useImperativeHandle(ref, () => ({

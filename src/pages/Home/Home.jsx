@@ -48,6 +48,29 @@ const Home = () => {
     };
   }, []);
 
+  /**
+   * Mobile autoplay unlock - enables video playback on first user interaction
+   * Required for iOS and some Android devices that block autoplay
+   */
+  useEffect(() => {
+    const unlockAutoplay = () => {
+      if (videoRef.current && videoRef.current.paused) {
+        videoRef.current.play().catch(() => {
+          // Silently fail - video will play after preloader
+        });
+      }
+    };
+
+    // Listen for any user interaction to unlock playback
+    document.addEventListener('touchstart', unlockAutoplay, { once: true });
+    document.addEventListener('click', unlockAutoplay, { once: true });
+
+    return () => {
+      document.removeEventListener('touchstart', unlockAutoplay);
+      document.removeEventListener('click', unlockAutoplay);
+    };
+  }, []);
+
   // Control Lenis scroll based on preloader animation state
   useEffect(() => {
     if (lenis) {
@@ -59,24 +82,26 @@ const Home = () => {
     }
   }, [lenis, loaderAnimating]);
 
-  const handleVideoLoaded = () => {
-    setLoaderAnimating(true);
-  };
-
-  const handlePreloaderComplete = () => {
+  /**
+   * Called when preloader animation completes
+   * Starts video playback from 00:00
+   */
+  const handlePreloaderComplete = async () => {
     setShowPreloader(false);
     setStatus('entered');
     setScrollIndicatorHidden(false);
 
-    // Reset video to 00:00 and ensure it's playing
-    // autoPlay attribute handles initial playback on mobile
+    // Start video from beginning after preloader completes
     if (videoRef.current) {
-      videoRef.current.play();
+      try {
+        videoRef.current.currentTime = 0;
+        await videoRef.current.play();
+      } catch (error) {
+        // Mobile autoplay failed - this is expected on some devices
+        // The muted + playsInline attributes should handle most cases
+        console.warn("Video autoplay blocked:", error.message);
+      }
     }
-  };
-
-  const handleVideoError = (error) => {
-    console.error("Video error:", error);
   };
 
   const handleScrollClick = (e) => {
@@ -231,11 +256,7 @@ const Home = () => {
           </div>
         <section id="hero" className="hero">
       
-          <BackgroundVideo
-            ref={videoRef}
-            onVideoLoaded={handleVideoLoaded}
-            onVideoError={handleVideoError}
-          />
+          <BackgroundVideo ref={videoRef} />
 
           <div className="hero-header">
             <AnimatedCopy tag="h1" animateOnScroll="true">

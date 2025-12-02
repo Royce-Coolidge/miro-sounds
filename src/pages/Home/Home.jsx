@@ -64,37 +64,16 @@ const Home = () => {
   };
 
   const handlePreloaderComplete = () => {
-    console.log("🎉 Preloader complete! Starting video...");
+    console.log("Preloader complete");
     setShowPreloader(false);
     setStatus('entered');
     setScrollIndicatorHidden(false);
 
-    // Play video from 00:00 after preloader completes
-    // The play() method in BackgroundVideo resets currentTime automatically
+    // Start video from 00:00
     if (videoRef.current) {
-      console.log("🎉 videoRef exists, calling play()");
       videoRef.current.play().catch((error) => {
-        console.error("🎉 ❌ Video playback failed (likely autoplay policy):", error);
-        console.log("🎉 Will retry on user interaction...");
-
-        // Setup one-time event listener to play video on first user interaction
-        const playOnInteraction = () => {
-          console.log("🎉 User interacted, retrying video play...");
-          if (videoRef.current) {
-            videoRef.current.play().catch((retryError) => {
-              console.error("🎉 ❌ Video playback failed on retry:", retryError);
-            });
-          }
-        };
-
-        // Listen for any user interaction
-        const events = ['click', 'touchstart', 'pointerdown', 'keydown'];
-        events.forEach(event => {
-          document.addEventListener(event, playOnInteraction, { once: true, passive: true });
-        });
+        console.error("Video autoplay blocked:", error.message);
       });
-    } else {
-      console.error("🎉 ❌ videoRef.current is null!");
     }
   };
 

@@ -64,15 +64,18 @@ const Home = () => {
   };
 
   const handlePreloaderComplete = () => {
-    console.log("Preloader complete");
     setShowPreloader(false);
     setStatus('entered');
     setScrollIndicatorHidden(false);
 
-    // Start video from 00:00
+    // Video autoplays via HTML attribute, but call play() to ensure 00:00 start
     if (videoRef.current) {
-      videoRef.current.play().catch((error) => {
-        console.error("Video autoplay blocked:", error.message);
+      videoRef.current.play().catch(() => {
+        // Fallback: retry on user interaction if autoplay blocked
+        const retry = () => videoRef.current?.play().catch(() => {});
+        ['click', 'touchstart'].forEach(event =>
+          document.addEventListener(event, retry, { once: true, passive: true })
+        );
       });
     }
   };

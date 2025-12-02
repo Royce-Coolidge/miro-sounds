@@ -84,6 +84,14 @@ const Home = () => {
     }
   }, [lenis, loaderAnimating]);
 
+  const handleVideoLoaded = () => {
+    setLoaderAnimating(true);
+  };
+
+  const handleVideoError = (error) => {
+    console.error("Video error:", error);
+  };
+  
 const handlePreloaderComplete = () => {
     setShowPreloader(false);
     setStatus('entered');
@@ -253,7 +261,8 @@ const handlePreloaderComplete = () => {
           </div>
         <section id="hero" className="hero">
       
-          <BackgroundVideo ref={videoRef} />
+          <BackgroundVideo ref={videoRef} onVideoLoaded={handleVideoLoaded}
+            onVideoError={handleVideoError} />
 
           <div className="hero-header">
             <AnimatedCopy tag="h1" animateOnScroll="true">

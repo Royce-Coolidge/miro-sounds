@@ -64,7 +64,7 @@ const Home = () => {
     // Listen for any user interaction to unlock playback
     document.addEventListener('touchstart', unlockAutoplay, { once: true });
 
-    
+
     document.addEventListener('click', unlockAutoplay, { once: true });
 
     return () => {
@@ -84,25 +84,20 @@ const Home = () => {
     }
   }, [lenis, loaderAnimating]);
 
-  /**
-   * Called when preloader animation completes
-   * Starts video playback from 00:00
-   */
-  const handlePreloaderComplete = async () => {
+const handlePreloaderComplete = () => {
     setShowPreloader(false);
     setStatus('entered');
     setScrollIndicatorHidden(false);
 
-    // Start video from beginning after preloader completes
+    // Attempt video playback without blocking (fire-and-forget)
+    // Mobile browsers often block autoplay, so we don't await
     if (videoRef.current) {
-      try {
-        videoRef.current.currentTime = 0;
-        await videoRef.current.play();
-      } catch (error) {
-        // Mobile autoplay failed - this is expected on some devices
-        // The muted + playsInline attributes should handle most cases
-        console.warn("Video autoplay blocked:", error.message);
-      }
+      // Use setTimeout to ensure state updates aren't blocked
+      setTimeout(() => {
+        videoRef.current.play().catch((error) => {
+          console.warn("Video playback failed (expected on mobile):", error);
+        });
+      }, 100);
     }
   };
 

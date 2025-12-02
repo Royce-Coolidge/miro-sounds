@@ -281,7 +281,7 @@ const Home = () => {
             <p className="primary sm"></p>
           </div>
           <h2 ref={(el) => (titlesRef.current[0] = el)}>
-            From first ideas <br></br> to last dance...
+            From first ideas <br></br> to the last dance...
           </h2>
           <h2 ref={(el) => (titlesRef.current[1] = el)}>
             WE DESIGN & DELIVER THE PERFECT ENTERTAINMENT          </h2>
@@ -300,13 +300,13 @@ const Home = () => {
           <div className="home-work-list">
             <div className="home-work-item">
               <h3>How We Work</h3>
-              <h4>Exceptional music & entertainment curated for any event</h4>
-              <p>For individuals, event planners and brands seeking bespoke support for private parties, weddings and live experiences, we curate elevated music to soundtrack your celebrations.</p>
+              <h4>Elevated music for exceptional events</h4>
+              <p>For individuals, event planners and brands seeking bespoke support for private parties, exclusive weddings and live experiences.</p>
               <p>
-                Party bands, DJ sets, big names or best-kept secrets. Background tunes, headline moments or hangover healers - we’ll source and coordinate your dream line-up. All genres in any venue - from old classics to disco house bangers, Brazilian beats to rhythm & blues, luxury marquees to candlelit rooftops.
+                Big names, hidden gems, live bands or epic DJ sets. Background tunes or headline moments - we’ll source and coordinate your dream line-up. Any style - from timeless classics to disco house bangers, jazz quartets to Ska ensembles, Brazilian grooves to rhythm & blues. Across any setting, from luxury marquees to candlelit rooftops.
               </p>
               <p>
-                And if you want to go beyond music, we also love to help add extra spice with further entertainment like comedy, art, speakers and more.
+              And if you’re looking for more than music, we can bring extra energy with immersive performers, live art, comedy, speakers and more.
               </p>
                <img src={MiroIcon} alt="Miro Icon" className="miro-icon" width={10} height={10} />
             </div>

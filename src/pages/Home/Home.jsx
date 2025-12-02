@@ -63,6 +63,8 @@ const Home = () => {
 
     // Listen for any user interaction to unlock playback
     document.addEventListener('touchstart', unlockAutoplay, { once: true });
+
+    
     document.addEventListener('click', unlockAutoplay, { once: true });
 
     return () => {

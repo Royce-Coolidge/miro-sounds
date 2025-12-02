@@ -15,6 +15,7 @@ const BackgroundVideo = forwardRef((props, ref) => {
         loop
         playsInline
         preload="auto"
+        autoPlay
         webkit-playsinline="true"
       />
     </div>

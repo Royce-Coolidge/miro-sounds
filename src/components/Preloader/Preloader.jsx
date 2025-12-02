@@ -21,16 +21,16 @@ export default function Preloader({ showPreloader, setLoaderAnimating, onComplet
 
     if (showPreloader) {
       // Failsafe: ensure preloader completes even if animation fails
-      const failsafeTimeout = setTimeout(() => {
-        console.warn("Preloader failsafe triggered");
-        setLoaderAnimating(false);
-        onComplete();
-      }, 10000); // 10 second max
+      // const failsafeTimeout = setTimeout(() => {
+      //   console.warn("Preloader failsafe triggered");
+      //   setLoaderAnimating(false);
+      //   onComplete();
+      // }, 10000); // 10 second max
 
       // Clear failsafe when animation completes normally
-      tl.eventCallback("onComplete", () => {
-        clearTimeout(failsafeTimeout);
-      });
+      // tl.eventCallback("onComplete", () => {
+      //   clearTimeout(failsafeTimeout);
+      // });
       setLoaderAnimating(true);
       const counts = document.querySelectorAll(".count");
 

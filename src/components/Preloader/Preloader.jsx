@@ -10,7 +10,7 @@ CustomEase.create("hop", "0.9, 0, 0.1, 1");
  * Preloader component with animated loading sequence
  * Displays counter animation, logo reveal, and transition
  */
-export default function Preloader({ showPreloader, setLoaderAnimating, onComplete }) {
+export default function Preloader({ showPreloader, setLoaderAnimating, onComplete, onUserInteraction }) {
   useGSAP(() => {
     const tl = gsap.timeline({
       delay: 0.3,
@@ -110,8 +110,20 @@ export default function Preloader({ showPreloader, setLoaderAnimating, onComplet
     return null;
   }
 
+  // Capture user interaction to unlock video playback on mobile
+  const handleInteraction = () => {
+    if (onUserInteraction) {
+      onUserInteraction();
+    }
+  };
+
   return (
-    <div className="loader">
+    <div
+      className="loader"
+      onClick={handleInteraction}
+      onTouchStart={handleInteraction}
+      style={{ cursor: 'pointer' }}
+    >
       <div className="overlay">
         <div className="block"></div>
         <div className="block"></div>

@@ -55,7 +55,6 @@ const BackgroundVideo = forwardRef(({ onVideoLoaded, onVideoError }, ref) => {
         ref={videoRef}
         src="/home/hero.mp4"
         type="video/mp4"
-        autoPlay
         muted
         loop
         playsInline

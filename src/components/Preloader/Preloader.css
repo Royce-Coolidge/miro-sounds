@@ -158,7 +158,7 @@
   background: transparent;
   border: 1px solid var(--bgrory);
   color: var(--bgrory);
-  font-family: inherit;
+  font-family: "Messina Sans Mono";
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;

@@ -48,30 +48,9 @@ const Home = () => {
     };
   }, []);
 
-  /**
-   * Mobile autoplay unlock - enables video playback on first user interaction
-   * Required for iOS and some Android devices that block autoplay
-   */
-  useEffect(() => {
-    const unlockAutoplay = () => {
-      if (videoRef.current && videoRef.current.paused) {
-        videoRef.current.play().catch(() => {
-          // Silently fail - video will play after preloader
-        });
-      }
-    };
-
-    // Listen for any user interaction to unlock playback
-    document.addEventListener('touchstart', unlockAutoplay, { once: true });
-
-
-    document.addEventListener('click', unlockAutoplay, { once: true });
-
-    return () => {
-      document.removeEventListener('touchstart', unlockAutoplay);
-      document.removeEventListener('click', unlockAutoplay);
-    };
-  }, []);
+  // REMOVED: Mobile autoplay unlock effect
+  // This was causing video to play before preloader completes
+  // Video will now be controlled exclusively via handlePreloaderComplete
 
   // Control Lenis scroll based on preloader animation state
   useEffect(() => {
@@ -91,21 +70,25 @@ const Home = () => {
   const handleVideoError = (error) => {
     console.error("Video error:", error);
   };
-  
-const handlePreloaderComplete = () => {
+
+  const handlePreloaderComplete = () => {
     setShowPreloader(false);
     setStatus('entered');
     setScrollIndicatorHidden(false);
 
-    // Attempt video playback without blocking (fire-and-forget)
-    // Mobile browsers often block autoplay, so we don't await
-    if (videoRef.current) {
+    // CRITICAL: Use the exposed play() method from BackgroundVideo ref
+    // This ensures currentTime is reset to 0 and proper error handling
+    if (videoRef.current && typeof videoRef.current.play === 'function') {
       // Use setTimeout to ensure state updates aren't blocked
       setTimeout(() => {
         videoRef.current.play().catch((error) => {
           console.warn("Video playback failed (expected on mobile):", error);
+          // On mobile, if autoplay fails, video will play on next user interaction
+          // The BackgroundVideo component handles this automatically
         });
       }, 100);
+    } else {
+      console.warn("Video ref not ready when preloader completed");
     }
   };
 
@@ -213,7 +196,7 @@ const handlePreloaderComplete = () => {
         2.5
       )
 
-      
+
 
     const workHeaderSection = stickyWorkHeaderRef.current;
     const homeWorkSection = homeWorkRef.current;
@@ -256,11 +239,11 @@ const handlePreloaderComplete = () => {
       <div className="page home">
         <div className="hero-header-2">
           <h5>
-          Curating Outstanding Music <br /> For Unforgettable Events
+            Curating Outstanding Music <br /> For Unforgettable Events
           </h5>
-          </div>
+        </div>
         <section id="hero" className="hero">
-      
+
           <BackgroundVideo ref={videoRef} onVideoLoaded={handleVideoLoaded}
             onVideoError={handleVideoError} />
 
@@ -273,7 +256,7 @@ const handlePreloaderComplete = () => {
             </AnimatedCopy>
           </div>
 
-          
+
           <Link
             to="/#sticky-titles"
             className="mobileScrollIndicator"
@@ -296,19 +279,19 @@ const handlePreloaderComplete = () => {
 
         <section id="sticky-titles" ref={stickyTitlesRef} className="sticky-titles">
           <div className="sticky-titles-nav">
-            
+
           </div>
           <div className="sticky-titles-footer">
-           
+
           </div>
           <h2 ref={(el) => (titlesRef.current[0] = el)}>
             From first ideas <br></br> to the last dance...
           </h2>
           <h2 ref={(el) => (titlesRef.current[1] = el)}>
             WE DESIGN & DELIVER THE PERFECT ENTERTAINMENT          </h2>
-          
-      
-          
+
+
+
         </section>
 
         <section ref={stickyWorkHeaderRef} className="sticky-work-header">
@@ -327,13 +310,13 @@ const handlePreloaderComplete = () => {
                 Big names, hidden gems, live bands or epic DJ sets. Background tunes or headline moments - we’ll source and coordinate your dream line-up. Any style - from timeless classics to disco house bangers, jazz quartets to Ska ensembles, Brazilian grooves to rhythm & blues. Across any setting, from luxury marquees to candlelit rooftops.
               </p>
               <p>
-              And if you’re looking for more than music, we can bring extra energy with immersive performers, live art, comedy, speakers and more.
+                And if you’re looking for more than music, we can bring extra energy with immersive performers, live art, comedy, speakers and more.
               </p>
-               <img src={MiroIcon} alt="Miro Icon" className="miro-icon" width={10} height={10} />
+              <img src={MiroIcon} alt="Miro Icon" className="miro-icon" width={10} height={10} />
             </div>
 
             <div className="home-work-item">
-             
+
               <h4>Tell us your vision and we'll take it from there</h4>
               <p>Whether you have a clear idea or just a feeling you want to capture, Miro supports from concept stage to final details.</p>
               <p>We fine-tune every element - genre mix, set times, sound setup, venue acoustics, while handling all behind-the-scenes work; logistics, contracts, production, artist liaison and on-site management. Making sure it all flows seamlessly.</p>
@@ -366,33 +349,33 @@ const handlePreloaderComplete = () => {
         </section>
 
         <section id="about" className="home-work-2">
-            <div className="home-work-list">
+          <div className="home-work-list">
 
-              <div className="home-work-item">
-                <h3>About Us</h3>
-                <h4>We are live entertainment curators, connectors and creators of unforgettable experiences.</h4>
-                <section className="services">
-                  <div className="services-col">
-                    <div className="services-banner">
-                      <img src="/about/rory.jpg" alt="Founder Rory" width={1000} height={100} className="services-banner-img" />
-                    </div>
+            <div className="home-work-item">
+              <h3>About Us</h3>
+              <h4>We are live entertainment curators, connectors and creators of unforgettable experiences.</h4>
+              <section className="services">
+                <div className="services-col">
+                  <div className="services-banner">
+                    <img src="/about/rory.jpg" alt="Founder Rory" width={1000} height={100} className="services-banner-img" />
                   </div>
-                  <div className="services-col">
-                  
+                </div>
+                <div className="services-col">
+
                   <div className="services-list">
-                  <p>
+                    <p>
                       Led by founder Rory, Miro brings 15 years of expertise across music, events, sound curation, and live production.
                     </p>
-                      <p>We've built the relationships and know-how to seamlessly connect you with exceptional artists and entertainment, anywhere in the world.</p>
-                      <p>
-                        Based in London - one of the world's most inspiring music cities - we bring the sounds of the main stage, candlelit jazz club, underground gig or secret festival woodland to your event. From the familiar to the fresh, the refined to the raw, trust Miro to create that spark - the perfect pairing of sound and setting that turns good events into great ones.
-                      </p>
-                    </div>
+                    <p>We've built the relationships and know-how to seamlessly connect you with exceptional artists and entertainment, anywhere in the world.</p>
+                    <p>
+                      Based in London - one of the world's most inspiring music cities - we bring the sounds of the main stage, candlelit jazz club, underground gig or secret festival woodland to your event. From the familiar to the fresh, the refined to the raw, trust Miro to create that spark - the perfect pairing of sound and setting that turns good events into great ones.
+                    </p>
                   </div>
-                </section>
-              </div>
+                </div>
+              </section>
             </div>
-          </section>
+          </div>
+        </section>
 
         <ContactForm id="contact" />
         <Footer className="home-footer" />

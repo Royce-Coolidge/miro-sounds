@@ -4,14 +4,20 @@ import "./BackgroundVideo.css";
 /**
  * Background video component with controlled playback
  * Exposes play/pause methods via ref for parent control
+ * 
+ * IMPORTANT: Video will NOT autoplay - it waits for explicit play() call from parent
+ * This ensures proper coordination with preloader animations
  */
-const BackgroundVideo = forwardRef(({ onVideoLoaded, onVideoError }, ref) => {
+const BackgroundVideo = forwardRef(({ onVideoLoaded, onVideoError, shouldAutoplay = false }, ref) => {
   const videoRef = useRef(null);
   const [isReady, setIsReady] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
 
   // Try to play video on first user interaction (mobile autoplay workaround)
+  // Only if shouldAutoplay is true (for cases where preloader is skipped)
   useEffect(() => {
+    if (!shouldAutoplay) return; // Don't try to autoplay if waiting for preloader
+
     const tryPlayOnInteraction = () => {
       if (!hasInteracted && videoRef.current) {
         setHasInteracted(true);
@@ -40,13 +46,17 @@ const BackgroundVideo = forwardRef(({ onVideoLoaded, onVideoError }, ref) => {
         window.removeEventListener(event, tryPlayOnInteraction);
       });
     };
-  }, [hasInteracted]);
+  }, [hasInteracted, shouldAutoplay]);
 
   // Expose video control methods to parent component
   useImperativeHandle(ref, () => ({
     play: async () => {
       if (videoRef.current) {
         try {
+          // CRITICAL: Reset video to beginning before playing
+          // This ensures video always starts from 0:00
+          videoRef.current.currentTime = 0;
+          
           // Try to play even if not marked as ready
           // This is important for mobile where ready state might be delayed
           await videoRef.current.play();
@@ -66,12 +76,20 @@ const BackgroundVideo = forwardRef(({ onVideoLoaded, onVideoError }, ref) => {
       }
     },
     isReady: () => isReady,
+    // Expose method to reset video to beginning
+    reset: () => {
+      if (videoRef.current) {
+        videoRef.current.currentTime = 0;
+      }
+    },
   }));
 
   const handleCanPlay = () => {
     setIsReady(true);
-    // Attempt to play immediately when ready (important for mobile)
-    if (videoRef.current) {
+    
+    // Only attempt autoplay if explicitly allowed
+    // Otherwise, wait for parent component to call play() via ref
+    if (shouldAutoplay && videoRef.current) {
       const playPromise = videoRef.current.play();
       if (playPromise !== undefined) {
         playPromise.catch((error) => {
@@ -80,6 +98,7 @@ const BackgroundVideo = forwardRef(({ onVideoLoaded, onVideoError }, ref) => {
         });
       }
     }
+    
     if (onVideoLoaded) {
       onVideoLoaded();
     }
@@ -90,15 +109,33 @@ const BackgroundVideo = forwardRef(({ onVideoLoaded, onVideoError }, ref) => {
     // This can fire earlier than onCanPlay on some mobile devices
     if (videoRef.current && !isReady) {
       setIsReady(true);
-      const playPromise = videoRef.current.play();
-      if (playPromise !== undefined) {
-        playPromise.catch((error) => {
-          // Autoplay may fail - that's expected on some mobile browsers
-          console.warn("Autoplay prevented on data load:", error);
-        });
+      
+      // Ensure video is paused initially (unless shouldAutoplay is true)
+      if (!shouldAutoplay && videoRef.current) {
+        videoRef.current.pause();
+        videoRef.current.currentTime = 0;
+      }
+      
+      // Only attempt autoplay if explicitly allowed
+      if (shouldAutoplay) {
+        const playPromise = videoRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise.catch((error) => {
+            // Autoplay may fail - that's expected on some mobile browsers
+            console.warn("Autoplay prevented on data load:", error);
+          });
+        }
       }
     }
   };
+
+  // Ensure video stays paused on mount and when shouldAutoplay changes
+  useEffect(() => {
+    if (videoRef.current && !shouldAutoplay) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+    }
+  }, [shouldAutoplay]);
 
   const handleError = (e) => {
     console.error("Video failed to load:", e);
@@ -113,7 +150,6 @@ const BackgroundVideo = forwardRef(({ onVideoLoaded, onVideoError }, ref) => {
         ref={videoRef}
         src="/home/hero.mp4"
         type="video/mp4"
-        autoPlay
         muted
         loop
         playsInline
@@ -121,6 +157,8 @@ const BackgroundVideo = forwardRef(({ onVideoLoaded, onVideoError }, ref) => {
         onCanPlay={handleCanPlay}
         onLoadedData={handleLoadedData}
         onError={handleError}
+        // REMOVED: autoPlay attribute - video will be controlled via ref
+        // This prevents video from starting before preloader completes
       />
     </div>
   );

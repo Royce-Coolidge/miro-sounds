@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import "./Preloader.css";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -9,8 +10,28 @@ CustomEase.create("hop", "0.9, 0, 0.1, 1");
 /**
  * Preloader component with animated loading sequence
  * Displays counter animation, logo reveal, and transition
+ * 
+ * @param {boolean} showPreloader - Whether to show the preloader
+ * @param {function} setLoaderAnimating - Callback to set loader animation state
+ * @param {function} onComplete - Callback when preloader animation completes
+ * @param {function} onEnterClick - Optional callback for mobile "Enter Site" button click
  */
-export default function Preloader({ showPreloader, setLoaderAnimating, onComplete }) {
+export default function Preloader({ showPreloader, setLoaderAnimating, onComplete, onEnterClick }) {
+  const [showButton, setShowButton] = useState(false);
+
+  // Show button after 2500ms delay
+  useEffect(() => {
+    if (showPreloader && onEnterClick) {
+      const timer = setTimeout(() => {
+        setShowButton(true);
+      }, 2500);
+
+      return () => clearTimeout(timer);
+    } else {
+      setShowButton(false);
+    }
+  }, [showPreloader, onEnterClick]);
+
   useGSAP(() => {
     const tl = gsap.timeline({
       delay: 0.3,
@@ -70,7 +91,7 @@ export default function Preloader({ showPreloader, setLoaderAnimating, onComplet
         "<"
       );
 
-  
+
 
       tl.to("#word-1 h1", {
         y: "100%",
@@ -126,7 +147,7 @@ export default function Preloader({ showPreloader, setLoaderAnimating, onComplet
           <h1>Sounds</h1>
         </div>
       </div>
-    
+
       <div className="counter">
         <div className="count">
           <div className="digit">
@@ -169,6 +190,18 @@ export default function Preloader({ showPreloader, setLoaderAnimating, onComplet
           </div>
         </div>
       </div>
+
+      {/* Mobile-only "Enter Site" button - unlocks video and completes preloader */}
+      {/* Button appears after 2500ms delay */}
+      {onEnterClick && showButton && (
+        <button
+          className="preloader-enter-button"
+          onClick={onEnterClick}
+          aria-label="Enter site"
+        >
+          Enter Site
+        </button>
+      )}
     </div>
   );
 }

@@ -146,6 +146,52 @@
   will-change: transform;
 }
 
+/* Mobile-only "Enter Site" button */
+.preloader-enter-button {
+  display: none;
+  /* Hidden on desktop */
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 1rem 2rem;
+  background: transparent;
+  border: 1px solid var(--bgrory);
+  color: var(--bgrory);
+  font-family: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0;
+  animation: fadeInButton 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeInButton {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.preloader-enter-button:hover,
+.preloader-enter-button:active {
+  background: var(--bgrory);
+  color: var(--fgrory);
+}
+
+.preloader-enter-button:focus {
+  outline: 2px solid var(--bgrory);
+  outline-offset: 2px;
+}
+
 @media (max-width: 1000px) {
   .loader .counter .count .digit h1 {
     font-size: 2rem;
@@ -153,5 +199,10 @@
 
   .loader .counter .count .digit {
     padding-top: 0.25rem;
+  }
+
+  /* Show button on mobile only */
+  .preloader-enter-button {
+    display: block;
   }
 }

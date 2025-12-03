@@ -82,6 +82,32 @@ const BackgroundVideo = forwardRef(({ onVideoLoaded, onVideoError, shouldAutopla
         videoRef.current.currentTime = 0;
       }
     },
+    /**
+     * Unlock video playback on mobile by calling play() then pause()
+     * This must be called during a user interaction event to work on mobile
+     * After unlocking, play() can be called later without user interaction
+     */
+    unlock: async () => {
+      if (videoRef.current) {
+        try {
+          // On mobile, calling play() during user interaction unlocks the video
+          // We immediately pause it, but the unlock persists
+          const playPromise = videoRef.current.play();
+          if (playPromise !== undefined) {
+            await playPromise;
+            // Immediately pause - we just needed to unlock it
+            videoRef.current.pause();
+            videoRef.current.currentTime = 0;
+            return true;
+          }
+        } catch (error) {
+          // If unlock fails, that's okay - we'll try again
+          console.warn("Video unlock failed:", error);
+          return false;
+        }
+      }
+      return false;
+    },
   }));
 
   const handleCanPlay = () => {

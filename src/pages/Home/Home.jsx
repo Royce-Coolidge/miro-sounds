@@ -30,6 +30,7 @@ const Home = () => {
   const stickyWorkHeaderRef = useRef(null);
   const homeWorkRef = useRef(null);
   const videoRef = useRef(null);
+  const videoUnlockedRef = useRef(false); // Track if video has been unlocked via user interaction
 
   // State
   const [showPreloader, setShowPreloader] = useState(isInitialLoad);
@@ -47,10 +48,6 @@ const Home = () => {
       setStatus('entered');
     };
   }, []);
-
-  // REMOVED: Mobile autoplay unlock effect
-  // This was causing video to play before preloader completes
-  // Video will now be controlled exclusively via handlePreloaderComplete
 
   // Control Lenis scroll based on preloader animation state
   useEffect(() => {
@@ -71,24 +68,40 @@ const Home = () => {
     console.error("Video error:", error);
   };
 
+  /**
+   * Handles "Enter Site" button click on mobile
+   * Unlocks video playback and completes preloader
+   */
+  const handleEnterSiteClick = async () => {
+    if (!videoUnlockedRef.current && videoRef.current) {
+      // Unlock video during user interaction (required for mobile autoplay)
+      if (typeof videoRef.current.unlock === 'function') {
+        await videoRef.current.unlock();
+        videoUnlockedRef.current = true;
+      }
+    }
+
+    // Complete preloader - this will trigger video playback
+    handlePreloaderComplete();
+  };
+
+  /**
+   * Handles preloader animation completion
+   * Plays video if it has been unlocked (via "Enter Site" button on mobile)
+   */
   const handlePreloaderComplete = () => {
     setShowPreloader(false);
     setStatus('entered');
     setScrollIndicatorHidden(false);
 
-    // CRITICAL: Use the exposed play() method from BackgroundVideo ref
-    // This ensures currentTime is reset to 0 and proper error handling
+    // Play video if it's ready and unlocked
     if (videoRef.current && typeof videoRef.current.play === 'function') {
-      // Use setTimeout to ensure state updates aren't blocked
       setTimeout(() => {
         videoRef.current.play().catch((error) => {
-          console.warn("Video playback failed (expected on mobile):", error);
-          // On mobile, if autoplay fails, video will play on next user interaction
-          // The BackgroundVideo component handles this automatically
+          // On desktop, this should work. On mobile, video should be unlocked via button
+          console.warn("Video playback failed:", error);
         });
       }, 100);
-    } else {
-      console.warn("Video ref not ready when preloader completed");
     }
   };
 
@@ -233,6 +246,7 @@ const Home = () => {
           showPreloader={showPreloader}
           setLoaderAnimating={setLoaderAnimating}
           onComplete={handlePreloaderComplete}
+          onEnterClick={handleEnterSiteClick}
         />
       )}
 

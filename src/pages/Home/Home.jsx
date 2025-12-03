@@ -73,16 +73,16 @@ const Home = () => {
     };
   }, []);
 
-  // // Control Lenis scroll based on preloader animation state
-  // useEffect(() => {
-  //   if (lenis) {
-  //     if (loaderAnimating) {
-  //       lenis.stop();
-  //     } else {
-  //       lenis.start();
-  //     }
-  //   }
-  // }, [lenis, loaderAnimating]);
+  // Control Lenis scroll based on preloader animation state
+  useEffect(() => {
+    if (lenis) {
+      if (loaderAnimating) {
+        lenis.stop();
+      } else {
+        lenis.start();
+      }
+    }
+  }, [lenis, loaderAnimating]);
 
   const handleVideoLoaded = () => {
     setLoaderAnimating(true);

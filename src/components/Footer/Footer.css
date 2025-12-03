@@ -68,7 +68,8 @@
   position: relative;
   font-family: "Atelier";
   left: -0.5vw;
-  font-size: 13vw;
+  font-size: 10vw;
+  
 }
 
 .footer-copyright-line {
@@ -99,6 +100,11 @@
 
   .footer-header {
     padding: 1em 0;
+    gap: 1em;
+  }
+
+  .footer-header h1 {
+    font-size: 12vw;
   }
 
   .footer {

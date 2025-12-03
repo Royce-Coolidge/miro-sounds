@@ -2,6 +2,7 @@ import React from "react";
 import "./Footer.css";
 
 import { Link } from "react-router-dom";
+import AnimatedCopy from "../AnimatedCopy/AnimatedCopy";
 
 const Footer = ( { className, children } ) => {
   return (
@@ -15,8 +16,8 @@ const Footer = ( { className, children } ) => {
       </div>
       <div className="footer-row">
         <div className="footer-header">
-          <h1>MIRO</h1>
-          <h1>SOUNDS</h1>
+          <AnimatedCopy animateOnScroll={false} delay={0.2} tag="h1">MIRO</AnimatedCopy>
+          <AnimatedCopy animateOnScroll={false} delay={0.2} tag="h1">SOUNDS</AnimatedCopy>
         </div>
 
         <div className="footer-copyright-line">

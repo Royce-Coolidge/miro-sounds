@@ -287,7 +287,7 @@ const Home = () => {
         {
           opacity: 0,
           scale: 0.75,
-          duration: 0.2,
+          duration: 1,
           ease: "power2.out",
         },
         1
@@ -298,10 +298,10 @@ const Home = () => {
         {
           opacity: 1,
           scale: 1,
-          duration: 0.2,
+          duration: 1,
           ease: "power2.in",
         },
-        1.25
+        0.5
       );
 
     masterTimeline
@@ -310,7 +310,7 @@ const Home = () => {
         {
           opacity: 0,
           scale: 0.75,
-          duration: 0.2,
+          duration: 1,
           ease: "power2.out",
         },
         2.5

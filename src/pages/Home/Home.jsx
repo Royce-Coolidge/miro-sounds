@@ -88,9 +88,11 @@ const Home = () => {
   /**
    * Handles preloader animation completion
    * Plays video if it has been unlocked (via "Enter Site" button on mobile)
+   * CRITICAL: Must set loaderAnimating to false to enable scroll
    */
   const handlePreloaderComplete = () => {
     setShowPreloader(false);
+    setLoaderAnimating(false); // CRITICAL: Enable scroll by stopping loader animation
     setStatus('entered');
     setScrollIndicatorHidden(false);
 

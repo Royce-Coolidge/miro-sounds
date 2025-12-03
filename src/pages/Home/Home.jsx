@@ -299,7 +299,7 @@ const handlePreloaderComplete = () => {
             
           </div>
           <div className="sticky-titles-footer">
-            <p className="primary sm"></p>
+           
           </div>
           <h2 ref={(el) => (titlesRef.current[0] = el)}>
             From first ideas <br></br> to the last dance...

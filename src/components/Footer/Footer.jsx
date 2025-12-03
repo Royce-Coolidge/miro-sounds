@@ -16,8 +16,8 @@ const Footer = ( { className, children } ) => {
       </div>
       <div className="footer-row">
         <div className="footer-header">
-          <AnimatedCopy animateOnScroll={false} delay={0.2} tag="h1">MIRO</AnimatedCopy>
-          <AnimatedCopy animateOnScroll={false} delay={0.2} tag="h1">SOUNDS</AnimatedCopy>
+          <AnimatedCopy animateOnScroll={true} delay={0.2} tag="h1">MIRO</AnimatedCopy>
+          <AnimatedCopy animateOnScroll={true} delay={0.2} tag="h1">SOUNDS</AnimatedCopy>
         </div>
 
         <div className="footer-copyright-line">

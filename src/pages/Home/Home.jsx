@@ -369,10 +369,10 @@ const Home = () => {
             onVideoError={handleVideoError} />
 
           <div className="hero-header">
-            <AnimatedCopy tag="h1" animateOnScroll="true">
+            <AnimatedCopy tag="h1" animateOnScroll={false} delay={7.25}>
               Miro
             </AnimatedCopy>
-            <AnimatedCopy tag="h1" animateOnScroll="true">
+            <AnimatedCopy tag="h1" animateOnScroll={false} delay={7.25}>
               sounds
             </AnimatedCopy>
           </div>
@@ -428,7 +428,7 @@ const Home = () => {
               <h4>Elevated music for exceptional events</h4>
               <p>For individuals, event planners and brands seeking bespoke support for private parties, exclusive weddings and live experiences.</p>
               <p>
-                Big names, hidden gems, live bands or epic DJ sets. Background tunes or headline moments - we’ll source and coordinate your dream line-up. Any style - from timeless classics to disco house bangers, jazz quartets to Ska ensembles, Brazilian grooves to rhythm & blues. Across any setting, from luxury marquees to candlelit rooftops.
+                Big names, hidden gems, live bands or epic DJ sets. Background tunes or headline moments - we’ll source and coordinate your dream line-up. Any style - from timeless classics to disco house bangers, jazz quartets to brass ensembles, Brazilian grooves to rhythm & blues. Across any setting, from luxury marquees to candlelit rooftops.
               </p>
               <p>
                 And if you’re looking for more than music, we can bring extra energy with immersive performers, live art, comedy, speakers and more.

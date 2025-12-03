@@ -69,6 +69,7 @@
   font-family: "Atelier";
   left: -0.5vw;
   font-size: 10vw;
+  line-height: 1;
   
 }
 
@@ -85,7 +86,7 @@
   text-align: right;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 600px) {
   .footer-row:nth-child(1) {
     flex-direction: column;
   }

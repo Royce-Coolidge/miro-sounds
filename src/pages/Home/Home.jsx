@@ -52,7 +52,7 @@ const Home = () => {
   // Control Lenis scroll based on preloader animation state
   useEffect(() => {
     if (lenis) {
-      if (loaderAnimating) {
+      if (showPreloader) {
         lenis.stop();
       } else {
         lenis.start();

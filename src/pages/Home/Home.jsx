@@ -31,6 +31,7 @@ const Home = () => {
   const homeWorkRef = useRef(null);
   const videoRef = useRef(null);
   const videoUnlockedRef = useRef(false); // Track if video has been unlocked via user interaction
+  const interactionListenersAttached = useRef(false); // Track if interaction listeners are attached
 
   // State
   const [showPreloader, setShowPreloader] = useState(isInitialLoad);
@@ -69,6 +70,45 @@ const Home = () => {
   };
 
   /**
+   * CRITICAL FIX: Unlock video on ANY user interaction on mobile
+   * This ensures video can play even if preloader auto-completes before user clicks "Enter Site"
+   * Without this, mobile users who don't click the button have permanently paused video
+   */
+  useEffect(() => {
+    // Only run on mobile devices (matching the preloader button media query)
+    const isMobile = window.matchMedia("(max-width: 1000px)").matches;
+    if (!isMobile || interactionListenersAttached.current) return;
+
+    const unlockVideoOnInteraction = async () => {
+      if (videoUnlockedRef.current || !videoRef.current) return;
+
+      console.log('[Mobile Video Fix] Unlocking video on user interaction');
+
+      // Unlock the video during this user interaction
+      if (typeof videoRef.current.unlock === 'function') {
+        const success = await videoRef.current.unlock();
+        if (success) {
+          videoUnlockedRef.current = true;
+          console.log('[Mobile Video Fix] Video unlocked successfully');
+        }
+      }
+    };
+
+    // Attach listeners for various interaction types
+    const events = ['touchstart', 'touchend', 'click', 'scroll'];
+    events.forEach(event => {
+      window.addEventListener(event, unlockVideoOnInteraction, { once: true, passive: true });
+    });
+    interactionListenersAttached.current = true;
+
+    return () => {
+      events.forEach(event => {
+        window.removeEventListener(event, unlockVideoOnInteraction);
+      });
+    };
+  }, []); // Run once on mount
+
+  /**
    * Handles "Enter Site" button click on mobile
    * Unlocks video playback and completes preloader
    */
@@ -87,7 +127,7 @@ const Home = () => {
 
   /**
    * Handles preloader animation completion
-   * Plays video if it has been unlocked (via "Enter Site" button on mobile)
+   * Plays video if it has been unlocked (via "Enter Site" button or interaction on mobile)
    * CRITICAL: Must set loaderAnimating to false to enable scroll
    */
   const handlePreloaderComplete = () => {
@@ -96,15 +136,48 @@ const Home = () => {
     setStatus('entered');
     setScrollIndicatorHidden(false);
 
-    // Play video if it's ready and unlocked
+    // Play video with delay to ensure smooth transition
     if (videoRef.current && typeof videoRef.current.play === 'function') {
-      setTimeout(() => {
-        videoRef.current.play().catch((error) => {
-          // On desktop, this should work. On mobile, video should be unlocked via button
-          console.warn("Video playback failed:", error);
-        });
+      setTimeout(async () => {
+        try {
+          await videoRef.current.play();
+          console.log('[Video] Playback started successfully');
+        } catch (error) {
+          console.warn("Initial video playback failed:", error);
+          // On mobile: If video unlock happened via interaction, this should succeed
+          // On desktop: Should work without unlock
+          // If it fails, set up retry on next interaction
+          setupVideoPlaybackRetry();
+        }
       }, 100);
     }
+  };
+
+  /**
+   * FALLBACK: Retry video playback on next user interaction if initial play failed
+   * This ensures video eventually plays even if timing issues occur
+   */
+  const setupVideoPlaybackRetry = () => {
+    const isMobile = window.matchMedia("(max-width: 1000px)").matches;
+    if (!isMobile) return;
+
+    const retryPlay = async () => {
+      if (!videoRef.current) return;
+
+      try {
+        await videoRef.current.play();
+        console.log('[Video Retry] Playback started successfully on interaction');
+        // Remove listeners after successful play
+        events.forEach(event => window.removeEventListener(event, retryPlay));
+      } catch (error) {
+        console.warn('[Video Retry] Playback still failed:', error);
+      }
+    };
+
+    const events = ['touchstart', 'scroll', 'click'];
+    events.forEach(event => {
+      window.addEventListener(event, retryPlay, { once: true, passive: true });
+    });
   };
 
   const handleScrollClick = (e) => {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./Preloader.css";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -10,7 +10,16 @@ CustomEase.create("hop", "0.9, 0, 0.1, 1");
 /**
  * Preloader component with animated loading sequence
  * Displays counter animation, logo reveal, and transition
- * 
+ *
+ * MOBILE BEHAVIOR:
+ * - Animation pauses before final transition
+ * - User MUST click "Enter Site" button to complete animation
+ * - This guarantees a user gesture for video unlock
+ *
+ * DESKTOP BEHAVIOR:
+ * - Auto-completes after GSAP animation finishes
+ * - No button shown, seamless transition
+ *
  * @param {boolean} showPreloader - Whether to show the preloader
  * @param {function} setLoaderAnimating - Callback to set loader animation state
  * @param {function} onComplete - Callback when preloader animation completes
@@ -18,19 +27,32 @@ CustomEase.create("hop", "0.9, 0, 0.1, 1");
  */
 export default function Preloader({ showPreloader, setLoaderAnimating, onComplete, onEnterClick }) {
   const [showButton, setShowButton] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const timelineRef = useRef(null);
 
-  // Show button after 2500ms delay
+  // Detect mobile on mount
+  useEffect(() => {
+    const mobile = window.matchMedia("(max-width: 1000px)").matches;
+    setIsMobile(mobile);
+  }, []);
+
+  // Show button immediately on mobile, after delay on desktop (if onEnterClick provided)
   useEffect(() => {
     if (showPreloader && onEnterClick) {
-      const timer = setTimeout(() => {
+      if (isMobile) {
+        // Show button immediately on mobile - don't make users wait
         setShowButton(true);
-      }, 2500);
-
-      return () => clearTimeout(timer);
+      } else {
+        // On desktop with onEnterClick, show after delay (for testing)
+        const timer = setTimeout(() => {
+          setShowButton(true);
+        }, 3500);
+        return () => clearTimeout(timer);
+      }
     } else {
       setShowButton(false);
     }
-  }, [showPreloader, onEnterClick]);
+  }, [showPreloader, onEnterClick, isMobile]);
 
   useGSAP(() => {
     const tl = gsap.timeline({
@@ -41,17 +63,29 @@ export default function Preloader({ showPreloader, setLoaderAnimating, onComplet
     });
 
     if (showPreloader) {
+      const mobile = window.matchMedia("(max-width: 1000px)").matches;
+
+      // Store timeline reference so button can resume it
+      timelineRef.current = tl;
+
       // Failsafe: ensure preloader completes even if animation fails
-      // const failsafeTimeout = setTimeout(() => {
-      //   console.warn("Preloader failsafe triggered");
-      //   setLoaderAnimating(false);
-      //   onComplete();
-      // }, 10000); // 10 second max
+      // Only on desktop - mobile waits for button click
+      let failsafeTimeout;
+      if (!mobile) {
+        failsafeTimeout = setTimeout(() => {
+          console.warn("Preloader failsafe triggered");
+          setLoaderAnimating(false);
+          onComplete();
+        }, 10000); // 10 second max
+      }
 
       // Clear failsafe when animation completes normally
-      // tl.eventCallback("onComplete", () => {
-      //   clearTimeout(failsafeTimeout);
-      // });
+      tl.eventCallback("onComplete", () => {
+        if (failsafeTimeout) {
+          clearTimeout(failsafeTimeout);
+        }
+      });
+
       setLoaderAnimating(true);
       const counts = document.querySelectorAll(".count");
 
@@ -92,12 +126,19 @@ export default function Preloader({ showPreloader, setLoaderAnimating, onComplet
       );
 
 
+      // On mobile, add a pause point before final transition
+      // User clicking button will resume from here
+      if (mobile) {
+        tl.addPause();
+      }
+
 
       tl.to("#word-1 h1", {
         y: "100%",
         duration: 1,
         delay: 0.3,
       });
+
 
       tl.to(
         "#word-2 h1",
@@ -107,6 +148,7 @@ export default function Preloader({ showPreloader, setLoaderAnimating, onComplet
         },
         "<"
       );
+
 
       tl.to(
         ".block",
@@ -118,6 +160,7 @@ export default function Preloader({ showPreloader, setLoaderAnimating, onComplet
           onStart: () => {
             setLoaderAnimating(false);
             onComplete();
+            // Always animate hero and hide loader overlay
             gsap.to(".hero", { scale: 1, duration: 2, ease: "hop" });
             gsap.set(".loader", { zIndex: -1 });
           },
@@ -125,7 +168,20 @@ export default function Preloader({ showPreloader, setLoaderAnimating, onComplet
         "<"
       );
     }
-  }, [showPreloader]);
+  }, [showPreloader, onComplete, setLoaderAnimating]);
+
+  // Handle button click - resumes animation and calls parent handler
+  const handleButtonClick = () => {
+    // Resume animation to complete the final transition
+    if (timelineRef.current) {
+      timelineRef.current.resume();
+    }
+
+    // Call parent's click handler if provided (for video unlock)
+    if (onEnterClick) {
+      onEnterClick();
+    }
+  };
 
   if (!showPreloader) {
     return null;
@@ -191,15 +247,14 @@ export default function Preloader({ showPreloader, setLoaderAnimating, onComplet
         </div>
       </div>
 
-      {/* Mobile-only "Enter Site" button - unlocks video and completes preloader */}
-      {/* Button appears after 2500ms delay */}
+      {/* Mobile-only "Enter Site" button - resumes animation, unlocks video, completes preloader */}
       {onEnterClick && showButton && (
         <button
           className="preloader-enter-button"
-          onClick={onEnterClick}
+          onClick={handleButtonClick}
           aria-label="Enter site"
         >
-          Enter Mrio sounds
+          Enter Miro sounds
         </button>
       )}
     </div>

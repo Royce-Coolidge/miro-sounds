@@ -1,167 +1,97 @@
-import { forwardRef, useImperativeHandle, useRef, useState, useEffect } from "react";
+import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import "./BackgroundVideo.css";
 
 /**
- * Background video component with controlled playback
- * Exposes play/pause methods via ref for parent control
- * 
- * IMPORTANT: Video will NOT autoplay - it waits for explicit play() call from parent
- * This ensures proper coordination with preloader animations
+ * Background video component with parent-controlled playback
+ *
+ * PLAYBACK CONTROL:
+ * - Video never autoplays - parent must call play() via ref
+ * - Ensures proper coordination with preloader and animations
+ *
+ * MOBILE HANDLING:
+ * - Call unlock() during user interaction to enable later playback
+ * - Then call play() when ready (e.g., after preloader completes)
  */
-const BackgroundVideo = forwardRef(({ onVideoLoaded, onVideoError, shouldAutoplay = false }, ref) => {
+const BackgroundVideo = forwardRef(({ onVideoLoaded, onVideoError }, ref) => {
   const videoRef = useRef(null);
-  const [isReady, setIsReady] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
-
-  // Try to play video on first user interaction (mobile autoplay workaround)
-  // Only if shouldAutoplay is true (for cases where preloader is skipped)
-  useEffect(() => {
-    if (!shouldAutoplay) return; // Don't try to autoplay if waiting for preloader
-
-    const tryPlayOnInteraction = () => {
-      if (!hasInteracted && videoRef.current) {
-        setHasInteracted(true);
-        // Try to play on user interaction - don't require isReady on mobile
-        const playPromise = videoRef.current.play();
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              setIsReady(true);
-            })
-            .catch((error) => {
-              console.warn("Video play failed on interaction:", error);
-            });
-        }
-      }
-    };
-
-    // Try to play on various user interactions
-    const events = ['touchstart', 'scroll', 'click', 'touchend'];
-    events.forEach(event => {
-      window.addEventListener(event, tryPlayOnInteraction, { once: true, passive: true });
-    });
-
-    return () => {
-      events.forEach(event => {
-        window.removeEventListener(event, tryPlayOnInteraction);
-      });
-    };
-  }, [hasInteracted, shouldAutoplay]);
+  const [isDataReady, setIsDataReady] = useState(false);
 
   // Expose video control methods to parent component
   useImperativeHandle(ref, () => ({
+    /**
+     * Play the video from the beginning
+     * @returns {Promise<boolean>} True if play succeeded, false otherwise
+     */
     play: async () => {
-      if (videoRef.current) {
-        try {
-          // CRITICAL: Reset video to beginning before playing
-          // This ensures video always starts from 0:00
-          videoRef.current.currentTime = 0;
-          
-          // Try to play even if not marked as ready
-          // This is important for mobile where ready state might be delayed
-          await videoRef.current.play();
-          setIsReady(true);
-          return true;
-        } catch (error) {
-          console.warn("Failed to play video:", error);
-          // Don't call onVideoError for play failures - they're expected on mobile
-          return false;
-        }
+      if (!videoRef.current) return false;
+
+      try {
+        // Always reset to beginning before playing
+        videoRef.current.currentTime = 0;
+        await videoRef.current.play();
+        return true;
+      } catch (error) {
+        console.warn("Failed to play video:", error);
+        return false;
       }
-      return false;
     },
+
+    /**
+     * Pause the video
+     */
     pause: () => {
       if (videoRef.current) {
         videoRef.current.pause();
       }
     },
-    isReady: () => isReady,
-    // Expose method to reset video to beginning
+
+    /**
+     * Check if video data is loaded and ready
+     * @returns {boolean} True if video can be played
+     */
+    isReady: () => isDataReady,
+
+    /**
+     * Reset video to beginning without playing
+     */
     reset: () => {
       if (videoRef.current) {
         videoRef.current.currentTime = 0;
       }
     },
+
     /**
-     * Unlock video playback on mobile by calling play() then pause()
-     * This must be called during a user interaction event to work on mobile
+     * Unlock video playback on mobile devices
+     * Must be called during a user interaction event (click, touch, etc.)
      * After unlocking, play() can be called later without user interaction
+     * @returns {Promise<boolean>} True if unlock succeeded, false otherwise
      */
     unlock: async () => {
-      if (videoRef.current) {
-        try {
-          // On mobile, calling play() during user interaction unlocks the video
-          // We immediately pause it, but the unlock persists
-          const playPromise = videoRef.current.play();
-          if (playPromise !== undefined) {
-            await playPromise;
-            // Immediately pause - we just needed to unlock it
-            videoRef.current.pause();
-            videoRef.current.currentTime = 0;
-            return true;
-          }
-        } catch (error) {
-          // If unlock fails, that's okay - we'll try again
-          console.warn("Video unlock failed:", error);
-          return false;
-        }
-      }
-      return false;
-    },
-  }));
+      if (!videoRef.current) return false;
 
-  const handleCanPlay = () => {
-    setIsReady(true);
-    
-    // Only attempt autoplay if explicitly allowed
-    // Otherwise, wait for parent component to call play() via ref
-    if (shouldAutoplay && videoRef.current) {
-      const playPromise = videoRef.current.play();
-      if (playPromise !== undefined) {
-        playPromise.catch((error) => {
-          // Autoplay may fail on mobile - that's okay, will try again on user interaction
-          console.warn("Autoplay prevented:", error);
-        });
-      }
-    }
-    
-    if (onVideoLoaded) {
-      onVideoLoaded();
-    }
-  };
-
-  const handleLoadedData = () => {
-    // Additional handler for when video data is loaded
-    // This can fire earlier than onCanPlay on some mobile devices
-    if (videoRef.current && !isReady) {
-      setIsReady(true);
-      
-      // Ensure video is paused initially (unless shouldAutoplay is true)
-      if (!shouldAutoplay && videoRef.current) {
+      try {
+        // Play then immediately pause to unlock - the unlock persists
+        await videoRef.current.play();
         videoRef.current.pause();
         videoRef.current.currentTime = 0;
+        return true;
+      } catch (error) {
+        console.warn("Video unlock failed:", error);
+        return false;
       }
-      
-      // Only attempt autoplay if explicitly allowed
-      if (shouldAutoplay) {
-        const playPromise = videoRef.current.play();
-        if (playPromise !== undefined) {
-          playPromise.catch((error) => {
-            // Autoplay may fail - that's expected on some mobile browsers
-            console.warn("Autoplay prevented on data load:", error);
-          });
-        }
+    },
+  }), [isDataReady]);
+
+  const handleCanPlay = () => {
+    // Video data is loaded and ready to play
+    // Don't change this to also trigger playback - that would break parent control
+    if (!isDataReady) {
+      setIsDataReady(true);
+      if (onVideoLoaded) {
+        onVideoLoaded();
       }
     }
   };
-
-  // Ensure video stays paused on mount and when shouldAutoplay changes
-  useEffect(() => {
-    if (videoRef.current && !shouldAutoplay) {
-      videoRef.current.pause();
-      videoRef.current.currentTime = 0;
-    }
-  }, [shouldAutoplay]);
 
   const handleError = (e) => {
     console.error("Video failed to load:", e);
@@ -178,13 +108,11 @@ const BackgroundVideo = forwardRef(({ onVideoLoaded, onVideoError, shouldAutopla
         type="video/mp4"
         muted
         loop
+        autoPlay
         playsInline
         preload="auto"
         onCanPlay={handleCanPlay}
-        onLoadedData={handleLoadedData}
         onError={handleError}
-        // REMOVED: autoPlay attribute - video will be controlled via ref
-        // This prevents video from starting before preloader completes
       />
     </div>
   );

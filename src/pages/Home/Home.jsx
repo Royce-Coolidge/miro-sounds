@@ -89,20 +89,8 @@ const Home = () => {
    */
   const handlePreloaderComplete = () => {
     setShowPreloader(false);
-    setLoaderAnimating(false);
     setStatus('entered');
-    setScrollIndicatorHidden(false);
-
-    // Play video with slight delay for smooth transition
-    if (videoRef.current && typeof videoRef.current.play === 'function') {
-      setTimeout(() => {
-        videoRef.current.play().catch(error => {
-          console.warn("Video playback failed:", error);
-          // This shouldn't happen on mobile (we have user gesture)
-          // On desktop, autoplay might be blocked by browser settings
-        });
-      }, 100);
-    }
+    
   };
 
   const handleScrollClick = (e) => {
@@ -246,7 +234,7 @@ const Home = () => {
           showPreloader={showPreloader}
           setLoaderAnimating={setLoaderAnimating}
           onComplete={handlePreloaderComplete}
-          onEnterClick={handleEnterSiteClick}
+          
         />
       )}
 

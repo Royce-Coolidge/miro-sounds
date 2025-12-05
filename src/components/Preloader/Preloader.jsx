@@ -199,7 +199,7 @@ export default function Preloader({ showPreloader, setLoaderAnimating, onComplet
           onClick={onEnterClick}
           aria-label="Enter site"
         >
-          Enter Site
+          Enter Mrio sounds
         </button>
       )}
     </div>

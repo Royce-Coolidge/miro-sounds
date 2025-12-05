@@ -30,7 +30,7 @@ export default function BackgroundVideo ({ onVideoLoaded }) {
       ref={videoRef}
       src="/home/hero.mp4"
       type="video/mp4"
-      autoPlay
+      autoplay
       muted
       loop
       playsInline

@@ -31,6 +31,12 @@ export default function Preloader({ showPreloader, setLoaderAnimating, onComplet
   const timelineRef = useRef(null);
 
   // Detect mobile on mount
+
+  console.log("Preloader render - isMobile:", isMobile);
+  console.log("Preloader render - showButton:", showButton);
+  console.log("Preloader render - showPreloader:", showPreloader);
+  console.log("Preloader render - onEnterClick:", !!onEnterClick);
+
   useEffect(() => {
     const mobile = window.matchMedia("(max-width: 1000px)").matches;
     setIsMobile(mobile);
@@ -145,6 +151,11 @@ export default function Preloader({ showPreloader, setLoaderAnimating, onComplet
         {
           y: "-100%",
           duration: 1,
+          onStart: () => {
+
+            setLoaderAnimating(false);
+            onComplete();
+          },
         },
         "<"
       );
@@ -158,9 +169,9 @@ export default function Preloader({ showPreloader, setLoaderAnimating, onComplet
           stagger: 0.1,
           delay: 0.75,
           onStart: () => {
-            setLoaderAnimating(false);
-            onComplete();
-            // Always animate hero and hide loader overlay
+
+            // setLoaderAnimating(false);
+            // onComplete();
             gsap.to(".hero", { scale: 1, duration: 2, ease: "hop" });
             gsap.set(".loader", { zIndex: -1 });
           },

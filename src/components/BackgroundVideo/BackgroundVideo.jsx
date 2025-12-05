@@ -108,7 +108,6 @@ const BackgroundVideo = forwardRef(({ onVideoLoaded, onVideoError }, ref) => {
         type="video/mp4"
         muted
         loop
-        autoPlay
         playsInline
         preload="auto"
         onCanPlay={handleCanPlay}

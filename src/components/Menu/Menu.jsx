@@ -137,7 +137,7 @@ const Menu = () => {
         lenis.start();
         lenis.scrollTo(targetElement, {
           offset: 0,
-          duration: 1.5,
+          duration: 1.75,
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
           onComplete: () => {
             isNavigatingRef.current = false;

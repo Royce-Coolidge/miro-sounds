@@ -369,10 +369,10 @@ const Home = () => {
             onVideoError={handleVideoError} />
 
           <div className="hero-header">
-            <AnimatedCopy tag="h1" animateOnScroll={false} delay={7.25}>
+            <AnimatedCopy tag="h1" animateOnScroll={false} delay={7.25} stagger={0.1}>
               Miro
             </AnimatedCopy>
-            <AnimatedCopy tag="h1" animateOnScroll={false} delay={7.25}>
+            <AnimatedCopy tag="h1" animateOnScroll={false} delay={7.5} stagger={0.3}>
               sounds
             </AnimatedCopy>
           </div>

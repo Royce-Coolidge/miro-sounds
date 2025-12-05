@@ -27,13 +27,13 @@ export default function BackgroundVideo ({ onVideoLoaded }) {
 
   return <div className="bg-video">
     <video
+      muted
       ref={videoRef}
       src="/home/hero.mp4"
       type="video/mp4"
       autoplay
-      muted
       loop
-      playsInline
+      playsinline
       onCanPlay={handleCanPlay}
     />
   </div>;

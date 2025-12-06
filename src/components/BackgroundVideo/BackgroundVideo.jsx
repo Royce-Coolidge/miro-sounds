@@ -25,16 +25,16 @@ export default function BackgroundVideo ({ onVideoLoaded }) {
     }
   }, []);
 
-  return <div className="bg-video">
+  return <div className="bg-video" dangerouslySetInnerHTML={{ __html: `
     <video
-      muted
       ref={videoRef}
       src="/home/hero.mp4"
       type="video/mp4"
+      muted
       autoplay
       loop
       playsinline
       onCanPlay={handleCanPlay}
-    />
-  </div>;
+    />,
+      ` }}></div>
 };

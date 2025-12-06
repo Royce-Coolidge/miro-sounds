@@ -19,7 +19,7 @@ export default function BackgroundVideo ({ onVideoLoaded }) {
         if (videoRef.current) {
           videoRef.current.play();
         }
-      }, 7000);
+      }, 4000);
 
       return () => clearTimeout(timer);
     }

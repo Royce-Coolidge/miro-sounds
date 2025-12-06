@@ -11,20 +11,6 @@ export default function BackgroundVideo ({ onVideoLoaded }) {
     }
   };
 
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.pause();
-
-      const timer = setTimeout(() => {
-        if (videoRef.current) {
-          videoRef.current.play();
-        }
-      }, 4000);
-
-      return () => clearTimeout(timer);
-    }
-  }, []);
-
   return <div className="bg-video" dangerouslySetInnerHTML={{ __html: `
     <video
       ref={videoRef}
@@ -34,7 +20,7 @@ export default function BackgroundVideo ({ onVideoLoaded }) {
       autoplay
       loop
       playsinline
-      onCanPlay={handleCanPlay}
+      
     />,
       ` }}></div>
 };

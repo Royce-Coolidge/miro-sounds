@@ -11,16 +11,32 @@ export default function BackgroundVideo ({ onVideoLoaded }) {
     }
   };
 
-  return <div className="bg-video" dangerouslySetInnerHTML={{ __html: `
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.pause();
+
+      const timer = setTimeout(() => {
+        if (videoRef.current) {
+          videoRef.current.play().catch(error => {
+            console.log("Autoplay failed:", error);
+          });
+        }
+      }, 6000);
+
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  return <div className="bg-video">
     <video
       ref={videoRef}
       src="/home/hero.mp4"
-      type="video/mp4"
+      autoPlay
       muted
-      autoplay
       loop
-      playsinline
-      
-    />,
-      ` }}></div>
+      playsInline
+      webkit-playsinline="true"
+      onCanPlay={handleCanPlay}
+    />
+  </div>;
 };

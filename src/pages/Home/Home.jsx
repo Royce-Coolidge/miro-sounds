@@ -241,7 +241,7 @@ const Home = () => {
       <div className="page home">
         <div className="hero-header-2">
           <h5>
-            Curating Outstanding Music <br /> For Unforgettable Events
+            Curating Exceptional Music <br /> For Unforgettable Events
           </h5>
         </div>
         <section id="hero" className="hero">
@@ -306,8 +306,8 @@ const Home = () => {
           <div className="home-work-list">
             <div className="home-work-item">
               <h3>How We Work</h3>
-              <h4>Elevated music for exceptional events</h4>
-              <p>For individuals, event planners and brands seeking bespoke support for private parties, exclusive weddings and live experiences.</p>
+              <h4>Step up the sound of your next event</h4>
+              <p>For private clients, international event planners and brands seeking bespoke support for exceptional parties, exclusive weddings and live experiences.</p>
               <p>
                 Big names, hidden gems, live bands or epic DJ sets. Background tunes or headline moments - we’ll source and coordinate your dream line-up. Any style - from timeless classics to disco house bangers, jazz quartets to brass ensembles, Brazilian grooves to rhythm & blues. Across any setting, from luxury marquees to candlelit rooftops.
               </p>
@@ -335,12 +335,12 @@ const Home = () => {
           </div>
           <div className="hobby">
             <AnimatedCopy tag="h4" animateOnScroll={true}>
-              Artist Selection
+              Artist Curation
             </AnimatedCopy>
           </div>
           <div className="hobby">
             <AnimatedCopy tag="h4" animateOnScroll={true}>
-              Booking
+              Booking & Logistics
             </AnimatedCopy>
           </div>
           <div className="hobby">
@@ -355,7 +355,7 @@ const Home = () => {
 
             <div className="home-work-item">
               <h3>About Us</h3>
-              <h4>We are live entertainment curators, connectors and creators of unforgettable experiences.</h4>
+              <h4>We are live entertainment curators, crafting elevated experiences for extraordinary events</h4>
               <section className="services">
                 <div className="services-col">
                   <div className="services-banner">
@@ -366,9 +366,9 @@ const Home = () => {
 
                   <div className="services-list">
                     <p>
-                      Led by founder Rory, Miro brings 15 years of expertise across music, events, sound curation, and live production.
+                      Led by founder Rory, Miro brings 15 years of expertise across music, events and sound curation.
                     </p>
-                    <p>We've built the relationships and know-how to seamlessly connect you with exceptional artists and entertainment, anywhere in the world.</p>
+                    <p>Drawing from our trusted global network of phenomenal musicians, we handpick talent tailored for each event, without the restrictions of a fixed roster, ensuring every experience feels truly personal.</p>
                     <p>
                       Based in London - one of the world's most inspiring music cities - we bring the sounds of the main stage, candlelit jazz club, underground gig or secret festival woodland to your event. From the familiar to the fresh, the refined to the raw, trust Miro to create that spark - the perfect pairing of sound and setting that turns good events into great ones.
                     </p>

@@ -19,16 +19,14 @@ const BackgroundVideo = forwardRef(({ onVideoLoaded }, ref) => {
       video.pause();
 
       const timer = setTimeout(() => {
-        if (videoRef.current) {
           videoRef.current.play().catch(error => {
             console.log("Autoplay failed:", error);
           });
-        }
       }, 7000);
 
       // Fallback: play on first user interaction
       const handleUserInteraction = () => {
-        if (videoRef.current && videoRef.current.paused) {
+        if (videoRef.current && videoRef.current.paused) {no not 
           videoRef.current.play().catch(error => {
             console.log("Play on interaction failed:", error);
           });

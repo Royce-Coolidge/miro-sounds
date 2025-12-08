@@ -90,7 +90,15 @@ const Home = () => {
   const handlePreloaderComplete = () => {
     setShowPreloader(false);
     setStatus('entered');
-    
+
+    if (videoRef.current) {
+      console.log("🎉 videoRef exists, calling play()");
+      videoRef.current.play().catch((error) => {
+        console.error("🎉 ❌ Video playback failed:", error);
+      });
+    } else {
+      console.error("🎉 ❌ videoRef.current is null!");
+    }
   };
 
   const handleScrollClick = (e) => {

@@ -1,9 +1,9 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, forwardRef } from "react";
 import "./BackgroundVideo.css";
 
 
-export default function BackgroundVideo ({ onVideoLoaded }) {
-  const videoRef = useRef(null);
+const BackgroundVideo = forwardRef(({ onVideoLoaded }, ref) => {
+  const videoRef = ref || useRef(null);
 
   const handleCanPlay = () => {
     if (onVideoLoaded) {
@@ -59,4 +59,8 @@ export default function BackgroundVideo ({ onVideoLoaded }) {
       onCanPlay={handleCanPlay}
     />
   </div>;
-};
+});
+
+BackgroundVideo.displayName = 'BackgroundVideo';
+
+export default BackgroundVideo;

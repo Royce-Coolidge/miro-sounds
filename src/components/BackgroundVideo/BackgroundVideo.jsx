@@ -12,8 +12,11 @@ export default function BackgroundVideo ({ onVideoLoaded }) {
   };
 
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.pause();
+    const video = videoRef.current;
+    if (video) {
+      // Ensure video is ready
+      video.load();
+      video.pause();
 
       const timer = setTimeout(() => {
         if (videoRef.current) {
@@ -21,9 +24,25 @@ export default function BackgroundVideo ({ onVideoLoaded }) {
             console.log("Autoplay failed:", error);
           });
         }
-      }, 6000);
+      }, 6500);
 
-      return () => clearTimeout(timer);
+      // Fallback: play on first user interaction
+      const handleUserInteraction = () => {
+        if (videoRef.current && videoRef.current.paused) {
+          videoRef.current.play().catch(error => {
+            console.log("Play on interaction failed:", error);
+          });
+        }
+      };
+
+      document.addEventListener('touchstart', handleUserInteraction, { once: true });
+      document.addEventListener('click', handleUserInteraction, { once: true });
+
+      return () => {
+        clearTimeout(timer);
+        document.removeEventListener('touchstart', handleUserInteraction);
+        document.removeEventListener('click', handleUserInteraction);
+      };
     }
   }, []);
 
@@ -36,6 +55,7 @@ export default function BackgroundVideo ({ onVideoLoaded }) {
       loop
       playsInline
       webkit-playsinline="true"
+      preload="auto"
       onCanPlay={handleCanPlay}
     />
   </div>;

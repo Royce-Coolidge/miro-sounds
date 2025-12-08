@@ -24,7 +24,7 @@ export default function BackgroundVideo ({ onVideoLoaded }) {
             console.log("Autoplay failed:", error);
           });
         }
-      }, 6500);
+      }, 7000);
 
       // Fallback: play on first user interaction
       const handleUserInteraction = () => {
@@ -50,10 +50,10 @@ export default function BackgroundVideo ({ onVideoLoaded }) {
     <video
       ref={videoRef}
       src="/home/hero.mp4"
-      autoPlay
-      muted
-      loop
-      playsInline
+      autoPlay={true}
+      muted={true}
+      loop={true}
+      playsInline="true"
       webkit-playsinline="true"
       preload="auto"
       onCanPlay={handleCanPlay}

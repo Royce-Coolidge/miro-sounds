@@ -26,7 +26,7 @@ const BackgroundVideo = forwardRef(({ onVideoLoaded }, ref) => {
 
       // Fallback: play on first user interaction
       const handleUserInteraction = () => {
-        if (videoRef.current && videoRef.current.paused) {no not 
+        if (videoRef.current && videoRef.current.paused) {
           videoRef.current.play().catch(error => {
             console.log("Play on interaction failed:", error);
           });

@@ -290,9 +290,7 @@ const Home = () => {
             From first ideas <br></br> to the last dance...
           </h2>
           <h2 ref={(el) => (titlesRef.current[1] = el)}>
-            WE DESIGN & DELIVER THE PERFECT ENTERTAINMENT          </h2>
-
-
+            WE DESIGN & DELIVER THE PERFECT ENTERTAINMENT</h2>
 
         </section>
 

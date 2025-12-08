@@ -55,7 +55,7 @@ export default function BackgroundVideo ({ onVideoLoaded }) {
       loop={true}
       playsInline="true"
       webkit-playsinline="true"
-      preload="auto"
+      preload="none"
       onCanPlay={handleCanPlay}
     />
   </div>;

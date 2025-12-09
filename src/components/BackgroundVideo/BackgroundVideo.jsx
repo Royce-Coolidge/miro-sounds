@@ -1,15 +1,30 @@
-import { useRef, useEffect, forwardRef } from "react";
+import { useRef, useEffect, forwardRef, useState } from "react";
 import "./BackgroundVideo.css";
 
 
 const BackgroundVideo = forwardRef(({ onVideoLoaded }, ref) => {
   const videoRef = ref || useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   const handleCanPlay = () => {
     if (onVideoLoaded) {
       onVideoLoaded();
     }
   };
+
+  useEffect(() => {
+    // Detect mobile device
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -42,12 +57,12 @@ const BackgroundVideo = forwardRef(({ onVideoLoaded }, ref) => {
         document.removeEventListener('click', handleUserInteraction);
       };
     }
-  }, []);
+  }, [isMobile]);
 
   return <div className="bg-video">
     <video
       ref={videoRef}
-      src="/home/hero.mp4"
+      src={isMobile ? "/home/mobile-hero.mp4" : "/home/hero.mp4"}
       autoPlay={true}
       muted={true}
       loop={true}

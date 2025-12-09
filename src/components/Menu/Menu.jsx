@@ -350,7 +350,7 @@ const Menu = () => {
                   href="#contact"
                   onClick={(e) => handleLinkClick(e, "#contact")}
                 >
-                  Let's connect
+                Get in touch
                 </a>
               </div>
             )}

@@ -217,7 +217,7 @@
   --cs-fg: var(--font-color-200);
   --cs-accent: var(--font-color-200);
   --cs-border: rgba(253, 238, 206, 0.18);
-  --cs-surface: rgba(253, 238, 206, 0.06);
+  --cs-surface: rgba(15, 15, 15, 0.28);
   color: var(--font-color-200);
 }
 

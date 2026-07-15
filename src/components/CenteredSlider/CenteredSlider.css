@@ -48,7 +48,7 @@
 .centered-slider-slide__inner {
   position: relative;
   display: flex;
-  width: 21em;
+  width: 22.5em;
   padding: 1.5em;
   flex-direction: column;
   justify-content: flex-start;
@@ -58,6 +58,8 @@
   border: 1px solid var(--cs-border, rgba(15, 15, 15, 0.12));
   background-color: var(--cs-surface, var(--bg200));
   border-radius: 0.4em;
+  transform-origin: center center;
+  transition: transform 0.45s cubic-bezier(0.65, 0.05, 0, 1);
 }
 
 /* Dim the non-active slides once a slide is active */
@@ -90,6 +92,18 @@
 .centered-slider-slide.active::after {
   outline-offset: calc(-1 * var(--width));
   opacity: 1;
+}
+
+/* Desktop: the centered (active) card grows slightly above the rest.
+   Scaling the inner (not the slide) avoids clashing with GSAP's transform. */
+@media (min-width: 480px) {
+  .centered-slider-slide.active .centered-slider-slide__inner {
+    transform: scale(1.06);
+  }
+
+  .centered-slider-slide__thumbnail {
+    max-height: 450px;
+  }
 }
 
 /* --- Slide content (uses global typography) ---------------------------- */
@@ -208,5 +222,20 @@
 
   .centered-slider-slide__inner {
     width: 100%;
+  }
+
+  /* Move the prev/next arrows above the cards but below the bullets.
+     Heading + bullets keep order 0 (source order); arrows then the card row follow. */
+  .centered-slider-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .centered-slider-content:has(.centered-slider-buttons) {
+    order: 1;
+  }
+
+  .centered-slider-row {
+    order: 2;
   }
 }

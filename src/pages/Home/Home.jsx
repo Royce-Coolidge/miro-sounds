@@ -12,6 +12,7 @@ import Footer from "../../components/Footer/Footer";
 import Transition from "../../components/Transition/Transition";
 import BackgroundVideo from "../../components/BackgroundVideo/BackgroundVideo";
 import Preloader from "../../components/Preloader/Preloader";
+import CenteredSlider from "../../components/CenteredSlider/CenteredSlider";
 
 import MiroIcon from "../../assets/miro-tab.png";
 import "./Home.css";
@@ -346,6 +347,10 @@ const Home = () => {
               Onsite Management
             </AnimatedCopy>
           </div>
+        </section>
+
+        <section className="home-slider">
+          <CenteredSlider heading="What our clients say" />
         </section>
 
         <section id="about" className="home-work-2">

@@ -210,6 +210,22 @@
   border-radius: 1em;
 }
 
+.home-slider {
+  width: 100vw;
+  padding: 4em 2em;
+  /* Sits on the dark body background — theme the slider for light-on-dark */
+  --cs-fg: var(--font-color-200);
+  --cs-accent: var(--font-color-200);
+  --cs-border: rgba(253, 238, 206, 0.18);
+  --cs-surface: rgba(253, 238, 206, 0.06);
+  color: var(--font-color-200);
+}
+
+.home-slider .centered-slider-heading {
+  color: var(--font-color-200);
+  margin-bottom: 1.5rem;
+}
+
 
 
 @media (max-width: 600px) {

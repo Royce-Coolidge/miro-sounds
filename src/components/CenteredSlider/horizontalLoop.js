@@ -242,6 +242,24 @@ export function horizontalLoop(items, config) {
           syncIndex();
           draggable.isThrowing && (indexIsDirty = true);
         },
+        onDragEnd() {
+          // Snap the nearest card to center on release. Fires only after a real
+          // drag (not on click/tap), needs no InertiaPlugin, and is a single tween.
+          // Uses tweenTo + timeWrap modifier so it takes the short path across the
+          // loop seam — the same mechanism as arrow/bullet navigation.
+          const dur = tl.duration();
+          const now = timeWrap(tl.time());
+          const index = getClosest(times, now, dur);
+          let dif = times[index] - now;
+          Math.abs(dif) > dur / 2 && (dif += dif < 0 ? dur : -dur);
+          curIndex = index;
+          indexIsDirty = false;
+          tl.tweenTo(now + dif, {
+            duration: 0.4,
+            ease: "power3",
+            modifiers: { time: timeWrap },
+          });
+        },
         onThrowComplete: () => {
           syncIndex();
           wasPlaying && tl.play();

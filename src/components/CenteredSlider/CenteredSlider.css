@@ -21,7 +21,7 @@
 .centered-slider-row {
   width: 100%;
   margin-top: 2em;
-  margin-bottom: 4em;
+  margin-bottom: 2em;
   padding-top: 1em;
   padding-bottom: 1em;
   display: flex;
@@ -222,20 +222,5 @@
 
   .centered-slider-slide__inner {
     width: 100%;
-  }
-
-  /* Move the prev/next arrows above the cards but below the bullets.
-     Heading + bullets keep order 0 (source order); arrows then the card row follow. */
-  .centered-slider-group {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .centered-slider-content:has(.centered-slider-buttons) {
-    order: 1;
-  }
-
-  .centered-slider-row {
-    order: 2;
   }
 }

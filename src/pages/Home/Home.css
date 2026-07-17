@@ -226,6 +226,17 @@
   margin-bottom: 1.5rem;
 }
 
+/* Mobile: let the card track bleed to the screen edges. The section's 2em side
+   padding otherwise clips cards (via the row's overflow: clip) before they reach
+   the viewport edge, so break the row out of that padding to full width. */
+@media (max-width: 600px) {
+  .home-slider .centered-slider-row {
+    width: calc(100% + 4em);
+    margin-left: -2em;
+    margin-right: -2em;
+  }
+}
+
 
 
 @media (max-width: 600px) {

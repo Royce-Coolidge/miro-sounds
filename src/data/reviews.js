@@ -1,35 +1,27 @@
 const reviews = [
   {
     id: 1,
-    copy: "Miro Sounds understood the feeling we wanted before we could put it into words. The band they found had our whole family on the dancefloor until 2am.",
-    author: "Ava Reynolds",
-    image: "/reviews/review-1.jpg",
+    copy: "Rory really helped us work out our vision for the music and was so great to work with in the build up and on the day. They sorted the funnest band and a top DJ, along with a big sound and lighting set up. People haven't stopped talking about it!",
+    author: "M&S Wedding, Devon, UK",
+    image: "/reviews/m-and-s.jpg",
   },
   {
     id: 2,
-    copy: "From the drinks reception to the final song, the soundtrack was flawless. They handled every artist, cue and changeover so we never had to think about it.",
-    author: "Liam Carter",
-    image: "/reviews/review-2.jpg",
+    copy: "Miro Sounds nailed every element of the music and production, and the dance floor was absolutely pumping all night. Bring on the next!",
+    author: "James Norton, Actor & Private Client",
+    image: "/reviews/spain-wedding-ceremony.jpg",
   },
   {
     id: 3,
-    copy: "We asked for something between Brazilian jazz and late-night disco, and somehow they delivered exactly that. Our guests are still asking who booked the music.",
-    author: "Sophie Nguyen",
-    image: "/reviews/review-3.jpg",
+    copy: "A weekend of next level entertainment. Four live bands, comedy, multiple DJs. It could not have flowed more perfectly and was totally mega.",
+    author: "Vogue Magazine",
+    image: "/reviews/oval-space.jpg",
   },
   {
     id: 4,
-    copy: "The curation was faultless and the logistics even better. Every act arrived on time, sounded incredible and matched the mood of the room perfectly.",
-    author: "Noah Bennett",
-    // TODO: add /reviews/review-4.jpg for a distinct avatar
-    image: "/reviews/review-1.jpg",
-  },
-  {
-    id: 5,
-    copy: "Working with Miro Sounds felt like having a creative director for sound. Considered, calm and completely tuned in to the atmosphere we wanted to create.",
-    author: "Isla Fraser",
-    // TODO: add /reviews/review-5.jpg for a distinct avatar
-    image: "/reviews/review-2.jpg",
+    copy: "Working with Miro Sounds was like having a planner dedicated to the music and it totally made our wedding. They completely got us and our vision from the beginning and seamlessly arranged everything, with such a perfect line-up of live music throughout the day and evening, with extra touches that really shone through.",
+    author: "L&D Wedding, Leicestershire, UK",
+    image: "/reviews/v-and-l.jpg",
   },
 ];
 

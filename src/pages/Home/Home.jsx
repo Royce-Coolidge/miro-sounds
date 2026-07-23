@@ -41,6 +41,14 @@ const Home = () => {
 
   const lenis = useLenis();
 
+  // Hide the mobile scroll indicator once the user has scrolled past the hero.
+  // (It also hides on click, in handleScrollClick.) Once hidden, it stays hidden.
+  useLenis(({ scroll }) => {
+    if (!mobileScrollIndicatorHidden && scroll > window.innerHeight * 0.5) {
+      setMobileScrollIndicatorHidden(true);
+    }
+  });
+
   // Reset initial load flag on component unmount
   useEffect(() => {
     return () => {

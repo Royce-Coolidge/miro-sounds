@@ -1,7 +1,7 @@
 const reviews = [
   {
     id: 1,
-    copy: "Rory really helped us work out our vision for the music and was so great to work with in the build up and on the day. They sorted the funnest band and a top DJ, along with a big sound and lighting set up. People haven't stopped talking about it!",
+    copy: "Miro really helped us work out our vision for the music and were so great to work with in the build up and on the day. They sorted the most epic band and a top DJ, along with a big sound and lighting set up - people haven't stopped talking about it!!",
     author: "M&S Wedding, Devon, UK",
     image: "/reviews/m-and-s.jpg",
   },

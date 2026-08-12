@@ -7,7 +7,7 @@ const reviews = [
   },
   {
     id: 2,
-    copy: "Miro Sounds nailed every element of the music and production, and the dance floor was absolutely pumping all night. Bring on the next!",
+    copy: "Miro Sounds nailed every element of the music and production for my summer party, and the dance floor was absolutely electric all night - bring on the next!",
     author: "James Norton, Actor & Private Client",
     image: "/reviews/spain-wedding-ceremony.jpg",
   },
@@ -19,7 +19,7 @@ const reviews = [
   },
   {
     id: 4,
-    copy: "Working with Miro Sounds was like having a planner dedicated to the music and it totally made our wedding. They completely got us and our vision from the beginning and seamlessly arranged everything, with such a perfect line-up of live music throughout the day and evening, with extra touches that really shone through.",
+    copy: "Having Rory and team dedicated to all things music was a huge part of what made our wedding so special. They completely understood us and what we wanted from the beginning and seamlessly arranged everything, with a perfect line-up of live music throughout the day and evening, with extra touches that really shone through.",
     author: "L&D Wedding, Leicestershire, UK",
     image: "/reviews/v-and-l.jpg",
   },

@@ -210,6 +210,33 @@
   border-radius: 1em;
 }
 
+.home-slider {
+  width: 100vw;
+  padding: 4em 2em;
+  /* Sits on the dark body background — theme the slider for light-on-dark */
+  --cs-fg: var(--font-color-200);
+  --cs-accent: var(--font-color-200);
+  --cs-border: rgba(253, 238, 206, 0.18);
+  --cs-surface: rgba(15, 15, 15, 0.28);
+  color: var(--font-color-200);
+}
+
+.home-slider .centered-slider-heading {
+  color: var(--font-color-200);
+  margin-bottom: 1.5rem;
+}
+
+/* Mobile: let the card track bleed to the screen edges. The section's 2em side
+   padding otherwise clips cards (via the row's overflow: clip) before they reach
+   the viewport edge, so break the row out of that padding to full width. */
+@media (max-width: 600px) {
+  .home-slider .centered-slider-row {
+    width: calc(100% + 4em);
+    margin-left: -2em;
+    margin-right: -2em;
+  }
+}
+
 
 
 @media (max-width: 600px) {

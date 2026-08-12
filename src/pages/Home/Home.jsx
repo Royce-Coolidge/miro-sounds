@@ -12,6 +12,7 @@ import Footer from "../../components/Footer/Footer";
 import Transition from "../../components/Transition/Transition";
 import BackgroundVideo from "../../components/BackgroundVideo/BackgroundVideo";
 import Preloader from "../../components/Preloader/Preloader";
+import CenteredSlider from "../../components/CenteredSlider/CenteredSlider";
 
 import MiroIcon from "../../assets/miro-tab.png";
 import "./Home.css";
@@ -39,6 +40,14 @@ const Home = () => {
   const [mobileScrollIndicatorHidden, setMobileScrollIndicatorHidden] = useState(false);
 
   const lenis = useLenis();
+
+  // Hide the mobile scroll indicator once the user has scrolled past the hero.
+  // (It also hides on click, in handleScrollClick.) Once hidden, it stays hidden.
+  useLenis(({ scroll }) => {
+    if (!mobileScrollIndicatorHidden && scroll > window.innerHeight * 0.5) {
+      setMobileScrollIndicatorHidden(true);
+    }
+  });
 
   // Reset initial load flag on component unmount
   useEffect(() => {
@@ -346,6 +355,10 @@ const Home = () => {
               Onsite Management
             </AnimatedCopy>
           </div>
+        </section>
+
+        <section className="home-slider">
+          <CenteredSlider heading="What our clients say" />
         </section>
 
         <section id="about" className="home-work-2">

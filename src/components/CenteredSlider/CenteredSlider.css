@@ -1,0 +1,226 @@
+/* CenteredSlider — layout from Osmo Supply's Centered Looping Slider,
+   colours + typography mapped onto the project's global tokens.
+
+   Themeable via --cs-* custom properties, each with a global-token fallback.
+   Re-theme a single instance by setting these on any ancestor, e.g.
+   `.home-slider { --cs-accent: var(--font-color-200); }`
+     --cs-accent   corners, bullet rings, author, arrow hover  (default --fgrory)
+     --cs-fg       body text + arrows                          (default --fg)
+     --cs-surface  translucent slide/button fill               (default --bg200)
+     --cs-border   subtle 1px borders                          (default rgba(15,15,15,.12)) */
+.centered-slider-group {
+  color: var(--cs-fg, var(--fg));
+}
+
+.centered-slider-heading {
+  text-align: center;
+  margin-bottom: 0.5em;
+}
+
+/* --- Track ------------------------------------------------------------- */
+.centered-slider-row {
+  width: 100%;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  display: flex;
+  position: relative;
+  overflow: clip;
+}
+
+.centered-slider-list {
+  flex-flow: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  display: flex;
+}
+
+.centered-slider-slide {
+  flex: none;
+  padding: 0.75em;
+  transition: opacity 0.25s cubic-bezier(0.77, 0, 0.175, 1);
+  position: relative;
+  cursor: pointer;
+}
+
+.centered-slider-slide__inner {
+  position: relative;
+  display: flex;
+  width: 22.5em;
+  padding: 1.5em;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  grid-row-gap: 2em;
+  border: 1px solid var(--cs-border, rgba(15, 15, 15, 0.12));
+  background-color: var(--cs-surface, var(--bg200));
+  border-radius: 0.4em;
+  transform-origin: center center;
+  transition: transform 0.45s cubic-bezier(0.65, 0.05, 0, 1);
+}
+
+/* Dim the non-active slides once a slide is active */
+.centered-slider-row:has(.centered-slider-slide.active) .centered-slider-slide:not(.active) {
+  opacity: 0.45;
+}
+
+/* Accent corners on each slide — https://css-tip.com/corner-only-border-image/ */
+.centered-slider-slide::after {
+  --size: 1em;
+  --width: 1px;
+  --gap: 0.125em;
+  --color: var(--cs-accent, var(--fgrory));
+  content: "";
+  position: absolute;
+  inset: calc(var(--gap) * -1);
+  z-index: 1;
+  opacity: 0;
+  padding: calc(var(--gap) + var(--width));
+  outline: var(--width) solid var(--color);
+  outline-offset: calc(var(--gap) / -1);
+  pointer-events: none;
+  mask:
+    conic-gradient(at var(--size) var(--size), #0000 75%, #000 0) 0 0 /
+      calc(100% - var(--size)) calc(100% - var(--size)),
+    linear-gradient(#000 0 0) content-box;
+  transition: all 0.4s cubic-bezier(0.65, 0.05, 0, 1);
+}
+
+.centered-slider-slide.active::after {
+  outline-offset: calc(-1 * var(--width));
+  opacity: 1;
+}
+
+/* Desktop: the centered (active) card grows slightly above the rest.
+   Scaling the inner (not the slide) avoids clashing with GSAP's transform. */
+@media (min-width: 480px) {
+  .centered-slider-slide.active .centered-slider-slide__inner {
+    transform: scale(1.06);
+  }
+
+  .centered-slider-slide__thumbnail {
+    max-height: 450px;
+  }
+}
+
+/* --- Slide content (uses global typography) ---------------------------- */
+.centered-slider-slide__quote {
+  line-height: 1.5;
+}
+
+.centered-slider-slide__details {
+  grid-column-gap: 0.75em;
+  justify-content: flex-start;
+  align-items: center;
+  display: flex;
+}
+
+.centered-slider-slide__thumbnail {
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 0.4em;
+}
+
+.centered-slider-slide__author {
+  color: var(--cs-accent, var(--fgrory));
+}
+
+/* --- Bullets ----------------------------------------------------------- */
+.centered-slider-content {
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+}
+
+.centered-slider-bullet__list {
+  grid-column-gap: 0.75em;
+  grid-row-gap: 0.75em;
+  flex-flow: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+
+.centered-slider-bullet {
+  background-color: transparent;
+  border-radius: 100em;
+  width: 2em;
+  height: 2em;
+  padding: 0;
+  position: relative;
+  cursor: pointer;
+}
+
+.centered-slider-bullet::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 100em;
+  z-index: -1;
+  border: 1px solid var(--cs-accent, var(--fgrory));
+  transition: all 0.5s cubic-bezier(0.65, 0.05, 0, 1);
+}
+
+.centered-slider-bullet:hover::after,
+.centered-slider-bullet.active::after,
+.centered-slider-bullet:focus::after {
+  inset: -5px;
+}
+
+/* --- Prev / next ------------------------------------------------------- */
+.centered-slider-buttons {
+  grid-column-gap: 1em;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.centered-slider-button {
+  background-color: var(--cs-surface, var(--bg200));
+  border: 1px solid var(--cs-border, rgba(15, 15, 15, 0.12));
+  border-radius: 0.25em;
+  justify-content: center;
+  align-items: center;
+  width: 3em;
+  height: 3em;
+  padding: 0;
+  color: var(--cs-fg, var(--fg));
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+  display: flex;
+}
+
+.centered-slider-button:hover {
+  border-color: var(--cs-accent, var(--fgrory));
+  color: var(--cs-accent, var(--fgrory));
+}
+
+.centered-slider-button.is--prev {
+  transform: rotate(-180deg);
+}
+
+.slider-button-arrow {
+  justify-content: center;
+  align-items: center;
+  width: 1.25em;
+}
+
+@media screen and (max-width: 479px) {
+  .centered-slider-slide {
+    width: 85vw;
+  }
+
+  .centered-slider-slide__inner {
+    width: 100%;
+  }
+}

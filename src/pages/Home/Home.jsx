@@ -14,8 +14,15 @@ import BackgroundVideo from "../../components/BackgroundVideo/BackgroundVideo";
 import Preloader from "../../components/Preloader/Preloader";
 import CenteredSlider from "../../components/CenteredSlider/CenteredSlider";
 
+import reviews from "../../data/reviews";
 import MiroIcon from "../../assets/miro-tab.png";
 import "./Home.css";
+
+// Center the Vogue Magazine testimonial when the slider first mounts.
+const VOGUE_SLIDE_INDEX = Math.max(
+  0,
+  reviews.findIndex((review) => review.author === "Vogue Magazine")
+);
 
 // Track initial page load for preloader
 let isInitialLoad = true;
@@ -358,7 +365,10 @@ const Home = () => {
         </section>
 
         <section className="home-slider">
-          <CenteredSlider heading="What our clients say" />
+          <CenteredSlider
+            heading="Kind words from our clients"
+            initialIndex={VOGUE_SLIDE_INDEX}
+          />
         </section>
 
         <section id="about" className="home-work-2">

@@ -159,19 +159,14 @@
   padding: 0;
   position: relative;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--cs-number, var(--font-color-200));
 }
 
-.centered-slider-bullet__number {
-  font-family: "Messina Sans Mono";
-  font-size: 0.8rem;
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: 0.04em;
-  -webkit-font-smoothing: antialiased;
+.centered-slider-bullet img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
 }
 
 .centered-slider-bullet::after {

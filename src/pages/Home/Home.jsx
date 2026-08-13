@@ -18,10 +18,10 @@ import reviews from "../../data/reviews";
 import MiroIcon from "../../assets/miro-tab.png";
 import "./Home.css";
 
-// Center the Vogue Magazine testimonial when the slider first mounts.
+// Center the British Vogue testimonial when the slider first mounts.
 const VOGUE_SLIDE_INDEX = Math.max(
   0,
-  reviews.findIndex((review) => review.author === "Vogue Magazine")
+  reviews.findIndex((review) => review.author === "British Vogue")
 );
 
 // Track initial page load for preloader

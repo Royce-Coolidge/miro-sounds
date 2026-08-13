@@ -227,16 +227,19 @@ const CenteredSlider = ({
       {showBullets && (
         <div className="centered-slider-content">
           <ul role="tablist" className="centered-slider-bullet__list">
-            {items.map((slide) => (
+            {items.map((slide, i) => (
               <li key={`bullet-${slide.id}`} className="centered-slider-bullet__item">
                 <button
                   type="button"
                   data-centered-slider="bullet"
                   role="tab"
                   aria-selected="false"
+                  aria-label={`Show testimonial ${i + 1}${
+                    slide.author ? `: ${slide.author}` : ""
+                  }`}
                   className="centered-slider-bullet"
                 >
-                  {slide.image && <img src={slide.image} alt="" />}
+                  <span className="centered-slider-bullet__number">{i + 1}</span>
                 </button>
               </li>
             ))}

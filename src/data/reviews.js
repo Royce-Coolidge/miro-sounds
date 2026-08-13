@@ -9,13 +9,13 @@ const reviews = [
     id: 2,
     copy: "Miro Sounds nailed every element of the music and production for my summer party, and the dance floor was absolutely electric all night - bring on the next!",
     author: "James Norton, Actor & Private Client",
-    image: "/reviews/spain-wedding-ceremony.jpg",
+    image: "",
   },
   {
     id: 3,
     copy: "A weekend of next level entertainment. Four live bands, comedy, multiple DJs. It could not have flowed more perfectly and was totally mega.",
     author: "Vogue Magazine",
-    image: "/reviews/oval-space.jpg",
+    image: "/reviews/vogue.jpg",
   },
   {
     id: 4,

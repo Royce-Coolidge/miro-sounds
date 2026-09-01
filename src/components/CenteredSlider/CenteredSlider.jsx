@@ -18,12 +18,15 @@ const EASE = "centered-slider-ease";
 const NAV_DURATION = 0.725;
 
 // Map the project's `reviews` shape ({ copy }) onto the generic slide shape ({ quote }).
+// `image` is the in-card thumbnail; `avatar` is the bullet-navigation image and
+// falls back to `image` so slides that only set one field behave as before.
 const normaliseSlides = (slides) =>
   slides.map((s, i) => ({
     id: s.id ?? i,
     quote: s.quote ?? s.copy ?? "",
     author: s.author ?? "",
     image: s.image ?? "",
+    avatar: s.avatar ?? s.image ?? "",
   }));
 
 /**
@@ -33,7 +36,7 @@ const normaliseSlides = (slides) =>
  * tokens (--fgrory, --fg, --bg200). Colours can be re-themed per instance by
  * overriding the local --cs-* custom properties in a wrapping selector.
  *
- * @param {Array}   slides            [{ id, quote|copy, author, image }] (defaults to reviews data)
+ * @param {Array}   slides            [{ id, quote|copy, author, image, avatar }] (defaults to reviews data)
  * @param {boolean} autoplay          auto-advance while in view (default true)
  * @param {number}  autoplayDuration  seconds between auto-advances (default 4)
  * @param {boolean} showBullets       show avatar bullet navigation (default true)
@@ -227,16 +230,21 @@ const CenteredSlider = ({
       {showBullets && (
         <div className="centered-slider-content">
           <ul role="tablist" className="centered-slider-bullet__list">
-            {items.map((slide) => (
+            {items.map((slide, i) => (
               <li key={`bullet-${slide.id}`} className="centered-slider-bullet__item">
                 <button
                   type="button"
                   data-centered-slider="bullet"
                   role="tab"
                   aria-selected="false"
+                  aria-label={
+                    slide.author
+                      ? `Show testimonial: ${slide.author}`
+                      : `Show testimonial ${i + 1}`
+                  }
                   className="centered-slider-bullet"
                 >
-                  {slide.image && <img src={slide.image} alt="" />}
+                  {slide.avatar && <img src={slide.avatar} alt="" />}
                 </button>
               </li>
             ))}

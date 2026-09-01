@@ -181,7 +181,7 @@
 
 .centered-slider-bullet:hover::after,
 .centered-slider-bullet.active::after,
-.centered-slider-bullet:focus::after {
+.centered-slider-bullet:focus-visible::after {
   inset: -5px;
 }
 

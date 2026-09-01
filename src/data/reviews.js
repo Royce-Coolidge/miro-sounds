@@ -19,6 +19,12 @@ const reviews = [
     image: "/reviews/m-and-s.jpg",
   },
   {
+    id: 5,
+    copy: "\"Poppy Ajudah's performance was genuinely spine-tingling, alongside a line-up of phenomenal up and coming talent to raise funds and awareness for such an important cause\"",
+    author: "Choose Love - Philli Boyle, Founding Member",
+    image: "/reviews/charity-fundraiser.jpg",
+  },
+  {
     id: 4,
     copy: "\"Having Rory and team dedicated to all things music was a huge part of what made our wedding so special. They completely understood us and what we wanted from the beginning and seamlessly arranged everything, with a perfect line-up of live music throughout the day and evening, with extra touches that really shone through.\"",
     author: "L&D Wedding",
